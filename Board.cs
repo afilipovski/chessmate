@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ChessMate
 {
@@ -14,6 +12,23 @@ namespace ChessMate
         public bool WhiteTurn { get; set; }
         public static int WIDTH { get; set; }
         public static int HEIGHT { get; set; }
+
+        // copy constructor
+        public Board(Board board)
+        {
+            PieceByPosition = new Dictionary<Position, Piece>();
+            WhiteTurn = !board.WhiteTurn;
+            foreach (Position key in board.PieceByPosition.Keys)
+            {
+                PieceByPosition[key] = board.PieceByPosition[key];
+            }
+        }
+
+        // copy 2
+        public Board(Board b, Position pos, Piece p) : this(b)
+        {
+            PieceByPosition[pos] = p;
+        }
 
         public Board()
         {

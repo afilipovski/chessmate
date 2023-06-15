@@ -53,6 +53,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Pieces\Bishop.cs" />
+    <Compile Include="Pieces\ContinuousPathPiece.cs" />
+    <Compile Include="Pieces\Piece.cs" />
+    <Compile Include="Pieces\King.cs" />
+    <Compile Include="Pieces\Queen.cs" />
+    <Compile Include="Pieces\Rook.cs" />
     <Compile Include="Pieces\Pawn.cs" />
     <Compile Include="Piece.cs" />
     <Compile Include="Position.cs" />
