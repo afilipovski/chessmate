@@ -1,16 +1,30 @@
-﻿using System;
+﻿using ChessMate.Pieces;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ChessMate
 {
     public class Board
     {
-        public Dictionary<Position,Piece> PieceByPosition { get; set; }
+        public Dictionary<Position, Piece> PieceByPosition { get; set; }
         public bool WhiteTurn { get; set; }
 
+        // copy constructor
+        public Board(Board board)
+        {
+            PieceByPosition = new Dictionary<Position, Piece>();
+            WhiteTurn = !board.WhiteTurn;
+            foreach (Position key in board.PieceByPosition.Keys)
+            {
+                PieceByPosition[key] = board.PieceByPosition[key];
+            }
+        }
+
+        // copy 2
+        public Board(Board b, Position pos, Piece p) : this(b)
+        {
+            PieceByPosition[pos] = p;
+        }
 
 
         public List<Board> Successor()
