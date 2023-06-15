@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,7 +21,7 @@ namespace ChessMate
 
         public abstract List<Board> PossibleMoves(Board b);
 
-
+        public abstract void Draw(Graphics g);
 
     }
 }

@@ -53,10 +53,14 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Pieces\Pawn.cs" />
     <Compile Include="Piece.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -78,6 +82,22 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="blackPawn.png" />
+    <Content Include="PieceImages\b_king_png_shadow_1024px.png" />
+    <Content Include="PieceImages\b_knight_png_shadow_1024px.png" />
+    <Content Include="PieceImages\b_pawn_png_shadow_1024px.png" />
+    <Content Include="PieceImages\b_queen_png_shadow_1024px.png" />
+    <Content Include="PieceImages\b_rook_png_shadow_1024px.png" />
+    <Content Include="PieceImages\w_bishop_png_shadow_1024px.png" />
+    <Content Include="PieceImages\w_king_png_shadow_1024px.png" />
+    <Content Include="PieceImages\w_knight_png_shadow_1024px.png" />
+    <Content Include="PieceImages\w_pawn_png_shadow_1024px.png" />
+    <Content Include="PieceImages\w_queen_png_shadow_1024px.png" />
+    <Content Include="PieceImages\w_rook_png_shadow_1024px.png" />
+    <Content Include="whitePawn.png" />
+    <Content Include="w_queen_svg_withShadow.svg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -16,6 +16,19 @@ namespace ChessMate
         public Form1()
         {
             InitializeComponent();
+            Board = new Board();
+            this.DoubleBuffered = true;
+        }
+
+        private void Form1_Paint(object sender, PaintEventArgs e)
+        {
+            Board.DrawTiles(e.Graphics, ClientSize.Height / 8, Width / 8);
+        }
+
+        private void Form1_Resize_1(object sender, EventArgs e)
+        {
+            Height = Width = Math.Min(Height,Width);
+            Invalidate();
         }
     }
 }
