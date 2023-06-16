@@ -1,5 +1,4 @@
 ﻿using ChessMate.Pieces;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -27,9 +26,10 @@ namespace ChessMate
         }
 
         // copy 2
-        public Board(Board b, Position pos, Piece p) : this(b)
+        public Board(Board b, Position posOld, Position posNew, Piece p) : this(b)
         {
-            PieceByPosition[pos] = p;
+            PieceByPosition[posNew] = p;
+            PieceByPosition.Remove(posOld);
         }
 
         public Board()
@@ -84,7 +84,7 @@ namespace ChessMate
                 PieceByPosition[pos] = new Bishop(pos, true);
 
             }
-            
+
         }
 
         public List<Board> Successor()
@@ -118,7 +118,7 @@ namespace ChessMate
                 //}
                 pos[i].Draw(g);
             }
-            foreach(Piece piece in PieceByPosition.Values) 
+            foreach (Piece piece in PieceByPosition.Values)
             {
                 if (piece == null) continue;
                 piece.Draw(g);
@@ -129,7 +129,7 @@ namespace ChessMate
         {
             Debug.WriteLine(p.X / WIDTH + " " + p.Y / WIDTH);
             Piece clicked = PieceByPosition[new Position(p.X / WIDTH, p.Y / WIDTH)];
-            if(clicked != null)
+            if (clicked != null)
             {
                 clicked.PossibleMoves(this);
             }

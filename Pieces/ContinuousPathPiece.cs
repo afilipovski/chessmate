@@ -9,7 +9,7 @@ namespace ChessMate.Pieces
         {
         }
 
-        protected ContinuousPathPiece(ContinuousPathPiece cpp) : base(cpp.Position, cpp.White)
+        protected ContinuousPathPiece(ContinuousPathPiece cpp) : base(cpp)
         {
         }
 
@@ -21,7 +21,7 @@ namespace ChessMate.Pieces
             {
                 if (b.IsOccupied(p) && b.PieceByPosition[p].White == b.WhiteTurn)
                     break;
-                boards.Add(new Board(b, p, this));
+                boards.Add(new Board(b, Position, p, this));
                 if (!b.IsOccupied(p))
                     break;
             }

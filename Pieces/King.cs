@@ -23,62 +23,79 @@ namespace ChessMate.Pieces
             List<Board> boards = new List<Board>();
 
             // Castling
-            Piece p = b.PieceByPosition[new Position(Position.X, 7)];
             if (!MovedSinceStart &&
-                b.PieceByPosition[new Position(Position.X, 5)] == null &&
-                b.PieceByPosition[new Position(Position.X, 6)] == null &&
-                p is Rook rook
+                !b.IsOccupied(new Position(Position.X, 5)) &&
+                !b.IsOccupied(new Position(Position.X, 6)) &&
+                b.IsOccupied(new Position(Position.X, 7)) &&
+                b.PieceByPosition[new Position(Position.X, 7)] is Rook rook
                 && !rook.MovedSinceStart)
             {
                 Board newBoard = new Board(b);
                 newBoard.PieceByPosition[new Position(Position.X, 5)] = rook;
                 newBoard.PieceByPosition[new Position(Position.X, 6)] = this;
-                newBoard.PieceByPosition[new Position(Position.X, 7)]
-                    = newBoard.PieceByPosition[new Position(Position.X, 4)] = null;
+                newBoard.PieceByPosition.Remove(new Position(Position.X, 7));
+                newBoard.PieceByPosition.Remove(new Position(Position.X, 4));
                 boards.Add(newBoard);
             }
 
             // Surrounding spaces
+            Position p;
+            if (Position.Y < 7)
             {
-                boards.Add(new Board(b, new Position(Position.X, Position.Y + 1), this));
+                p = new Position(Position.X, Position.Y + 1);
+                if (isSpaceAvailable(b, p))
+                    boards.Add(new Board(b, Position, p, this));
 
-                if (Position.X != 0)
+                p = new Position(Position.X - 1, Position.Y + 1);
+                if (Position.X != 0 && isSpaceAvailable(b, p))
                 {
-                    boards.Add(new Board(b, new Position(Position.X - 1, Position.Y + 1), this));
+                    boards.Add(new Board(b, Position, p, this));
                 }
 
-                if (Position.X != 7)
+                p = new Position(Position.X + 1, Position.Y + 1);
+                if (Position.X != 7 && isSpaceAvailable(b, p))
                 {
-                    boards.Add(new Board(b, new Position(Position.X + 1, Position.Y + 1), this));
+                    boards.Add(new Board(b, Position, p, this));
                 }
             }
 
             if (Position.Y > 0)
             {
-                boards.Add(new Board(b, new Position(Position.X, Position.Y - 1), this));
+                p = new Position(Position.X, Position.Y - 1);
+                if (isSpaceAvailable(b, p))
+                    boards.Add(new Board(b, Position, p, this));
 
-                if (Position.X != 0)
+                p = new Position(Position.X - 1, Position.Y - 1);
+                if (Position.X != 0 && isSpaceAvailable(b, p))
                 {
-                    boards.Add(new Board(b, new Position(Position.X - 1, Position.Y - 1), this));
+                    boards.Add(new Board(b, Position, p, this));
                 }
 
-                if (Position.X != 7)
+                p = new Position(Position.X + 1, Position.Y + 1);
+                if (Position.X != 7 && isSpaceAvailable(b, p))
                 {
-                    boards.Add(new Board(b, new Position(Position.X + 1, Position.Y + 1), this));
+                    boards.Add(new Board(b, Position, p, this));
                 }
             }
 
-            if (Position.X > 0)
+            p = new Position(Position.X - 1, Position.Y);
+            if (Position.X > 0 && isSpaceAvailable(b, p))
             {
-                boards.Add(new Board(b, new Position(Position.X - 1, Position.Y), this));
+                boards.Add(new Board(b, Position, p, this));
             }
 
-            if (Position.X < 7)
+            p = new Position(Position.X + 1, Position.Y);
+            if (Position.X < 7 && isSpaceAvailable(b, p))
             {
-                boards.Add(new Board(b, new Position(Position.X + 1, Position.Y), this));
+                boards.Add(new Board(b, Position, p, this));
             }
 
             return boards;
+        }
+
+        private bool isSpaceAvailable(Board board, Position p)
+        {
+            return !board.IsOccupied(p) || board.IsOccupied(p) && board.PieceByPosition[p].White != White;
         }
     }
 }
