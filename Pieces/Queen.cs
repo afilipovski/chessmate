@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 
 namespace ChessMate.Pieces
@@ -7,6 +8,12 @@ namespace ChessMate.Pieces
     {
         public Queen(Position position, bool white) : base(position, white)
         {
+        }
+
+        public override Image GetImage(Graphics g)
+        {
+            return Image.FromFile((White) ? @"D:\Visual Studio projects\ChessMate\PieceImages\w_queen_png_shadow_1024px.png"
+                : @"D:\Visual Studio projects\ChessMate\PieceImages\b_queen_png_shadow_1024px.png");
         }
 
         public override List<Board> PossibleMoves(Board b)

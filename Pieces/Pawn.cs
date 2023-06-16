@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChessMate.Pieces;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -18,12 +19,10 @@ namespace ChessMate
             throw new NotImplementedException();
         }
         
-        public override void Draw(Graphics g)
+        public override Image GetImage(Graphics g)
         {
-            
-            Image newImage = Image.FromFile((White) ? @"D:\Visual Studio projects\ChessMate\PieceImages\w_pawn_png_shadow_1024px.png" 
+            return Image.FromFile((White) ? @"D:\Visual Studio projects\ChessMate\PieceImages\w_pawn_png_shadow_1024px.png" 
                 : @"D:\Visual Studio projects\ChessMate\PieceImages\b_pawn_png_shadow_1024px.png");
-            g.DrawImage(newImage, Position.X * Board.HEIGHT, Position.Y * Board.HEIGHT, Board.HEIGHT, Board.HEIGHT);
         }
     }
 }

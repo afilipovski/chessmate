@@ -30,5 +30,15 @@ namespace ChessMate
             Height = Width = Math.Min(Height,Width);
             Invalidate();
         }
+
+        private void Form1_ResizeEnd(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_MouseClick(object sender, MouseEventArgs e)
+        {
+            Board.Click(new Position(e.X, e.Y));
+        }
     }
 }

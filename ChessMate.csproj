@@ -55,12 +55,12 @@
     </Compile>
     <Compile Include="Pieces\Bishop.cs" />
     <Compile Include="Pieces\ContinuousPathPiece.cs" />
+    <Compile Include="Pieces\Knight.cs" />
     <Compile Include="Pieces\Piece.cs" />
     <Compile Include="Pieces\King.cs" />
     <Compile Include="Pieces\Queen.cs" />
     <Compile Include="Pieces\Rook.cs" />
     <Compile Include="Pieces\Pawn.cs" />
-    <Compile Include="Piece.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -90,7 +90,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="blackPawn.png" />
+    <Content Include="PieceImages\b_bishop_png_shadow_1024px.png" />
     <Content Include="PieceImages\b_king_png_shadow_1024px.png" />
     <Content Include="PieceImages\b_knight_png_shadow_1024px.png" />
     <Content Include="PieceImages\b_pawn_png_shadow_1024px.png" />
@@ -102,8 +102,6 @@
     <Content Include="PieceImages\w_pawn_png_shadow_1024px.png" />
     <Content Include="PieceImages\w_queen_png_shadow_1024px.png" />
     <Content Include="PieceImages\w_rook_png_shadow_1024px.png" />
-    <Content Include="whitePawn.png" />
-    <Content Include="w_queen_svg_withShadow.svg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

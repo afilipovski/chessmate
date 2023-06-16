@@ -18,10 +18,18 @@ namespace ChessMate.Pieces
         public Position Position { get; set; }
         public bool White { get; set; }
 
+        protected Piece() { }
+        public Piece(Piece p) { }
 
         public abstract List<Board> PossibleMoves(Board b);
 
-        public abstract void Draw(Graphics g);
+        public abstract Image GetImage(Graphics g);
+
+        public void Draw(Graphics g)
+        {
+            Image newImage = GetImage(g);
+            g.DrawImage(newImage, Position.X * Board.HEIGHT, Position.Y * Board.HEIGHT, Board.HEIGHT, Board.HEIGHT);
+        }
 
     }
 }

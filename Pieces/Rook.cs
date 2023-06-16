@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 
 namespace ChessMate.Pieces
 {
@@ -14,6 +15,12 @@ namespace ChessMate.Pieces
 
         public Rook(ContinuousPathPiece cpp) : base(cpp)
         {
+        }
+
+        public override Image GetImage(Graphics g)
+        {
+            return Image.FromFile((White) ? @"D:\Visual Studio projects\ChessMate\PieceImages\w_rook_png_shadow_1024px.png"
+                : @"D:\Visual Studio projects\ChessMate\PieceImages\b_rook_png_shadow_1024px.png");
         }
 
         public override List<Board> PossibleMoves(Board b)

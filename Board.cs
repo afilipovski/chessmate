@@ -1,5 +1,7 @@
-﻿using System;
+﻿using ChessMate.Pieces;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 
@@ -41,6 +43,16 @@ namespace ChessMate
                     PieceByPosition.Add(new Position(i, j), null);
                 }
             }
+            {
+                Position pos = new Position(3, 0);
+                PieceByPosition[pos] = new King(pos, false);
+                pos = new Position(3, 7);
+                PieceByPosition[pos] = new King(pos, true);
+                pos = new Position(4, 0);
+                PieceByPosition[pos] = new Queen(pos, false);
+                pos = new Position(4, 7);
+                PieceByPosition[pos] = new Queen(pos, true);
+            }
             for (int i = 0; i < 8; ++i)
             {
                 Position pos = new Position(i, 1);
@@ -51,9 +63,28 @@ namespace ChessMate
             for (int i = 0; i < 8; i += 7)
             {
                 Position pos = new Position(i, 0);
-                PieceByPosition[pos] = new Pawn(pos, false);
+                PieceByPosition[pos] = new Rook(pos, false);
+                pos = new Position(i, 7);
+                PieceByPosition[pos] = new Rook(pos, true);
 
             }
+            for (int i = 1; i < 8; i += 5)
+            {
+                Position pos = new Position(i, 0);
+                PieceByPosition[pos] = new Knight(pos, false);
+                pos = new Position(i, 7);
+                PieceByPosition[pos] = new Knight(pos, true);
+
+            }
+            for (int i = 2; i < 8; i += 3)
+            {
+                Position pos = new Position(i, 0);
+                PieceByPosition[pos] = new Bishop(pos, false);
+                pos = new Position(i, 7);
+                PieceByPosition[pos] = new Bishop(pos, true);
+
+            }
+            
         }
 
         public List<Board> Successor()
@@ -91,6 +122,16 @@ namespace ChessMate
             {
                 if (piece == null) continue;
                 piece.Draw(g);
+            }
+        }
+
+        public void Click(Position p)
+        {
+            Debug.WriteLine(p.X / WIDTH + " " + p.Y / WIDTH);
+            Piece clicked = PieceByPosition[new Position(p.X / WIDTH, p.Y / WIDTH)];
+            if(clicked != null)
+            {
+                clicked.PossibleMoves(this);
             }
         }
 

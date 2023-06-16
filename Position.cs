@@ -59,7 +59,7 @@ namespace ChessMate
 
         public void Draw(Graphics g)
         {
-            Brush b = new SolidBrush(White ? Color.White : Color.Black);
+            Brush b = new SolidBrush(White ? Color.White : Color.DarkSlateGray);
             g.FillRectangle(b, X * Board.HEIGHT, Y * Board.HEIGHT, Board.HEIGHT, Board.HEIGHT);
             //b = new SolidBrush(Color.Green);
             //g.DrawString(String.Format("{0}{1}{2}", X, Y, Board.WIDTH), new Font("Ariel", 12), b, X * Board.WIDTH, Y * Board.HEIGHT);
