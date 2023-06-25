@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ChessMate
 {
@@ -26,6 +22,14 @@ namespace ChessMate
             X = stringpos[0] - 'a';
             Y = stringpos[1] - '1';
             White = (X + Y) % 2 == 0;
+        }
+
+        // Copy constructor
+        public Position(Position p)
+        {
+            X = p.X;
+            Y = p.Y;
+            White = p.White;
         }
 
         public override bool Equals(object obj)
