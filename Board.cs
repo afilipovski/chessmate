@@ -9,10 +9,13 @@ namespace ChessMate
     public class Board
     {
         public Dictionary<Position, Piece> PieceByPosition { get; set; }
-        //public Position[,] positions { get; set; } = new Position[8,8];
         public bool WhiteTurn { get; set; }
         public static int WIDTH { get; set; }
         public static int HEIGHT { get; set; }
+        public static int OFFSET { get; set; }
+        public Piece currentClickedPiece { get; set; }
+        public List<Position> greenPositions { get; set; } = new List<Position>();
+        public Position newPos { get; set; }
 
         // copy constructor
         public Board(Board board)
@@ -39,7 +42,6 @@ namespace ChessMate
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    //positions[i,j] = new Position(i, j);
                     PieceByPosition.Add(new Position(i, j), null);
                 }
             }
@@ -102,21 +104,25 @@ namespace ChessMate
         }
         public bool IsOccupied(Position position)
         {
-            return PieceByPosition.ContainsKey(position);
+            return PieceByPosition[position] != null;
         }
 
-        public void DrawTiles(Graphics g, int height, int width)
+        public void DrawTiles(Graphics g, int height, int width, int offset)
         {
             HEIGHT = height;
             WIDTH = width;
+            OFFSET = offset;
             Position[] pos = PieceByPosition.Keys.ToArray();
             for (int i = 0; i < 64; ++i)
             {
-                //for (int j = 0; j < 8; j++)
-                //{
-                //   positions[i,j].Draw(g, Height / 8, Width / 8);
-                //}
                 pos[i].Draw(g);
+            }
+            Position[] greenPos = greenPositions.ToArray();
+            for ( int i = 0; i < greenPositions.Count; ++i )
+            {
+                Debug.WriteLine("TEST");
+                greenPos[i].Green = true;
+                greenPos[i].Draw(g);
             }
             foreach (Piece piece in PieceByPosition.Values)
             {
@@ -125,14 +131,30 @@ namespace ChessMate
             }
         }
 
-        public void Click(Position p)
+        public Board Click(Position p)
         {
-            Debug.WriteLine(p.X / WIDTH + " " + p.Y / WIDTH);
-            Piece clicked = PieceByPosition[new Position(p.X / WIDTH, p.Y / WIDTH)];
-            if (clicked != null)
+            Debug.WriteLine(greenPositions);
+            Position clickedPosition = new Position((p.X - OFFSET) / HEIGHT, p.Y / HEIGHT);
+            Debug.WriteLine(clickedPosition.X + " " + clickedPosition.Y);
+            Piece clickedPiece = PieceByPosition[clickedPosition];
+            if (clickedPiece != null) Debug.WriteLine("You clicked " + clickedPiece.GetType());
+            if (clickedPiece == null || !clickedPiece.White)
             {
-                clicked.PossibleMoves(this);
+                if (currentClickedPiece == null) return this;
+                Board newBoard = currentClickedPiece.PossibleMoves(this).Find(board => 
+                    board.PieceByPosition[clickedPosition] == currentClickedPiece);
+                if (newBoard == null) return this;
+                currentClickedPiece.PossibleMoves(this).ForEach(board => { this.greenPositions.Add(board.newPos); });
+                currentClickedPiece.Position = clickedPosition;
+                currentClickedPiece = null;
+                return newBoard;
             }
+            else if(currentClickedPiece == null || clickedPiece.White)
+            {
+                currentClickedPiece = clickedPiece;
+            }
+            return this;
+            
         }
 
     }

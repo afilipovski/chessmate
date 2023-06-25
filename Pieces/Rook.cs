@@ -17,10 +17,10 @@ namespace ChessMate.Pieces
         {
         }
 
-        public override Image GetImage(Graphics g)
+        public override Bitmap GetBitmap(Graphics g)
         {
-            return Image.FromFile((White) ? @"D:\Visual Studio projects\ChessMate\PieceImages\w_rook_png_shadow_1024px.png"
-                : @"D:\Visual Studio projects\ChessMate\PieceImages\b_rook_png_shadow_1024px.png");
+            return White ? Properties.Resources.w_rook_png_shadow_1024px
+                : @Properties.Resources.b_rook_png_shadow_1024px;
         }
 
         public override List<Board> PossibleMoves(Board b)

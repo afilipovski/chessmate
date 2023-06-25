@@ -13,15 +13,34 @@ namespace ChessMate.Pieces
         {
         }
 
-        public override Image GetImage(Graphics g)
+        public override Bitmap GetBitmap(Graphics g)
         {
-            return Image.FromFile((White) ? @"D:\Visual Studio projects\ChessMate\PieceImages\w_knight_png_shadow_1024px.png"
-                : @"D:\Visual Studio projects\ChessMate\PieceImages\b_knight_png_shadow_1024px.png");
+            return White ? Properties.Resources.w_knight_png_shadow_1024px
+                : @Properties.Resources.b_knight_png_shadow_1024px;
         }
 
         public override List<Board> PossibleMoves(Board b)
         {
-            throw new NotImplementedException();
+            List<Board> boards = new List<Board>();
+            void move(Position tempPos)
+            {
+                if (tempPos.X < 0 || tempPos.X > 7 || tempPos.Y < 0 || tempPos.Y > 7) return;
+                if (b.IsOccupied(tempPos) && b.PieceByPosition[tempPos].White == White) return;
+                Board newBoard = new Board(b);
+                newBoard.PieceByPosition[tempPos] = new Knight(tempPos, White);
+                newBoard.PieceByPosition[Position] = null;
+                boards.Add(newBoard);
+            }
+            move(new Position(Position.X + 1, Position.Y + 2));
+            move(new Position(Position.X - 1, Position.Y + 2));
+            move(new Position(Position.X + 2, Position.Y + 1));
+            move(new Position(Position.X + 2, Position.Y - 1));
+            move(new Position(Position.X + 1, Position.Y - 2));
+            move(new Position(Position.X - 1, Position.Y - 2));
+            move(new Position(Position.X - 2, Position.Y + 1));
+            move(new Position(Position.X - 2, Position.Y - 1));
+
+            return boards;
         }
     }
 }

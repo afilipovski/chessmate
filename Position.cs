@@ -12,12 +12,13 @@ namespace ChessMate
         public int X;
         public int Y;
         public bool White;
-
+        public bool Green { get; set; }
         public Position(int x, int y)
         {
             X = x;
             Y = y;
             White = (X + Y) % 2 == 0;
+            Green = false;
         }
 
         public Position(string stringpos)
@@ -26,6 +27,8 @@ namespace ChessMate
             X = stringpos[0] - 'a';
             Y = stringpos[1] - '1';
             White = (X + Y) % 2 == 0;
+            Green = false;
+
         }
 
         public override bool Equals(object obj)
@@ -60,7 +63,13 @@ namespace ChessMate
         public void Draw(Graphics g)
         {
             Brush b = new SolidBrush(White ? Color.White : Color.DarkSlateGray);
-            g.FillRectangle(b, X * Board.HEIGHT, Y * Board.HEIGHT, Board.HEIGHT, Board.HEIGHT);
+            g.FillRectangle(b, X * Board.HEIGHT + Board.OFFSET, Y * Board.HEIGHT, Board.HEIGHT, Board.HEIGHT);
+            if(Green)
+            {
+                g.FillRectangle(new SolidBrush(Color.FromArgb(50, 0, 255, 0)), X * Board.HEIGHT + Board.OFFSET, Y * Board.HEIGHT, Board.HEIGHT, Board.HEIGHT);
+            }
+            g.DrawRectangle(new Pen(new SolidBrush(Color.Black), 2), X * Board.HEIGHT + Board.OFFSET, Y * Board.HEIGHT, Board.HEIGHT, Board.HEIGHT);
+            b.Dispose();
             //b = new SolidBrush(Color.Green);
             //g.DrawString(String.Format("{0}{1}{2}", X, Y, Board.WIDTH), new Font("Ariel", 12), b, X * Board.WIDTH, Y * Board.HEIGHT);
         }
