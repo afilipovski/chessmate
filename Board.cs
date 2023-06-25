@@ -133,7 +133,6 @@ namespace ChessMate
 
         public Board Click(Position p)
         {
-            Debug.WriteLine(greenPositions);
             Position clickedPosition = new Position((p.X - OFFSET) / HEIGHT, p.Y / HEIGHT);
             Debug.WriteLine(clickedPosition.X + " " + clickedPosition.Y);
             Piece clickedPiece = PieceByPosition[clickedPosition];

@@ -33,6 +33,7 @@ namespace ChessMate
             X = p.X;
             Y = p.Y;
             White = p.White;
+            Green = false;
         }
 
         public override bool Equals(object obj)

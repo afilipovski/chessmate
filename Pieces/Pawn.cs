@@ -24,16 +24,17 @@ namespace ChessMate
         public override List<Board> PossibleMoves(Board b)
         {
             List<Board> boards = new List<Board>();
+            if (Position.Y == 0)
+            {
+                Board newBoard = new Board(b);
+                newBoard.PieceByPosition[Position] = new Queen(Position, White);
+                boards.Add(newBoard);
+            }
             Position tempPos = new Position(Position.X, Position.Y - 1);
             void forward()
             {
                 if (tempPos.X > 7) return;
                 Board newBoard = new Board(b);
-                /*if (tempPos.Y > 7)
-                {
-                    newBoard.PieceByPosition[Position] = new Queen(Position, White);
-                    boards.Add(newBoard);
-                }*/
                 if (!b.IsOccupied(tempPos))
                 {
                     newBoard.PieceByPosition[tempPos] = this;
