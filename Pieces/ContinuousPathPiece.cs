@@ -13,17 +13,19 @@ namespace ChessMate.Pieces
         {
         }
 
-        protected delegate void Operation(Position p);
+        protected delegate Position Operation(Position p);
 
         protected void findValidPositions(Position p, Board b, List<Board> boards, Predicate<Position> condition, Operation operation)
         {
-            for (; condition(p); operation(p))
+            Position position = p;
+            while (condition(position))
             {
-                if (b.IsOccupied(p) && b.PieceByPosition[p].White == b.WhiteTurn)
+                if (b.IsOccupied(position) && b.PieceByPosition[position].White == b.WhiteTurn)
                     break;
-                boards.Add(new Board(b, Position, p, this));
-                if (!b.IsOccupied(p))
+                boards.Add(new Board(b, Position, position, this));
+                if (!b.IsOccupied(position))
                     break;
+                position = operation(position);
             }
         }
     }

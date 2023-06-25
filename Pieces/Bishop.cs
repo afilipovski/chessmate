@@ -30,11 +30,7 @@ namespace ChessMate.Pieces
                 b,
                 boards,
                 p => p.X <= 7 && p.Y <= 7,
-                p =>
-                {
-                    p.X++;
-                    p.Y++;
-                }
+                p => new Position(p.X + 1, p.Y + 1)
             );
 
             // top left
@@ -43,11 +39,7 @@ namespace ChessMate.Pieces
                 b,
                 boards,
                 p => p.X >= 0 && p.Y <= 7,
-                p =>
-                {
-                    p.X--;
-                    p.Y++;
-                }
+                p => new Position(p.X - 1, p.Y + 1)
             );
 
             // bottom left
@@ -56,11 +48,7 @@ namespace ChessMate.Pieces
                 b,
                 boards,
                 p => p.X >= 0 && p.Y >= 0,
-                p =>
-                {
-                    p.X--;
-                    p.Y--;
-                }
+                p => new Position(p.X - 1, p.Y - 1)
             );
 
             // bottom right
@@ -69,11 +57,7 @@ namespace ChessMate.Pieces
                 b,
                 boards,
                 p => p.X <= 7 && p.Y >= 0,
-                p =>
-                {
-                    p.X++;
-                    p.Y--;
-                }
+                p => new Position(p.X + 1, p.Y - 1)
             );
 
             return boards;
