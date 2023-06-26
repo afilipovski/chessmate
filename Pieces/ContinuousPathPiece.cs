@@ -20,10 +20,10 @@ namespace ChessMate.Pieces
             Position position = p;
             while (condition(position))
             {
-                if (b.IsOccupied(position) && b.PieceByPosition[position].White == b.WhiteTurn)
+                if (b.IsOccupied(position) && b.PieceByPosition[position].White == White)
                     break;
                 boards.Add(new Board(b, Position, position, this));
-                if (!b.IsOccupied(position))
+                if (b.IsOccupied(position))
                     break;
                 position = operation(position);
             }

@@ -32,7 +32,12 @@ namespace ChessMate
         {
             NewPos = new GreenPosition(posNew);
             PieceByPosition[posNew] = p;
-            PieceByPosition.Remove(posOld);
+            PieceByPosition[posOld] = null;
+        }
+
+        public static bool IsInBoard(Position p)
+        {
+            return p.X >= 0 && p.Y >= 0 && p.X <= 7 && p.Y <= 7;
         }
 
         public Board()
@@ -111,14 +116,11 @@ namespace ChessMate
             return PieceByPosition[position] != null;
         }
 
-        public void AddPosition(Position pos, Piece piece)
+        public void DrawTiles(Graphics g, int height, int width, int offset)
         {
-            PieceByPosition[pos] = piece;
-            NewPos = new GreenPosition(pos);
-        }
-
-        public void DrawTiles(Graphics g)
-        {
+            HEIGHT = height;
+            WIDTH = width;
+            OFFSET = offset;
             Position[] pos = PieceByPosition.Keys.ToArray();
             for (int i = 0; i < 64; ++i)
             {
@@ -162,7 +164,7 @@ namespace ChessMate
             }
 
             return this;
-            
+
         }
 
     }

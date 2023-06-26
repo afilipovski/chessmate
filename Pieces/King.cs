@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 namespace ChessMate.Pieces
 {
@@ -30,65 +31,38 @@ namespace ChessMate.Pieces
                 b.PieceByPosition[new Position(Position.X, 7)] is Rook rook
                 && !rook.MovedSinceStart)
             {
-                Board newBoard = new Board(b);
-                newBoard.PieceByPosition[new Position(Position.X, 5)] = rook;
-                newBoard.PieceByPosition[new Position(Position.X, 6)] = this;
-                newBoard.PieceByPosition.Remove(new Position(Position.X, 7));
-                newBoard.PieceByPosition.Remove(new Position(Position.X, 4));
-                boards.Add(newBoard);
+                Board board = new Board(b);
+                board.PieceByPosition[new Position(Position.X, 5)] = rook;
+                board.PieceByPosition[new Position(Position.X, 6)] = this;
+                board.PieceByPosition[new Position(Position.X, 7)] = null;
+                board.PieceByPosition[new Position(Position.X, 4)] = null;
+                boards.Add(board);
             }
 
-            // Surrounding spaces
-            Position p;
-            if (Position.Y < 7)
-            {
-                p = new Position(Position.X, Position.Y + 1);
-                if (isSpaceAvailable(b, p))
-                    boards.Add(new Board(b, Position, p, this));
+            // Surrounding positions
+            boards.AddRange(AvailableSurroundingPositions(b));
 
-                p = new Position(Position.X - 1, Position.Y + 1);
-                if (Position.X != 0 && isSpaceAvailable(b, p))
+            boards = boards
+                .Where(board =>
                 {
-                    boards.Add(new Board(b, Position, p, this));
-                }
+                    Position current = board.PieceByPosition.Keys
+                        .Where(p => board.PieceByPosition[p] == this)
+                        .FirstOrDefault();
 
-                p = new Position(Position.X + 1, Position.Y + 1);
-                if (Position.X != 7 && isSpaceAvailable(b, p))
-                {
-                    boards.Add(new Board(b, Position, p, this));
-                }
-            }
-
-            if (Position.Y > 0)
-            {
-                p = new Position(Position.X, Position.Y - 1);
-                if (isSpaceAvailable(b, p))
-                    boards.Add(new Board(b, Position, p, this));
-
-                p = new Position(Position.X - 1, Position.Y - 1);
-                if (Position.X != 0 && isSpaceAvailable(b, p))
-                {
-                    boards.Add(new Board(b, Position, p, this));
-                }
-
-                p = new Position(Position.X + 1, Position.Y + 1);
-                if (Position.X != 7 && isSpaceAvailable(b, p))
-                {
-                    boards.Add(new Board(b, Position, p, this));
-                }
-            }
-
-            p = new Position(Position.X - 1, Position.Y);
-            if (Position.X > 0 && isSpaceAvailable(b, p))
-            {
-                boards.Add(new Board(b, Position, p, this));
-            }
-
-            p = new Position(Position.X + 1, Position.Y);
-            if (Position.X < 7 && isSpaceAvailable(b, p))
-            {
-                boards.Add(new Board(b, Position, p, this));
-            }
+                    // Check if any move results in check
+                    return board.PieceByPosition.Values
+                        .ToList()
+                        .Where(p => p.White != White)
+                        .Select(p =>
+                        {
+                            if (p is King k)
+                                return k.AvailableSurroundingPositions(board);
+                            return p.PossibleMoves(board);
+                        })
+                        .SelectMany(l => l)
+                        .All(b2 => b2.PieceByPosition[current] == this);
+                })
+                .ToList();
 
             return boards;
         }
@@ -96,6 +70,29 @@ namespace ChessMate.Pieces
         private bool isSpaceAvailable(Board board, Position p)
         {
             return !board.IsOccupied(p) || board.IsOccupied(p) && board.PieceByPosition[p].White != White;
+        }
+
+        public List<Board> AvailableSurroundingPositions(Board b)
+        {
+            return getSurroundingPositions()
+                .Where(p => Board.IsInBoard(p) && isSpaceAvailable(b, p))
+                .Select(p => new Board(b, Position, p, this))
+                .ToList();
+        }
+
+        private List<Position> getSurroundingPositions()
+        {
+            return new List<Position>()
+            {
+                new Position(Position.X+1, Position.Y),
+                new Position(Position.X+1, Position.Y+1),
+                new Position(Position.X, Position.Y+1),
+                new Position(Position.X-1, Position.Y+1),
+                new Position(Position.X-1, Position.Y),
+                new Position(Position.X-1, Position.Y-1),
+                new Position(Position.X, Position.Y-1),
+                new Position(Position.X+1, Position.Y-1)
+            };
         }
     }
 }
