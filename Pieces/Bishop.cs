@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 
 namespace ChessMate.Pieces
@@ -23,6 +24,8 @@ namespace ChessMate.Pieces
         public override List<Board> PossibleMoves(Board b)
         {
             List<Board> boards = new List<Board>();
+
+            Debug.WriteLine("POSITION " + Position.X + ", " + Position.Y);
 
             // top right
             findValidPositions(

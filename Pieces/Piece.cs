@@ -20,7 +20,11 @@ namespace ChessMate.Pieces
         public bool White { get; set; }
 
         protected Piece() { }
-        public Piece(Piece p) { }
+        public Piece(Piece p) 
+        {
+            Position = p.Position;
+            White = p.White;
+        }
 
         public abstract List<Board> PossibleMoves(Board b);
 

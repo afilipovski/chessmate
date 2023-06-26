@@ -9,13 +9,12 @@ namespace ChessMate
     public class Board
     {
         public Dictionary<Position, Piece> PieceByPosition { get; set; }
-        public bool WhiteTurn { get; set; }
+        public bool WhiteTurn { get; set; } = true;
         public static int WIDTH { get; set; }
         public static int HEIGHT { get; set; }
         public static int OFFSET { get; set; }
-        public Piece currentClickedPiece { get; set; }
-        public List<Position> greenPositions { get; set; } = new List<Position>();
-        public Position newPos { get; set; }
+        public Piece CurrentClickedPiece { get; set; }
+        public Position NewPos { get; set; }
 
         // copy constructor
         public Board(Board board)
@@ -31,6 +30,7 @@ namespace ChessMate
         // copy 2
         public Board(Board b, Position posOld, Position posNew, Piece p) : this(b)
         {
+            NewPos = new GreenPosition(posNew);
             PieceByPosition[posNew] = p;
             PieceByPosition.Remove(posOld);
         }
@@ -82,8 +82,10 @@ namespace ChessMate
             {
                 Position pos = new Position(i, 0);
                 PieceByPosition[pos] = new Bishop(pos, false);
+                Debug.WriteLine(PieceByPosition[pos].Position.X + " " + PieceByPosition[pos].Position.Y);
                 pos = new Position(i, 7);
                 PieceByPosition[pos] = new Bishop(pos, true);
+                Debug.WriteLine(PieceByPosition[pos].Position.X + " " + PieceByPosition[pos].Position.Y);
 
             }
 
@@ -102,27 +104,25 @@ namespace ChessMate
 
             return res;
         }
+
         public bool IsOccupied(Position position)
         {
+            Debug.WriteLine("POSITION " + position.X + " " + position.Y);
             return PieceByPosition[position] != null;
         }
 
-        public void DrawTiles(Graphics g, int height, int width, int offset)
+        public void AddPosition(Position pos, Piece piece)
         {
-            HEIGHT = height;
-            WIDTH = width;
-            OFFSET = offset;
+            PieceByPosition[pos] = piece;
+            NewPos = new GreenPosition(pos);
+        }
+
+        public void DrawTiles(Graphics g)
+        {
             Position[] pos = PieceByPosition.Keys.ToArray();
             for (int i = 0; i < 64; ++i)
             {
                 pos[i].Draw(g);
-            }
-            Position[] greenPos = greenPositions.ToArray();
-            for ( int i = 0; i < greenPositions.Count; ++i )
-            {
-                Debug.WriteLine("TEST");
-                greenPos[i].Green = true;
-                greenPos[i].Draw(g);
             }
             foreach (Piece piece in PieceByPosition.Values)
             {
@@ -131,27 +131,36 @@ namespace ChessMate
             }
         }
 
-        public Board Click(Position p)
+        public Board Click(Position p, List<GreenPosition> greenPositions)
         {
             Position clickedPosition = new Position((p.X - OFFSET) / HEIGHT, p.Y / HEIGHT);
-            Debug.WriteLine(clickedPosition.X + " " + clickedPosition.Y);
+            //if (!WhiteTurn || clickedPosition.X > 7 || clickedPosition.Y > 7) return this;
+
             Piece clickedPiece = PieceByPosition[clickedPosition];
-            if (clickedPiece != null) Debug.WriteLine("You clicked " + clickedPiece.GetType());
             if (clickedPiece == null || !clickedPiece.White)
             {
-                if (currentClickedPiece == null) return this;
-                Board newBoard = currentClickedPiece.PossibleMoves(this).Find(board => 
-                    board.PieceByPosition[clickedPosition] == currentClickedPiece);
-                if (newBoard == null) return this;
-                currentClickedPiece.PossibleMoves(this).ForEach(board => { this.greenPositions.Add(board.newPos); });
-                currentClickedPiece.Position = clickedPosition;
-                currentClickedPiece = null;
+                if (CurrentClickedPiece == null) return this;
+                Board newBoard = CurrentClickedPiece.PossibleMoves(this).Find(board => 
+                    board.PieceByPosition[clickedPosition] == CurrentClickedPiece);
+
+                //impossible move, i.e. unclicked the currently selected piece
+                if (newBoard == null)
+                {
+                    CurrentClickedPiece = null;
+                    return this;
+                }
+
+                CurrentClickedPiece.Position = clickedPosition;
+                CurrentClickedPiece = null;
+                WhiteTurn = false;
                 return newBoard;
             }
-            else if(currentClickedPiece == null || clickedPiece.White)
+            else if(CurrentClickedPiece == null || clickedPiece.White)
             {
-                currentClickedPiece = clickedPiece;
+                CurrentClickedPiece = clickedPiece;
+                CurrentClickedPiece.PossibleMoves(this).ForEach(board => { greenPositions.Add(new GreenPosition(board.NewPos)); });
             }
+
             return this;
             
         }

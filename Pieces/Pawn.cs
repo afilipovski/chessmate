@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ChessMate
 {
-    internal class Pawn : Piece
+    internal class Pawn : ContinuousPathPiece
     {
         public Pawn(Position position, bool white) : base(position, white)
         {
@@ -24,47 +24,51 @@ namespace ChessMate
         public override List<Board> PossibleMoves(Board b)
         {
             List<Board> boards = new List<Board>();
-            if (Position.Y == 0)
+            if (b.WhiteTurn ? Position.Y == 0 : Position.Y == 7)
             {
                 Board newBoard = new Board(b);
                 newBoard.PieceByPosition[Position] = new Queen(Position, White);
                 boards.Add(newBoard);
             }
-            Position tempPos = new Position(Position.X, Position.Y - 1);
+
+            Position tempPos = new Position(Position.X, b.WhiteTurn ? Position.Y - 1 : Position.Y + 1);
             void forward()
             {
-                if (tempPos.X > 7) return;
+                if (tempPos.X > 7 || tempPos.X < 0) return;
                 Board newBoard = new Board(b);
                 if (!b.IsOccupied(tempPos))
                 {
-                    newBoard.PieceByPosition[tempPos] = this;
-                    newBoard.greenPositions.Add(tempPos);
-                    Debug.WriteLine("Added " + tempPos.X + " " + tempPos.Y);
+                    newBoard.AddPosition(tempPos, this);
                     newBoard.PieceByPosition[Position] = null;
                     boards.Add(newBoard);
                 }
             }
+
             forward();
-            tempPos = new Position(Position.X, Position.Y - 2);
+            tempPos = new Position(Position.X, b.WhiteTurn ? Position.Y - 2 : Position.Y + 2);
             forward();
 
             void capture()
             {
-                if (tempPos.X > 7 || tempPos.Y > 7 || tempPos.X < 0) return;
+                if (tempPos.X > 7 || tempPos.X < 0 || tempPos.Y > 7 || tempPos.Y < 0) return;
                 Board newBoard = new Board(b);
-                if (!b.IsOccupied(tempPos) || b.PieceByPosition[tempPos].White == this.White)
+
+                //en passant position
+                Position tempPos2 = new Position(tempPos.X, b.WhiteTurn ? tempPos.Y + 1 : tempPos.Y - 1);
+                if (b.IsOccupied(tempPos2) && b.PieceByPosition[tempPos2].GetType().Name == "Pawn" && b.PieceByPosition[tempPos2].White != this.White)
                 {
-                    if (!b.IsOccupied(new Position(tempPos.X, tempPos.Y + 1))) return;
-                    //en passant
-                    else newBoard.PieceByPosition[new Position(tempPos.X, tempPos.Y + 1)] = null;
+                    newBoard.PieceByPosition[tempPos2] = null;
                 }
-                newBoard.PieceByPosition[tempPos] = this;
+
+                else if (!b.IsOccupied(tempPos) || b.PieceByPosition[tempPos].White == this.White) return;
+                newBoard.AddPosition(tempPos, this);
                 newBoard.PieceByPosition[Position] = null;
                 boards.Add(newBoard);
             }
-            tempPos = new Position(Position.X + 1, Position.Y - 1);
+
+            tempPos = new Position(Position.X + 1, b.WhiteTurn ? Position.Y - 1 : Position.Y + 1);
             capture();
-            tempPos = new Position(Position.X - 1, Position.Y - 1);
+            tempPos = new Position(Position.X - 1, b.WhiteTurn ? Position.Y - 1 : Position.Y + 1);
             capture();
             return boards;
         }

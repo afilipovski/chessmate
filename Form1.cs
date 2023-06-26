@@ -1,8 +1,11 @@
-﻿using System;
+﻿using ChessMate.Pieces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +16,7 @@ namespace ChessMate
     public partial class Form1 : Form
     {
         public Board Board { get; set; }
+        public List<GreenPosition> greenPositions { get; set; } = new List<GreenPosition>();
         public Form1()
         {
             InitializeComponent();
@@ -22,7 +26,14 @@ namespace ChessMate
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
-            Board.DrawTiles(e.Graphics, ClientSize.Height / 8, Width / 8, (Width - Height) / 2);
+            Board.HEIGHT = ClientSize.Height / 8;
+            Board.WIDTH = Width / 8;
+            Board.OFFSET = (Width - Height) / 2;
+            Board.DrawTiles(e.Graphics);
+            foreach(GreenPosition pos in greenPositions)
+            {
+                pos.Draw(e.Graphics);
+            }
         }
 
         private void Form1_Resize_1(object sender, EventArgs e)
@@ -38,7 +49,8 @@ namespace ChessMate
 
         private void Form1_MouseClick(object sender, MouseEventArgs e)
         {
-            Board = Board.Click(new Position(e.X, e.Y));
+            greenPositions = new List<GreenPosition>();
+            Board = Board.Click(new Position(e.X, e.Y), greenPositions);
             Invalidate();
         }
     }

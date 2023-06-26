@@ -27,7 +27,7 @@ namespace ChessMate.Pieces
                 if (tempPos.X < 0 || tempPos.X > 7 || tempPos.Y < 0 || tempPos.Y > 7) return;
                 if (b.IsOccupied(tempPos) && b.PieceByPosition[tempPos].White == White) return;
                 Board newBoard = new Board(b);
-                newBoard.PieceByPosition[tempPos] = new Knight(tempPos, White);
+                newBoard.AddPosition(tempPos, this);
                 newBoard.PieceByPosition[Position] = null;
                 boards.Add(newBoard);
             }
