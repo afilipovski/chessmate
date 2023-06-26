@@ -32,7 +32,12 @@ namespace ChessMate
         public Board(Board b, Position posOld, Position posNew, Piece p) : this(b)
         {
             PieceByPosition[posNew] = p;
-            PieceByPosition.Remove(posOld);
+            PieceByPosition[posOld] = null;
+        }
+
+        public static bool IsInBoard(Position p)
+        {
+            return p.X >= 0 && p.Y >= 0 && p.X <= 7 && p.Y <= 7;
         }
 
         public Board()
@@ -118,7 +123,7 @@ namespace ChessMate
                 pos[i].Draw(g);
             }
             Position[] greenPos = greenPositions.ToArray();
-            for ( int i = 0; i < greenPositions.Count; ++i )
+            for (int i = 0; i < greenPositions.Count; ++i)
             {
                 Debug.WriteLine("TEST");
                 greenPos[i].Green = true;
@@ -140,7 +145,7 @@ namespace ChessMate
             if (clickedPiece == null || !clickedPiece.White)
             {
                 if (currentClickedPiece == null) return this;
-                Board newBoard = currentClickedPiece.PossibleMoves(this).Find(board => 
+                Board newBoard = currentClickedPiece.PossibleMoves(this).Find(board =>
                     board.PieceByPosition[clickedPosition] == currentClickedPiece);
                 if (newBoard == null) return this;
                 currentClickedPiece.PossibleMoves(this).ForEach(board => { this.greenPositions.Add(board.newPos); });
@@ -148,12 +153,12 @@ namespace ChessMate
                 currentClickedPiece = null;
                 return newBoard;
             }
-            else if(currentClickedPiece == null || clickedPiece.White)
+            else if (currentClickedPiece == null || clickedPiece.White)
             {
                 currentClickedPiece = clickedPiece;
             }
             return this;
-            
+
         }
 
     }
