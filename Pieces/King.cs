@@ -39,28 +39,30 @@ namespace ChessMate.Pieces
                 boards.Add(board);
             }
 
-            // Outcomes from other figures
-            List<Board> otherOutcomes = b.PieceByPosition.Values.ToList()
-                .Where(p => p.White != White)
-                .Select(p =>
-                {
-                    if (p is King k)
-                        return k.AvailableSurroundingPositions(b);
-                    return p.PossibleMoves(b);
-                })
-                .SelectMany(l => l)
-                .ToList();
+            // Surrounding positions
+            boards.AddRange(AvailableSurroundingPositions(b));
 
-            // Check all surrounding if they are available and aren't capturable from
-            getSurroundingPositions()
-                .Where(p => Board.IsInBoard(p) && isSpaceAvailable(b, p))
-                .Where(p => !otherOutcomes.Any(board =>
-                    board.IsOccupied(p) &&
-                    board.PieceByPosition[p].White != White
-                ))
-                .Select(p => new Board(b, Position, p, this))
-                .ToList()
-                .ForEach(board => boards.Add(board));
+            boards = boards
+                .Where(board =>
+                {
+                    Position current = board.PieceByPosition.Keys
+                        .Where(p => board.PieceByPosition[p] == this)
+                        .FirstOrDefault();
+
+                    // Check if any move results in check
+                    return board.PieceByPosition.Values
+                        .ToList()
+                        .Where(p => p.White != White)
+                        .Select(p =>
+                        {
+                            if (p is King k)
+                                return k.AvailableSurroundingPositions(board);
+                            return p.PossibleMoves(board);
+                        })
+                        .SelectMany(l => l)
+                        .All(b2 => b2.PieceByPosition[current] == this);
+                })
+                .ToList();
 
             return boards;
         }
