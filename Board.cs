@@ -113,9 +113,9 @@ namespace ChessMate
             {
                 b.PieceByPosition[p] = null;
                 if (p == new Position(1, 0))
-                    b.PieceByPosition[p] = new Knight(p, false);
+                    b.PieceByPosition[p] = new King(p, false);
                 if (p == new Position(2, 4))
-                    b.PieceByPosition[p] = new Pawn(p, true);
+                    b.PieceByPosition[p] = new King(p, true);
             }
             return b;
         }

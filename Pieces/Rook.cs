@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 
 namespace ChessMate.Pieces
@@ -45,7 +44,8 @@ namespace ChessMate.Pieces
         public override Piece Clone()
         {
             Rook r = new Rook(this.Position, this.White);
-            r.MovedSinceStart = this.MovedSinceStart;
+            // For castling
+            r.MovedSinceStart = this.MovedSinceStart || true;
             return r;
         }
     }
