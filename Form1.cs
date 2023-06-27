@@ -10,7 +10,7 @@ namespace ChessMate
         public Board Board { get; set; }
         public List<Board> successiveBoards { get; set; } = new List<Board>();
 
-        bool ALPHA_BETA_DEBUG = false;
+        bool ALPHA_BETA_DEBUG = true;
 
         public Form1()
         {
@@ -53,7 +53,7 @@ namespace ChessMate
 
         private void Form1_MouseClick(object sender, MouseEventArgs e)
         {
-            
+
             Board = Board.Click(new Position(e.X, e.Y), successiveBoards);
 
             if (Board.WhiteTurn == false)

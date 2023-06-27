@@ -36,7 +36,7 @@ namespace ChessMate
         // copy 2
         public Board(Board b, Position posOld, Position posNew, Piece p) : this(b)
         {
-            p = p.Clone(); 
+            p = p.Clone();
             NewPos = new GreenPosition(posNew);
             PieceByPosition[posNew] = p;
             //PieceByPosition.Remove(posOld);
@@ -113,9 +113,9 @@ namespace ChessMate
             {
                 b.PieceByPosition[p] = null;
                 if (p == new Position(1, 0))
-                    b.PieceByPosition[p] = new Rook(p, false);
+                    b.PieceByPosition[p] = new Knight(p, false);
                 if (p == new Position(2, 4))
-                    b.PieceByPosition[p] = new Rook(p, true);
+                    b.PieceByPosition[p] = new Pawn(p, true);
             }
             return b;
         }
@@ -140,10 +140,10 @@ namespace ChessMate
             {
 
                 if (piece == null) continue;
-//                Console.WriteLine($"Testing {piece} {piece.Position}");
+                //                Console.WriteLine($"Testing {piece} {piece.Position}");
                 if (piece.White != WhiteTurn)
                     continue;
-               // Console.WriteLine($"{piece} {piece.Position} is eligible");
+                // Console.WriteLine($"{piece} {piece.Position} is eligible");
                 List<Board> moves = piece.PossibleMoves(this);
                 //Console.WriteLine($"moves.Count = {moves.Count}");
                 foreach (Board move in moves)
@@ -151,7 +151,7 @@ namespace ChessMate
                     res.Add(move);
                 }
             }
-         //   Console.WriteLine($"res.Count = {res.Count}");
+            //   Console.WriteLine($"res.Count = {res.Count}");
             return res;
         }
 
@@ -166,13 +166,13 @@ namespace ChessMate
             Position[] pos = PieceByPosition.Keys.ToArray();
             for (int i = 0; i < 64; ++i)
             {
-                new Position(i%8, i/8).Draw(g);
+                new Position(i % 8, i / 8).Draw(g);
                 //pos[i].Draw(g);
             }
             foreach (Position position in PieceByPosition.Keys)
             {
                 if (PieceByPosition[position] == null) continue;
-                PieceByPosition[position].Draw(g,position);
+                PieceByPosition[position].Draw(g, position);
             }
         }
 

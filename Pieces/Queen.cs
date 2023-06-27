@@ -33,10 +33,10 @@ namespace ChessMate.Pieces
             boards.AddRange(bishop.PossibleMoves(b)
                 .Select(board =>
                 {
-                    Position p = board.PieceByPosition.Keys
-                        .Where(k => board.PieceByPosition[k] == bishop)
-                        .FirstOrDefault();
-                    board.PieceByPosition[p] = this;
+                    Position p = board.NewPos;
+                    Piece queen = Clone();
+                    board.PieceByPosition[p] = queen;
+                    queen.Position = p;
                     return board;
                 })
             );
@@ -45,10 +45,10 @@ namespace ChessMate.Pieces
             boards.AddRange(rook.PossibleMoves(b)
                 .Select(board =>
                 {
-                    Position p = board.PieceByPosition.Keys
-                        .Where(k => board.PieceByPosition[k] == rook)
-                        .FirstOrDefault();
-                    board.PieceByPosition[p] = this;
+                    Position p = board.NewPos;
+                    Piece queen = Clone();
+                    board.PieceByPosition[p] = queen;
+                    queen.Position = p;
                     return board;
                 })
             );
