@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ChessMate.Pieces
 {
@@ -26,9 +22,10 @@ namespace ChessMate.Pieces
             {
                 if (tempPos.X < 0 || tempPos.X > 7 || tempPos.Y < 0 || tempPos.Y > 7) return;
                 if (b.IsOccupied(tempPos) && b.PieceByPosition[tempPos].White == White) return;
-                Board newBoard = new Board(b);
+                Board newBoard = new Board(b, Position, tempPos, this);
+                /*Board newBoard = new Board(b);
                 newBoard.AddPosition(tempPos, this);
-                newBoard.PieceByPosition[Position] = null;
+                newBoard.PieceByPosition[Position] = null;*/
                 boards.Add(newBoard);
             }
             move(new Position(Position.X + 1, Position.Y + 2));

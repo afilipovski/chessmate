@@ -47,6 +47,8 @@ namespace ChessMate.Pieces
                 })
             );
 
+            b.PieceByPosition[Position] = this;
+
             return boards;
         }
     }

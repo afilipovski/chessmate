@@ -1,12 +1,6 @@
 ﻿using ChessMate.Pieces;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Text;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ChessMate
 {
@@ -38,9 +32,11 @@ namespace ChessMate
                 Board newBoard = new Board(b);
                 if (!b.IsOccupied(tempPos))
                 {
-                    newBoard.AddPosition(tempPos, this);
+                    //newBoard.AddPosition(tempPos, this);
+                    newBoard.PieceByPosition[tempPos] = this;
                     newBoard.PieceByPosition[Position] = null;
-                    boards.Add(newBoard);
+                    //boards.Add(newBoard);
+                    boards.Add(new Board(b, Position, tempPos, this));
                 }
             }
 
@@ -61,9 +57,11 @@ namespace ChessMate
                 }
 
                 else if (!b.IsOccupied(tempPos) || b.PieceByPosition[tempPos].White == this.White) return;
-                newBoard.AddPosition(tempPos, this);
+                newBoard.PieceByPosition[tempPos] = this;
+                //newBoard.AddPosition(tempPos, this);
                 newBoard.PieceByPosition[Position] = null;
-                boards.Add(newBoard);
+                //boards.Add(newBoard);
+                boards.Add(new Board(b, Position, tempPos, this));
             }
 
             tempPos = new Position(Position.X + 1, b.WhiteTurn ? Position.Y - 1 : Position.Y + 1);
@@ -72,6 +70,6 @@ namespace ChessMate
             capture();
             return boards;
         }
-        
+
     }
 }
