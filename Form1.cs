@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChessMate.AlphaBeta;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
@@ -39,10 +40,21 @@ namespace ChessMate
             Invalidate();
         }
 
+        Opponent o = new Opponent(OpponentDifficulty.EASY);
+
         private void Form1_MouseClick(object sender, MouseEventArgs e)
         {
             greenPositions = new List<GreenPosition>();
             Board = Board.Click(new Position(e.X, e.Y), greenPositions);
+
+            if (Board.WhiteTurn == false)
+            {
+                Console.WriteLine("Black turn... generating move");
+                Board aiMove = o.Move(Board);
+                if (aiMove != null)
+                    Board = aiMove;
+            }
+
             Invalidate();
         }
     }

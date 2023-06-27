@@ -46,7 +46,10 @@ namespace ChessMate.AlphaBeta
                 nodes.Add(new Node(move, value));
             }
             List<Node> eligibleMoves = nodes.FindAll(n => n.value == maxvalue);
-            return eligibleMoves[r.Next(eligibleMoves.Count)].board;
+            Console.Write($"eligibleMoves.Count = {eligibleMoves.Count}");
+            if (eligibleMoves.Count > 0 )
+                return eligibleMoves[r.Next(eligibleMoves.Count)].board;
+            return null; //returns null if there are no possible moves.
         }
     }
 }

@@ -69,5 +69,10 @@ namespace ChessMate
             g.DrawRectangle(new Pen(new SolidBrush(Color.Black), 2), X * Board.HEIGHT + Board.OFFSET, Y * Board.HEIGHT, Board.HEIGHT, Board.HEIGHT);
             b.Dispose();
         }
+
+        public override string ToString()
+        {
+            return $"({X},{Y})";
+        }
     }
 }
