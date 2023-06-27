@@ -28,14 +28,9 @@ namespace ChessMate
             Position tempPos = new Position(Position.X, b.WhiteTurn ? Position.Y - 1 : Position.Y + 1);
             void forward()
             {
-                if (tempPos.X > 7 || tempPos.X < 0) return;
-                Board newBoard = new Board(b);
+                if (tempPos.Y > 7 || tempPos.Y < 0) return;
                 if (!b.IsOccupied(tempPos))
                 {
-                    //newBoard.AddPosition(tempPos, this);
-                    newBoard.PieceByPosition[tempPos] = this;
-                    newBoard.PieceByPosition[Position] = null;
-                    //boards.Add(newBoard);
                     boards.Add(new Board(b, Position, tempPos, this));
                 }
             }
@@ -47,21 +42,18 @@ namespace ChessMate
             void capture()
             {
                 if (tempPos.X > 7 || tempPos.X < 0 || tempPos.Y > 7 || tempPos.Y < 0) return;
-                Board newBoard = new Board(b);
+                Board newBoard = new Board(b, Position, tempPos, this);
 
                 //en passant position
                 Position tempPos2 = new Position(tempPos.X, b.WhiteTurn ? tempPos.Y + 1 : tempPos.Y - 1);
-                if (b.IsOccupied(tempPos2) && b.PieceByPosition[tempPos2].GetType().Name == "Pawn" && b.PieceByPosition[tempPos2].White != this.White)
+                if ((tempPos2.Y < 8 && tempPos2.Y >= 0) && b.IsOccupied(tempPos2) && b.PieceByPosition[tempPos2].GetType().Name == "Pawn" 
+                    && b.PieceByPosition[tempPos2].White != this.White)
                 {
                     newBoard.PieceByPosition[tempPos2] = null;
                 }
 
                 else if (!b.IsOccupied(tempPos) || b.PieceByPosition[tempPos].White == this.White) return;
-                newBoard.PieceByPosition[tempPos] = this;
-                //newBoard.AddPosition(tempPos, this);
-                newBoard.PieceByPosition[Position] = null;
-                //boards.Add(newBoard);
-                boards.Add(new Board(b, Position, tempPos, this));
+                boards.Add(newBoard);
             }
 
             tempPos = new Position(Position.X + 1, b.WhiteTurn ? Position.Y - 1 : Position.Y + 1);
