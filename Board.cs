@@ -115,12 +115,14 @@ namespace ChessMate
             Debug.WriteLine("POSITION " + position.X + " " + position.Y);
             return PieceByPosition[position] != null;
         }
-
-        public void DrawTiles(Graphics g, int height, int width, int offset)
+        public void AddPosition(Position pos, Piece piece)
         {
-            HEIGHT = height;
-            WIDTH = width;
-            OFFSET = offset;
+            PieceByPosition[pos] = piece;
+            NewPos = new GreenPosition(pos);
+        }
+
+        public void DrawTiles(Graphics g)
+        {
             Position[] pos = PieceByPosition.Keys.ToArray();
             for (int i = 0; i < 64; ++i)
             {
