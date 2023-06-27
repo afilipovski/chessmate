@@ -94,5 +94,10 @@ namespace ChessMate.Pieces
                 new Position(Position.X+1, Position.Y-1)
             };
         }
+
+        public override Piece Clone()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

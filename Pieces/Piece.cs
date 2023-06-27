@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace ChessMate.Pieces
 {
+    
     public abstract class Piece
     {
         protected Piece(Position position, bool white)
@@ -43,6 +44,13 @@ namespace ChessMate.Pieces
             if (White !=  piece.White) return false;
             return true;
         }
+
+        public override string ToString()
+        {
+            return (this.White ? "White" : "Black") + " " + this.GetType().Name + " " + this.Position.ToString();
+        }
+
+        abstract public Piece Clone();
 
     }
 }

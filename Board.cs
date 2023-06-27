@@ -1,9 +1,11 @@
-﻿using ChessMate.Pieces;
+﻿using ChessMate.AlphaBeta;
+using ChessMate.Pieces;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Text;
 
 namespace ChessMate
 {
@@ -24,7 +26,10 @@ namespace ChessMate
             WhiteTurn = !board.WhiteTurn;
             foreach (Position key in board.PieceByPosition.Keys)
             {
-                PieceByPosition[key] = board.PieceByPosition[key];
+                if (board.PieceByPosition[key] != null)
+                    PieceByPosition[key] = board.PieceByPosition[key].Clone();
+                else
+                    PieceByPosition[key] = null;
             }
         }
 
@@ -33,7 +38,10 @@ namespace ChessMate
         {
             NewPos = new GreenPosition(posNew);
             PieceByPosition[posNew] = p;
+            //PieceByPosition.Remove(posOld);
             PieceByPosition[posOld] = null;
+            //MOZHDA
+            PieceByPosition[posNew].Position = posNew;
         }
 
         public static bool IsInBoard(Position p)
@@ -41,6 +49,7 @@ namespace ChessMate
             return p.X >= 0 && p.Y >= 0 && p.X <= 7 && p.Y <= 7;
         }
 
+        //Generates starting board setup.
         public Board()
         {
             PieceByPosition = new Dictionary<Position, Piece>();
@@ -95,6 +104,22 @@ namespace ChessMate
 
         }
 
+        // Generate board for debugging.
+        public static Board TwoRookBoard()
+        {
+            Board b = new Board();
+            foreach (Position p in b.PieceByPosition.Keys.ToArray())
+            {
+                b.PieceByPosition[p] = null;
+                if (p == new Position(1, 0))
+                    b.PieceByPosition[p] = new Rook(p, false);
+                if (p == new Position(2, 4))
+                    b.PieceByPosition[p] = new Rook(p, true);
+            }
+            return b;
+        }
+
+
         public List<Board> Successor()
         {
             List<Board> res = new List<Board>();
@@ -117,7 +142,7 @@ namespace ChessMate
 //                Console.WriteLine($"Testing {piece} {piece.Position}");
                 if (piece.White != WhiteTurn)
                     continue;
-                Console.WriteLine($"{piece} {piece.Position} is eligible");
+               // Console.WriteLine($"{piece} {piece.Position} is eligible");
                 List<Board> moves = piece.PossibleMoves(this);
                 //Console.WriteLine($"moves.Count = {moves.Count}");
                 foreach (Board move in moves)
@@ -125,7 +150,7 @@ namespace ChessMate
                     res.Add(move);
                 }
             }
-            Console.WriteLine($"res.Count = {res.Count}");
+         //   Console.WriteLine($"res.Count = {res.Count}");
             return res;
         }
 
@@ -140,7 +165,8 @@ namespace ChessMate
             Position[] pos = PieceByPosition.Keys.ToArray();
             for (int i = 0; i < 64; ++i)
             {
-                pos[i].Draw(g);
+                new Position(i%8, i/8).Draw(g);
+                //pos[i].Draw(g);
             }
             foreach (Piece piece in PieceByPosition.Values)
             {
@@ -182,9 +208,20 @@ namespace ChessMate
 
         }
 
-        public string ToString()
+        public override string ToString()
         {
-            return $"Board: {WhiteTurn}";
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("Turn: " + (WhiteTurn ? "White" : "Black"));
+            foreach (Position position in PieceByPosition.Keys)
+            {
+                if (PieceByPosition[position] == null)
+                    continue;
+                sb.AppendLine($"{position}: {PieceByPosition[position]}");
+            }
+            sb.AppendLine("New pos: " + NewPos);
+            sb.AppendLine("Evaluation: " + EvaluationUtils.evaluateBoard(this));
+
+            return sb.ToString();
         }
 
     }

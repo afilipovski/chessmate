@@ -9,10 +9,20 @@ namespace ChessMate
     {
         public Board Board { get; set; }
         public List<GreenPosition> greenPositions { get; set; } = new List<GreenPosition>();
+
+        bool ALPHA_BETA_DEBUG = true;
+
         public Form1()
         {
             InitializeComponent();
-            Board = new Board();
+            if (ALPHA_BETA_DEBUG)
+            {
+                Board = Board.TwoRookBoard();
+            }
+            else
+            {
+                Board = new Board();
+            }
             this.DoubleBuffered = true;
         }
 
@@ -48,10 +58,16 @@ namespace ChessMate
 
             if (Board.WhiteTurn == false)
             {
-                Console.WriteLine("Black turn... generating move");
+                Console.WriteLine($"Player Move:\n{Board}");
                 Board aiMove = o.Move(Board);
+                //Console.WriteLine(aiMove);
                 if (aiMove != null)
+                {
                     Board = aiMove;
+                    Console.WriteLine($"AI Move:\n{Board}");
+                }
+                else
+                    Console.WriteLine("AI did not come up with a move!");
             }
 
             Invalidate();

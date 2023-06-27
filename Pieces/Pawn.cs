@@ -4,11 +4,17 @@ using System.Drawing;
 
 namespace ChessMate
 {
-    internal class Pawn : ContinuousPathPiece
+    internal class Pawn : Piece
     {
         public Pawn(Position position, bool white) : base(position, white)
         {
         }
+
+        public override Piece Clone()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public override Bitmap GetBitmap(Graphics g)
         {
             return White ? Properties.Resources.w_pawn_png_shadow_1024px

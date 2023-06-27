@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace ChessMate.Pieces
@@ -16,6 +17,8 @@ namespace ChessMate.Pieces
         public Rook(ContinuousPathPiece cpp) : base(cpp)
         {
         }
+
+
 
         public override Bitmap GetBitmap(Graphics g)
         {
@@ -37,6 +40,13 @@ namespace ChessMate.Pieces
             findValidPositions(new Position(Position.X, Position.Y - 1), b, boards, p => p.Y >= 0, p => new Position(p.X, p.Y - 1));
 
             return boards;
+        }
+
+        public override Piece Clone()
+        {
+            Rook r = new Rook(this.Position, this.White);
+            r.MovedSinceStart = this.MovedSinceStart;
+            return r;
         }
     }
 }

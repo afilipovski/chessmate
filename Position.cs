@@ -6,9 +6,9 @@ namespace ChessMate
 {
     public class Position : IEquatable<Position>
     {
-        public int X;
-        public int Y;
-        public bool White;
+        public readonly int X;
+        public readonly int Y;
+        public readonly bool White;
         public Position(int x, int y)
         {
             X = x;

@@ -15,6 +15,11 @@ namespace ChessMate.Pieces
         {
         }
 
+        public override Piece Clone()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public override Bitmap GetBitmap(Graphics g)
         {
             return White ? Properties.Resources.w_bishop_png_shadow_1024px

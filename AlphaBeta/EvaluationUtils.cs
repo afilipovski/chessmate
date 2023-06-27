@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,17 +14,22 @@ namespace ChessMate.AlphaBeta
 
 
         //high value favors white
-        static int evaluateBoard(Board board)
+        public static int evaluateBoard(Board board)
         {
             int value = 0;
             board.PieceByPosition.Values.ToList().ForEach(piece =>
             {
+                
+                if (piece == null)
+                    return;
+
                 int local = 0;
                 if (piece is Bishop) local = 30;
                 else if (piece is King) local = 900;
                 else if (piece is Queen) local = 90;
                 else if (piece is Rook) local = 50;
-                //incomplete; pawn is 10, knight 30 
+                else if (piece is Knight) local = 30;
+                else local = 10;
 
                 value += piece.White ? local : -local;
             });
