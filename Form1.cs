@@ -1,14 +1,5 @@
-﻿using ChessMate.Pieces;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ChessMate
@@ -29,8 +20,9 @@ namespace ChessMate
             Board.HEIGHT = ClientSize.Height / 8;
             Board.WIDTH = Width / 8;
             Board.OFFSET = (Width - Height) / 2;
-            Board.DrawTiles(e.Graphics);
-            foreach(GreenPosition pos in greenPositions)
+            //Board.DrawTiles(e.Graphics);
+            Board.DrawTiles(e.Graphics, Board.HEIGHT, Board.WIDTH, Board.OFFSET);
+            foreach (GreenPosition pos in greenPositions)
             {
                 pos.Draw(e.Graphics);
             }
