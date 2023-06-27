@@ -31,10 +31,10 @@ namespace ChessMate.Pieces
 
         public abstract Bitmap GetBitmap(Graphics g);
 
-        public void Draw(Graphics g)
+        public void Draw(Graphics g, Position key)
         {
             Bitmap bitmap = GetBitmap(g);
-            g.DrawImage(bitmap, Position.X * Board.HEIGHT + Board.OFFSET, Position.Y * Board.HEIGHT, Board.HEIGHT, Board.HEIGHT);
+            g.DrawImage(bitmap, key.X * Board.HEIGHT + Board.OFFSET, key.Y * Board.HEIGHT, Board.HEIGHT, Board.HEIGHT);
         }
 
         public bool Equals(Piece piece)

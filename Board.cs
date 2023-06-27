@@ -17,7 +17,7 @@ namespace ChessMate
         public static int HEIGHT { get; set; }
         public static int OFFSET { get; set; }
         public Piece CurrentClickedPiece { get; set; }
-        public Position NewPos { get; set; }
+        public GreenPosition NewPos { get; set; }
 
         // copy constructor
         public Board(Board board)
@@ -36,6 +36,7 @@ namespace ChessMate
         // copy 2
         public Board(Board b, Position posOld, Position posNew, Piece p) : this(b)
         {
+            p = p.Clone(); 
             NewPos = new GreenPosition(posNew);
             PieceByPosition[posNew] = p;
             //PieceByPosition.Remove(posOld);
@@ -168,40 +169,45 @@ namespace ChessMate
                 new Position(i%8, i/8).Draw(g);
                 //pos[i].Draw(g);
             }
-            foreach (Piece piece in PieceByPosition.Values)
+            foreach (Position position in PieceByPosition.Keys)
             {
-                if (piece == null) continue;
-                piece.Draw(g);
+                if (PieceByPosition[position] == null) continue;
+                PieceByPosition[position].Draw(g,position);
             }
         }
 
-        public Board Click(Position p, List<GreenPosition> greenPositions)
+        public Board Click(Position p, List<Board> successiveStates)
         {
             Position clickedPosition = new Position((p.X - OFFSET) / HEIGHT, p.Y / HEIGHT);
             //if (!WhiteTurn || clickedPosition.X > 7 || clickedPosition.Y > 7) return this;
 
             Piece clickedPiece = PieceByPosition[clickedPosition];
+
+
             if (clickedPiece == null || !clickedPiece.White)
             {
                 if (CurrentClickedPiece == null) return this;
-                Board newBoard = CurrentClickedPiece.PossibleMoves(this).Find(board => 
-                    board.PieceByPosition[clickedPosition] == CurrentClickedPiece);
 
                 //impossible move, i.e. unclicked the currently selected piece
-                if (newBoard == null)
+                foreach (Board ss in successiveStates)
+                {
+                    Console.WriteLine(ss.NewPos + " " + clickedPosition);
+                }
+                Console.WriteLine();
+                if (!successiveStates.Any(ss => ss.NewPos.Equals(clickedPosition)))
                 {
                     CurrentClickedPiece = null;
                     return this;
                 }
 
-                CurrentClickedPiece.Position = clickedPosition;
-                CurrentClickedPiece = null;
-                return newBoard;
+                Board res = successiveStates.Find(ss => ss.NewPos.Equals(clickedPosition));
+                successiveStates.Clear();
+                return res;
             }
-            else if(CurrentClickedPiece == null || clickedPiece.White)
+            else if (clickedPiece.White)
             {
                 CurrentClickedPiece = clickedPiece;
-                CurrentClickedPiece.PossibleMoves(this).ForEach(board => { greenPositions.Add(new GreenPosition(board.NewPos)); });
+                CurrentClickedPiece.PossibleMoves(this).ForEach(board => { successiveStates.Add(board); });
             }
 
             return this;
