@@ -20,8 +20,7 @@ namespace ChessMate
             Board.HEIGHT = ClientSize.Height / 8;
             Board.WIDTH = Width / 8;
             Board.OFFSET = (Width - Height) / 2;
-            //Board.DrawTiles(e.Graphics);
-            Board.DrawTiles(e.Graphics, Board.HEIGHT, Board.WIDTH, Board.OFFSET);
+            Board.DrawTiles(e.Graphics);
             foreach (GreenPosition pos in greenPositions)
             {
                 pos.Draw(e.Graphics);

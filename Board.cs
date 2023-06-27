@@ -87,10 +87,8 @@ namespace ChessMate
             {
                 Position pos = new Position(i, 0);
                 PieceByPosition[pos] = new Bishop(pos, false);
-                Debug.WriteLine(PieceByPosition[pos].Position.X + " " + PieceByPosition[pos].Position.Y);
                 pos = new Position(i, 7);
                 PieceByPosition[pos] = new Bishop(pos, true);
-                Debug.WriteLine(PieceByPosition[pos].Position.X + " " + PieceByPosition[pos].Position.Y);
 
             }
 
@@ -114,11 +112,6 @@ namespace ChessMate
         {
             Debug.WriteLine("POSITION " + position.X + " " + position.Y);
             return PieceByPosition[position] != null;
-        }
-        public void AddPosition(Position pos, Piece piece)
-        {
-            PieceByPosition[pos] = piece;
-            NewPos = new GreenPosition(pos);
         }
 
         public void DrawTiles(Graphics g)
@@ -156,7 +149,6 @@ namespace ChessMate
 
                 CurrentClickedPiece.Position = clickedPosition;
                 CurrentClickedPiece = null;
-                WhiteTurn = false;
                 return newBoard;
             }
             else if(CurrentClickedPiece == null || clickedPiece.White)
