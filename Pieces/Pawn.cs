@@ -10,11 +10,6 @@ namespace ChessMate
         {
         }
 
-        public override Piece Clone()
-        {
-            throw new System.NotImplementedException();
-        }
-
         public override Bitmap GetBitmap(Graphics g)
         {
             return White ? Properties.Resources.w_pawn_png_shadow_1024px
@@ -67,6 +62,12 @@ namespace ChessMate
             tempPos = new Position(Position.X - 1, b.WhiteTurn ? Position.Y - 1 : Position.Y + 1);
             capture();
             return boards;
+        }
+
+        public override Piece Clone()
+        {
+            Pawn p = new Pawn(this.Position, this.White);
+            return p;
         }
 
     }

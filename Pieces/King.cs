@@ -97,7 +97,8 @@ namespace ChessMate.Pieces
 
         public override Piece Clone()
         {
-            throw new System.NotImplementedException();
+            Knight p = new Knight(this.Position, this.White);
+            return p;
         }
     }
 }

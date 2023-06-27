@@ -12,7 +12,8 @@ namespace ChessMate.Pieces
 
         public override Piece Clone()
         {
-            throw new System.NotImplementedException();
+            Queen p = new Queen(this.Position, this.White);
+            return p;
         }
 
         public override Bitmap GetBitmap(Graphics g)
