@@ -1,9 +1,8 @@
 ﻿using ChessMate.AlphaBeta;
+using ChessMate.Interface;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using ChessMate.Interface;
-using System.Threading;
 
 namespace ChessMate
 {
@@ -11,7 +10,7 @@ namespace ChessMate
     {
         public Board Board { get; set; }
         public List<Board> successiveBoards { get; set; } = new List<Board>();
-        
+
         bool ALPHA_BETA_DEBUG = false;
 
         AIMoveOverlay aimo = new AIMoveOverlay();
@@ -66,12 +65,12 @@ namespace ChessMate
             Invalidate();
             this.Refresh();
 
-			//AI MOVE
-			if (Board.WhiteTurn == false)
+            //AI MOVE
+            if (Board.WhiteTurn == false)
             {
                 //Console.WriteLine($"Player Move:\n{Board}");
                 Board aiMove = o.Move(Board);
-                
+
                 //Console.WriteLine(aiMove);
                 if (aiMove != null)
                 {

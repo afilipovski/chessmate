@@ -52,6 +52,12 @@
     <Compile Include="AlphaBeta\EvaluationUtils.cs" />
     <Compile Include="AlphaBeta\Opponent.cs" />
     <Compile Include="Board.cs" />
+    <Compile Include="ChooseDifficultyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChooseDifficultyForm.Designer.cs">
+      <DependentUpon>ChooseDifficultyForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -72,6 +78,9 @@
     <Compile Include="Position.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ChooseDifficultyForm.resx">
+      <DependentUpon>ChooseDifficultyForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
