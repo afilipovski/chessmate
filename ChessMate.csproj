@@ -59,6 +59,8 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="GreenPosition.cs" />
+    <Compile Include="Interface\AIMoveOverlay.cs" />
+    <Compile Include="Interface\FormUtils.cs" />
     <Compile Include="Pieces\Bishop.cs" />
     <Compile Include="Pieces\ContinuousPathPiece.cs" />
     <Compile Include="Pieces\Knight.cs" />
