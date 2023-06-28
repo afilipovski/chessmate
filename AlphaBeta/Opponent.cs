@@ -10,9 +10,9 @@ namespace ChessMate.AlphaBeta
 {
     public enum OpponentDifficulty
     {
-        EASY = 2,
-        MEDIUM = 3,
-        HARD = 4
+        EASY = 0,
+        MEDIUM = 1,
+        HARD = 2
     }
     
     public class Opponent

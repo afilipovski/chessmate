@@ -9,8 +9,7 @@ namespace ChessMate
     {
         public Board Board { get; set; }
         public List<Board> successiveBoards { get; set; } = new List<Board>();
-
-        bool ALPHA_BETA_DEBUG = true;
+        bool ALPHA_BETA_DEBUG = false;
 
         public Form1()
         {

@@ -152,7 +152,9 @@ namespace ChessMate
                 }
             }
             //   Console.WriteLine($"res.Count = {res.Count}");
-            return res;
+
+
+            return res.Where(b => !b.KingIsInCheck(!b.WhiteTurn)).ToList();
         }
 
         public bool IsOccupied(Position position)
@@ -179,7 +181,8 @@ namespace ChessMate
         public Board Click(Position p, List<Board> successiveStates)
         {
             Position clickedPosition = new Position((p.X - OFFSET) / HEIGHT, p.Y / HEIGHT);
-            //if (!WhiteTurn || clickedPosition.X > 7 || clickedPosition.Y > 7) return this;
+            if (!WhiteTurn || !IsInBoard(clickedPosition)) 
+                return this;
 
             Piece clickedPiece = PieceByPosition[clickedPosition];
 
@@ -189,25 +192,42 @@ namespace ChessMate
                 if (CurrentClickedPiece == null) return this;
 
                 //impossible move, i.e. unclicked the currently selected piece
-                foreach (Board ss in successiveStates)
-                {
-                    Console.WriteLine(ss.NewPos + " " + clickedPosition);
-                }
-                Console.WriteLine();
+                //foreach (Board ss in successiveStates)
+                //{
+                //    Console.WriteLine(ss.NewPos + " " + clickedPosition);
+                //}
+                //Console.WriteLine();
                 if (!successiveStates.Any(ss => ss.NewPos.Equals(clickedPosition)))
                 {
                     CurrentClickedPiece = null;
+                    successiveStates.Clear();
                     return this;
                 }
 
                 Board res = successiveStates.Find(ss => ss.NewPos.Equals(clickedPosition));
+                
+                //switch board, but only if it isn't in check.
+                //King whiteKing = null;
+                //foreach (Piece piece in res.PieceByPosition.Values)
+                //{
+                //    if (piece == null) continue;
+                //    if (piece is King king && piece.White == true)
+                //    {
+                //        whiteKing = king;
+                //        break;
+                //    }
+                //}
+
                 successiveStates.Clear();
                 return res;
             }
             else if (clickedPiece.White)
             {
+                successiveStates.Clear();
                 CurrentClickedPiece = clickedPiece;
-                CurrentClickedPiece.PossibleMoves(this).ForEach(board => { successiveStates.Add(board); });
+                CurrentClickedPiece.PossibleMoves(this)
+                    .Where(board => !board.KingIsInCheck(true)).ToList()
+                    .ForEach(board => { successiveStates.Add(board); });
             }
 
             return this;
@@ -228,6 +248,35 @@ namespace ChessMate
             sb.AppendLine("Evaluation: " + EvaluationUtils.evaluateBoard(this));
 
             return sb.ToString();
+        }
+
+        public bool KingIsInCheck(bool white)
+        {
+            King king = null;
+            foreach (Piece piece in  PieceByPosition.Values)
+            {
+                if (piece is null) continue;
+                if (piece is King kx && piece.White == white)
+                {
+                    king = kx;
+                    break;
+                }
+            }
+
+            //For debug purposes only, if no king found then there is no check.
+            if (king is null)
+                return false;
+
+            foreach (Piece piece in PieceByPosition.Values.ToArray())
+            {
+                //skip friendly pieces
+                if (piece is null || piece.White == king.White)
+                    continue;
+                //if piece can attack king, king is in check
+                if (piece.PossibleMoves(this).Any(b => b.NewPos.Equals(king.Position)))
+                    return true;
+            }
+            return false;
         }
 
     }
