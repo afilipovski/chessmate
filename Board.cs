@@ -1,6 +1,5 @@
 ﻿using ChessMate.AlphaBeta;
 using ChessMate.Pieces;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -62,13 +61,13 @@ namespace ChessMate
                 }
             }
             {
-                Position pos = new Position(3, 0);
+                Position pos = new Position(4, 0);
                 PieceByPosition[pos] = new King(pos, false);
-                pos = new Position(3, 7);
-                PieceByPosition[pos] = new King(pos, true);
-                pos = new Position(4, 0);
-                PieceByPosition[pos] = new Queen(pos, false);
                 pos = new Position(4, 7);
+                PieceByPosition[pos] = new King(pos, true);
+                pos = new Position(3, 0);
+                PieceByPosition[pos] = new Queen(pos, false);
+                pos = new Position(3, 7);
                 PieceByPosition[pos] = new Queen(pos, true);
             }
             for (int i = 0; i < 8; ++i)
@@ -181,7 +180,7 @@ namespace ChessMate
         public Board Click(Position p, List<Board> successiveStates)
         {
             Position clickedPosition = new Position((p.X - OFFSET) / HEIGHT, p.Y / HEIGHT);
-            if (!WhiteTurn || !IsInBoard(clickedPosition)) 
+            if (!WhiteTurn || !IsInBoard(clickedPosition))
                 return this;
 
             Piece clickedPiece = PieceByPosition[clickedPosition];
@@ -240,7 +239,7 @@ namespace ChessMate
         public bool KingIsInCheck(bool white)
         {
             King king = null;
-            foreach (Piece piece in  PieceByPosition.Values)
+            foreach (Piece piece in PieceByPosition.Values)
             {
                 if (piece is null) continue;
                 if (piece is King kx && piece.White == white)

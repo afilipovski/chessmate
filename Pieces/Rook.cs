@@ -38,6 +38,13 @@ namespace ChessMate.Pieces
             // bottom
             findValidPositions(new Position(Position.X, Position.Y - 1), b, boards, p => p.Y >= 0, p => new Position(p.X, p.Y - 1));
 
+            boards.ForEach(board =>
+            {
+                Position p = board.NewPos;
+                Rook r = (Rook)board.PieceByPosition[p];
+                r.MovedSinceStart = true;
+            });
+
             return boards;
         }
 
@@ -45,7 +52,7 @@ namespace ChessMate.Pieces
         {
             Rook r = new Rook(this.Position, this.White);
             // For castling
-            r.MovedSinceStart = this.MovedSinceStart || true;
+            r.MovedSinceStart = this.MovedSinceStart;
             return r;
         }
     }

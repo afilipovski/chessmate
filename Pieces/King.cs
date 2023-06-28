@@ -25,26 +25,26 @@ namespace ChessMate.Pieces
 
             //boards = boards
             //    .Where(board =>
-             //   {
-              //      Position current = board.NewPos;
-               //     return board.KingIsInCheck(this.White);
+            //   {
+            //      Position current = board.NewPos;
+            //     return board.KingIsInCheck(this.White);
 
-                    // Check if any move results in check
-                    //return board.PieceByPosition.Values
-                    //    .ToList()
-                    //    .Where(p => p != null && p.White != White)
-                    //    .Select(p =>
-                    //    {
-                    //        if (p is King k)
-                    //            return k.AvailableMoves(board);
-                    //        return p.PossibleMoves(board);
-                    //    })
-                    //    .SelectMany(l => l)
-                    //    .All(nb => nb.PieceByPosition[current] is King k && k.White == White);
+            // Check if any move results in check
+            //return board.PieceByPosition.Values
+            //    .ToList()
+            //    .Where(p => p != null && p.White != White)
+            //    .Select(p =>
+            //    {
+            //        if (p is King k)
+            //            return k.AvailableMoves(board);
+            //        return p.PossibleMoves(board);
+            //    })
+            //    .SelectMany(l => l)
+            //    .All(nb => nb.PieceByPosition[current] is King k && k.White == White);
 
 
-               // })
-                //.ToList();
+            // })
+            //.ToList();
 
             return boards;
         }
@@ -81,6 +81,14 @@ namespace ChessMate.Pieces
                 .Select(p => new Board(b, Position, p, this))
                 .ToList();
             checkCastling(b, boards);
+
+            boards.ForEach(board =>
+            {
+                Position p = board.NewPos;
+                King k = (King)board.PieceByPosition[p];
+                k.MovedSinceStart = true;
+            });
+
             return boards;
         }
 
@@ -103,7 +111,7 @@ namespace ChessMate.Pieces
         {
             King p = new King(this.Position, this.White);
             // For castling
-            p.MovedSinceStart = this.MovedSinceStart || true;
+            p.MovedSinceStart = this.MovedSinceStart;
             return p;
         }
     }
