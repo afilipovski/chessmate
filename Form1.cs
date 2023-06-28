@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using ChessMate.Interface;
+using System.Threading;
 
 namespace ChessMate
 {
@@ -40,7 +41,10 @@ namespace ChessMate
                 sb.NewPos.Draw(e.Graphics);
             }
             if (!Board.WhiteTurn)
+            {
+                Console.WriteLine("draw overlay");
                 aimo.Draw(e.Graphics);
+            }
         }
 
         private void Form1_Resize_1(object sender, EventArgs e)
@@ -60,12 +64,14 @@ namespace ChessMate
         {
             Board = Board.Click(new Position(e.X, e.Y), successiveBoards);
             Invalidate();
+            this.Refresh();
 
-            //AI MOVE
-            if (Board.WhiteTurn == false)
+			//AI MOVE
+			if (Board.WhiteTurn == false)
             {
-				//Console.WriteLine($"Player Move:\n{Board}");
-				Board aiMove = o.Move(Board);
+                //Console.WriteLine($"Player Move:\n{Board}");
+                Board aiMove = o.Move(Board);
+                
                 //Console.WriteLine(aiMove);
                 if (aiMove != null)
                 {
