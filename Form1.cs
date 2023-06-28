@@ -10,6 +10,7 @@ namespace ChessMate
     {
         public Board Board { get; set; }
         public List<Board> successiveBoards { get; set; } = new List<Board>();
+        public Opponent o { get; set; }
 
         bool ALPHA_BETA_DEBUG = false;
 
@@ -18,6 +19,14 @@ namespace ChessMate
         public Form1()
         {
             InitializeComponent();
+
+            ChooseDifficultyForm form = new ChooseDifficultyForm();
+            DialogResult dr = form.ShowDialog();
+            if (dr != DialogResult.OK)
+                Close();
+
+            o = new Opponent(form.ChosenDifficulty);
+
             if (ALPHA_BETA_DEBUG)
             {
                 Board = Board.TwoRookBoard();
@@ -57,7 +66,7 @@ namespace ChessMate
             Invalidate();
         }
 
-        Opponent o = new Opponent(OpponentDifficulty.EASY);
+        //Opponent o = new Opponent(OpponentDifficulty.EASY);
 
         private void Form1_MouseClick(object sender, MouseEventArgs e)
         {
