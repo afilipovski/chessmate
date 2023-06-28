@@ -205,19 +205,6 @@ namespace ChessMate
                 }
 
                 Board res = successiveStates.Find(ss => ss.NewPos.Equals(clickedPosition));
-                
-                //switch board, but only if it isn't in check.
-                //King whiteKing = null;
-                //foreach (Piece piece in res.PieceByPosition.Values)
-                //{
-                //    if (piece == null) continue;
-                //    if (piece is King king && piece.White == true)
-                //    {
-                //        whiteKing = king;
-                //        break;
-                //    }
-                //}
-
                 successiveStates.Clear();
                 return res;
             }
@@ -277,6 +264,11 @@ namespace ChessMate
                     return true;
             }
             return false;
+        }
+
+        public bool NoPossibleMoves()
+        {
+            return Successor().Count == 0;
         }
 
     }

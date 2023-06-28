@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using ChessMate.Interface;
+using System.Threading;
 
 namespace ChessMate
 {
@@ -9,7 +11,10 @@ namespace ChessMate
     {
         public Board Board { get; set; }
         public List<Board> successiveBoards { get; set; } = new List<Board>();
+        
         bool ALPHA_BETA_DEBUG = false;
+
+        AIMoveOverlay aimo = new AIMoveOverlay();
 
         public Form1()
         {
@@ -35,6 +40,11 @@ namespace ChessMate
             {
                 sb.NewPos.Draw(e.Graphics);
             }
+            if (!Board.WhiteTurn)
+            {
+                Console.WriteLine("draw overlay");
+                aimo.Draw(e.Graphics);
+            }
         }
 
         private void Form1_Resize_1(object sender, EventArgs e)
@@ -52,21 +62,36 @@ namespace ChessMate
 
         private void Form1_MouseClick(object sender, MouseEventArgs e)
         {
-
             Board = Board.Click(new Position(e.X, e.Y), successiveBoards);
+            Invalidate();
+            this.Refresh();
 
-            if (Board.WhiteTurn == false)
+			//AI MOVE
+			if (Board.WhiteTurn == false)
             {
-                Console.WriteLine($"Player Move:\n{Board}");
+                //Console.WriteLine($"Player Move:\n{Board}");
                 Board aiMove = o.Move(Board);
+                
                 //Console.WriteLine(aiMove);
                 if (aiMove != null)
                 {
                     Board = aiMove;
-                    Console.WriteLine($"AI Move:\n{Board}");
+                    //Console.WriteLine($"AI Move:\n{Board}");
+                    if (Board.NoPossibleMoves())
+                    {
+                        if (Board.KingIsInCheck(true))
+                            FormUtils.ShowDefeatDialog(() => this.Close());
+                        else
+                            FormUtils.ShowPlayerStalemateDialog(() => this.Close());
+                    }
                 }
-                else
-                    Console.WriteLine("AI did not come up with a move!");
+                else //ai didn't generate move
+                {
+                    if (Board.KingIsInCheck(false))
+                        FormUtils.ShowVictoryDialog(() => this.Close());
+                    else
+                        FormUtils.ShowAIStalemateDialog(() => this.Close());
+                }
             }
 
             Invalidate();
