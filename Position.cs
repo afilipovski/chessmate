@@ -65,8 +65,8 @@ namespace ChessMate
         public virtual void Draw(Graphics g)
         {
             Brush b = new SolidBrush(White ? Color.White : Color.DarkSlateGray);
-            g.FillRectangle(b, X * Board.HEIGHT + Board.OFFSET, Y * Board.HEIGHT, Board.HEIGHT, Board.HEIGHT);
-            g.DrawRectangle(new Pen(new SolidBrush(Color.Black), 2), X * Board.HEIGHT + Board.OFFSET, Y * Board.HEIGHT, Board.HEIGHT, Board.HEIGHT);
+            g.FillRectangle(b, X * Board.TILE_SIDE + Board.OFFSET_X, Y * Board.TILE_SIDE + Board.OFFSET_Y, Board.TILE_SIDE, Board.TILE_SIDE);
+            g.DrawRectangle(new Pen(new SolidBrush(Color.Black), 2), X * Board.TILE_SIDE + Board.OFFSET_X, Y * Board.TILE_SIDE + Board.OFFSET_Y, Board.TILE_SIDE, Board.TILE_SIDE);
             b.Dispose();
         }
 

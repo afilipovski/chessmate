@@ -34,7 +34,7 @@ namespace ChessMate.Pieces
         public void Draw(Graphics g, Position key)
         {
             Bitmap bitmap = GetBitmap(g);
-            g.DrawImage(bitmap, key.X * Board.HEIGHT + Board.OFFSET, key.Y * Board.HEIGHT, Board.HEIGHT, Board.HEIGHT);
+            g.DrawImage(bitmap, key.X * Board.TILE_SIDE + Board.OFFSET_X, key.Y * Board.TILE_SIDE + Board.OFFSET_Y, Board.TILE_SIDE, Board.TILE_SIDE);
         }
 
         public bool Equals(Piece piece)

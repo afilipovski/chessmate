@@ -40,9 +40,8 @@ namespace ChessMate
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
-            Board.HEIGHT = ClientSize.Height / 8;
-            Board.WIDTH = Width / 8;
-            Board.OFFSET = (Width - Height) / 2;
+            Board.TILE_SIDE = (ClientSize.Height - Board.OFFSET_Y) / 8;
+            Board.OFFSET_X = (ClientSize.Width - 8 * Board.TILE_SIDE) / 2;
             Board.DrawTiles(e.Graphics);
             foreach (Board sb in successiveBoards)
             {
@@ -62,7 +61,7 @@ namespace ChessMate
 
         private void Form1_ResizeEnd(object sender, EventArgs e)
         {
-            Height -= Height % 8;
+            //Height -= Height % 8;
             Invalidate();
         }
 
@@ -104,5 +103,10 @@ namespace ChessMate
 
             Invalidate();
         }
-    }
+
+		private void customizeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+
+		}
+	}
 }

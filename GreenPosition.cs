@@ -24,7 +24,7 @@ namespace ChessMate
 
         public override void Draw(Graphics g)
         {
-            g.FillRectangle(new SolidBrush(Color.FromArgb(50, 0, 255, 0)), X * Board.HEIGHT + Board.OFFSET, Y * Board.HEIGHT, Board.HEIGHT, Board.HEIGHT);
+            g.FillRectangle(new SolidBrush(Color.FromArgb(50, 0, 255, 0)), X * Board.TILE_SIDE + Board.OFFSET_X, Y * Board.TILE_SIDE + Board.OFFSET_Y, Board.TILE_SIDE, Board.TILE_SIDE);
         }
     }
 }

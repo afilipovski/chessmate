@@ -12,9 +12,9 @@ namespace ChessMate
     {
         public Dictionary<Position, Piece> PieceByPosition { get; set; }
         public bool WhiteTurn { get; set; } = true;
-        public static int WIDTH { get; set; }
-        public static int HEIGHT { get; set; }
-        public static int OFFSET { get; set; }
+        public static int TILE_SIDE { get; set; }
+        public static int OFFSET_X { get; set; }
+        public static int OFFSET_Y { get; set; } = 25;
         public Piece CurrentClickedPiece { get; set; }
         public GreenPosition NewPos { get; set; }
 
@@ -179,7 +179,7 @@ namespace ChessMate
 
         public Board Click(Position p, List<Board> successiveStates)
         {
-            Position clickedPosition = new Position((p.X - OFFSET) / HEIGHT, p.Y / HEIGHT);
+            Position clickedPosition = new Position((p.X - OFFSET_X) / TILE_SIDE, (p.Y - OFFSET_Y) / TILE_SIDE);
             if (!WhiteTurn || !IsInBoard(clickedPosition))
                 return this;
 
