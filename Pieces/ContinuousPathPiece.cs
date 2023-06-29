@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace ChessMate.Pieces
 {
+    [Serializable]
     public abstract class ContinuousPathPiece : Piece
     {
         protected ContinuousPathPiece(Position position, bool white) : base(position, white)

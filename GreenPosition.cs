@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace ChessMate
 {
+    [Serializable]
     public class GreenPosition : Position
     {
         public GreenPosition(string stringpos) : base(stringpos)

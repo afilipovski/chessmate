@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace ChessMate.Pieces
 {
+    [Serializable]
     internal class Knight : Piece
     {
         public Knight(Position position, bool white) : base(position, white)

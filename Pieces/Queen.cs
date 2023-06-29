@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
 namespace ChessMate.Pieces
 {
+    [Serializable]
     public class Queen : ContinuousPathPiece
     {
         public Queen(Position position, bool white) : base(position, white)

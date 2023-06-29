@@ -4,6 +4,7 @@ using System.Drawing;
 
 namespace ChessMate
 {
+    [Serializable]
     public class Position : IEquatable<Position>
     {
         public readonly int X;

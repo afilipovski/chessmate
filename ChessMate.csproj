@@ -64,6 +64,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="GameState.cs" />
     <Compile Include="GreenPosition.cs" />
     <Compile Include="Interface\AIMoveOverlay.cs" />
     <Compile Include="Interface\FormUtils.cs" />

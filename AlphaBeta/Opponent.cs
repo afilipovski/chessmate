@@ -14,7 +14,8 @@ namespace ChessMate.AlphaBeta
         MEDIUM = 1,
         HARD = 2
     }
-    
+
+    [Serializable]
     public class Opponent
     {
         static Random r = new Random();

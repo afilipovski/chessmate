@@ -1,9 +1,11 @@
 ﻿using ChessMate.Pieces;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 
 namespace ChessMate
 {
+    [Serializable]
     internal class Pawn : Piece
     {
         public Pawn(Position position, bool white) : base(position, white)

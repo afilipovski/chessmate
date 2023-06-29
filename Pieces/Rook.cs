@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace ChessMate.Pieces
 {
     // Top
+    [Serializable]
     public class Rook : ContinuousPathPiece
     {
         public bool MovedSinceStart { get; set; }

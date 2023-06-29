@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
 namespace ChessMate.Pieces
 {
+    [Serializable]
     public class King : Piece
     {
         public bool MovedSinceStart { get; set; }

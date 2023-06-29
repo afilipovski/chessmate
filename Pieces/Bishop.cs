@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 
 namespace ChessMate.Pieces
 {
     // Lovec
+    [Serializable]
     public class Bishop : ContinuousPathPiece
     {
         public Bishop(ContinuousPathPiece cpp) : base(cpp)

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ChessMate.Pieces
 {
-    
+    [Serializable]
     public abstract class Piece
     {
         protected Piece(Position position, bool white)

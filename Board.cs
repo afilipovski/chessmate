@@ -1,5 +1,6 @@
 ﻿using ChessMate.AlphaBeta;
 using ChessMate.Pieces;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -8,6 +9,7 @@ using System.Text;
 
 namespace ChessMate
 {
+    [Serializable]
     public class Board
     {
         public Dictionary<Position, Piece> PieceByPosition { get; set; }
