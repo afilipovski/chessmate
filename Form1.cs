@@ -13,10 +13,9 @@ namespace ChessMate
         public GameState GameState { get; set; } = new GameState();
         public bool InGame { get; set; } = false;
 
-        bool ALPHA_BETA_DEBUG = false;
-
         AIMoveOverlay aimo = new AIMoveOverlay();
         public string SavedGamePath { get; set; } = null;
+        public bool Dirty { get; set; } = false;
 
 
         public Form1()
@@ -24,6 +23,8 @@ namespace ChessMate
             InitializeComponent();
 			this.DoubleBuffered = true;
 			SetForm();
+            Dirty = false;
+            UpdateTitle();
             InGame = true;
         }
 
@@ -36,14 +37,14 @@ namespace ChessMate
 
 			GameState.o = new Opponent(form.ChosenDifficulty);
 
-			if (ALPHA_BETA_DEBUG)
-			{
-				GameState.Board = Board.TwoRookBoard();
-			}
-			else
-			{
-				GameState.Board = new Board();
-			}
+			GameState.Board = new Board();
+			
+
+            SavedGamePath = null;
+
+            Dirty = false;
+            UpdateTitle();
+
             Invalidate();
 		}
 
@@ -78,7 +79,15 @@ namespace ChessMate
 
         private void Form1_MouseClick(object sender, MouseEventArgs e)
         {
-            GameState.Board = GameState.Board.Click(new Position(e.X, e.Y), GameState.successiveBoards);
+            Board newBoard = GameState.Board.Click(new Position(e.X, e.Y), GameState.successiveBoards);
+
+            if (!ReferenceEquals(GameState.Board, newBoard)) { 
+                Dirty = true;
+                UpdateTitle();
+            }
+
+            GameState.Board = newBoard;
+
             Invalidate();
             this.Refresh();
 
@@ -120,6 +129,8 @@ namespace ChessMate
 
 		private void newToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+            if (UnsavedChangesAbort())
+                return;
             SetForm();
 		}
 
@@ -133,6 +144,8 @@ namespace ChessMate
 			BinaryFormatter bf = new BinaryFormatter();
 			bf.Serialize(stream, GameState);
 			stream.Dispose();
+            Dirty = false;
+            UpdateTitle();
 		}
 
 		private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -144,10 +157,13 @@ namespace ChessMate
         private bool saveAs()
         {
 			SaveFileDialog sfd = new SaveFileDialog();
+            sfd.AddExtension = true;
+            sfd.DefaultExt = "sav";
+            sfd.Filter = "Saved Games (*.sav)|*.sav";
 			if (sfd.ShowDialog() == DialogResult.OK)
 			{
 				SavedGamePath = sfd.FileName;
-                this.Text = $"ChessMate: {SavedGamePath}";
+                this.Text = $"ChessMate: {Path.GetFileNameWithoutExtension(SavedGamePath)}";
                 return true;
 			}
 			return false;
@@ -155,14 +171,54 @@ namespace ChessMate
 
 		private void openToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+            if (UnsavedChangesAbort())
+                return;
             OpenFileDialog ofd = new OpenFileDialog();
-            if (ofd.ShowDialog() == DialogResult.OK)
+            ofd.DefaultExt = "sav";
+            ofd.Filter = "Saved Games (*.sav)|*.sav";
+			if (ofd.ShowDialog() == DialogResult.OK)
             {
                 BinaryFormatter bf = new BinaryFormatter();
                 GameState = bf.Deserialize(ofd.OpenFile()) as GameState;
+                SavedGamePath = ofd.FileName;
+                Dirty = false;
+                UpdateTitle();
                 Invalidate();
             }
 
+		}
+
+        private void UpdateTitle()
+        {
+            Text = $"ChessMate";
+            if (SavedGamePath != null)
+                Text += $" - {Path.GetFileNameWithoutExtension(SavedGamePath)}";
+            if (Dirty)
+                Text += "*";
+        }
+
+        private bool UnsavedChangesAbort()
+        {
+            if (!Dirty)
+                return false;
+			if (MessageBox.Show("Do you want to save your game?", "Unsaved progress", MessageBoxButtons.YesNo)
+				== DialogResult.No)
+				return false;
+			saveToolStripMenuItem_Click(null, EventArgs.Empty);
+			if (!Dirty)
+				return false;
+            return true;
+		}
+
+		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+            this.Close();
+		}
+
+		private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+		{
+            if (UnsavedChangesAbort())
+                e.Cancel = true;
 		}
 	}
 }

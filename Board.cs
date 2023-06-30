@@ -106,55 +106,23 @@ namespace ChessMate
 
         }
 
-        // Generate board for debugging.
-        public static Board TwoRookBoard()
-        {
-            Board b = new Board();
-            foreach (Position p in b.PieceByPosition.Keys.ToArray())
-            {
-                b.PieceByPosition[p] = null;
-                if (p == new Position(1, 0))
-                    b.PieceByPosition[p] = new King(p, false);
-                if (p == new Position(2, 4))
-                    b.PieceByPosition[p] = new King(p, true);
-            }
-            return b;
-        }
-
-
         public List<Board> Successor()
         {
             List<Board> res = new List<Board>();
-
-            /*           List<Piece> eligiblePieces = PieceByPosition.Values.ToList()
-                           .Where(piece => piece.White == WhiteTurn).ToList();
-
-                       Console.WriteLine(eligiblePieces.ToString());
-
-                       eligiblePieces.ForEach(piece =>
-                           {
-                               res.Concat(piece.PossibleMoves(this));
-                           }); */
 
             List<Piece> pieces = PieceByPosition.Values.ToList();
             foreach (Piece piece in pieces)
             {
 
                 if (piece == null) continue;
-                //                Console.WriteLine($"Testing {piece} {piece.Position}");
                 if (piece.White != WhiteTurn)
                     continue;
-                // Console.WriteLine($"{piece} {piece.Position} is eligible");
                 List<Board> moves = piece.PossibleMoves(this);
-                //Console.WriteLine($"moves.Count = {moves.Count}");
                 foreach (Board move in moves)
                 {
                     res.Add(move);
                 }
             }
-            //   Console.WriteLine($"res.Count = {res.Count}");
-
-
             return res.Where(b => !b.KingIsInCheck(!b.WhiteTurn)).ToList();
         }
 
