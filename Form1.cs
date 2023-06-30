@@ -22,20 +22,15 @@ namespace ChessMate
         {
             InitializeComponent();
 			this.DoubleBuffered = true;
-			SetForm();
+			GenerateGame();
             Dirty = false;
             UpdateTitle();
-            InGame = true;
+            checkmarks();
         }
 
-        public void SetForm()
+        public void GenerateGame()
         {
-			ChooseDifficultyForm form = new ChooseDifficultyForm();
-			DialogResult dr = form.ShowDialog();
-			if (dr != DialogResult.OK && !InGame)
-				System.Environment.Exit(0);
-
-			GameState.o = new Opponent(form.ChosenDifficulty);
+			GameState.o = new Opponent(OpponentDifficulty.EASY);
 
 			GameState.Board = new Board();
 			
@@ -131,7 +126,7 @@ namespace ChessMate
 		{
             if (UnsavedChangesAbort())
                 return;
-            SetForm();
+            GenerateGame();
 		}
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -220,5 +215,40 @@ namespace ChessMate
             if (UnsavedChangesAbort())
                 e.Cancel = true;
 		}
+
+		private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+            AboutForm af = new AboutForm();
+            af.ShowDialog();
+		}
+
+		private void easyToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+            GameState.o.Difficulty = OpponentDifficulty.EASY;
+            checkmarks();
+		}
+
+		private void mediumToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+            GameState.o.Difficulty = OpponentDifficulty.MEDIUM;
+            checkmarks();
+		}
+
+		private void hardToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+            GameState.o.Difficulty = OpponentDifficulty.HARD;
+            checkmarks();
+		}
+
+        private void checkmarks()
+        {
+            easyToolStripMenuItem.Checked = mediumToolStripMenuItem.Checked = hardToolStripMenuItem.Checked = false;
+            switch (GameState.o.Difficulty)
+            {
+                case OpponentDifficulty.EASY: easyToolStripMenuItem.Checked = true; break;
+                case OpponentDifficulty.MEDIUM: mediumToolStripMenuItem.Checked = true; break;
+                case OpponentDifficulty.HARD: hardToolStripMenuItem.Checked = true; break;
+            }
+        }
 	}
 }
