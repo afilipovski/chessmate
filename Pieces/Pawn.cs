@@ -1,6 +1,7 @@
 ﻿using ChessMate.Pieces;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 
 namespace ChessMate
@@ -8,8 +9,15 @@ namespace ChessMate
     [Serializable]
     internal class Pawn : Piece
     {
-        public Pawn(Position position, bool white) : base(position, white)
+        public int TwoSquareAdvanceTimestamp { get; set; } = -1;
+
+		public Pawn(Position position, bool white) : base(position, white)
+		{
+		}
+
+		public Pawn(Position position, bool white, int twoSquareAdvanceTimestamp) : base(position, white)
         {
+            TwoSquareAdvanceTimestamp = twoSquareAdvanceTimestamp;
         }
 
         public override Bitmap GetBitmap(Graphics g)
@@ -21,54 +29,60 @@ namespace ChessMate
         public override List<Board> PossibleMoves(Board b)
         {
             List<Board> boards = new List<Board>();
-            if (b.WhiteTurn ? Position.Y == 0 : Position.Y == 7)
+
+            Position forwardOne = White ? new Position(Position.X, Position.Y-1) : new Position(Position.X, Position.Y + 1);
+            Position forwardTwo = White ? new Position(Position.X, Position.Y - 2) : new Position(Position.X, Position.Y + 2);
+            Position captureLeft = White ? new Position(Position.X - 1, Position.Y - 1) : new Position(Position.X - 1, Position.Y + 1);
+            Position captureRight = White ? new Position(Position.X + 1, Position.Y - 1) : new Position(Position.X + 1, Position.Y + 1);
+            Position left = new Position(Position.X-1, Position.Y);
+            Position right = new Position(Position.X+1, Position.Y);
+
+            int startY = White ? 6 : 1;
+            int endY = White ? 0 : 7;
+
+            void processedAdd(Board rawBoard)
             {
-                Board newBoard = new Board(b);
-                newBoard.PieceByPosition[Position] = new Queen(Position, White);
-                boards.Add(newBoard);
+                if (rawBoard.NewPos.Y == endY)
+                {
+                    rawBoard.PieceByPosition[rawBoard.NewPos] = new Queen(rawBoard.NewPos, White);
+                }
+                boards.Add(rawBoard);
             }
 
-            Position tempPos = new Position(Position.X, b.WhiteTurn ? Position.Y - 1 : Position.Y + 1);
-            void forward()
+			//Forward
+            if (Board.IsInBoard(forwardOne) && !b.IsOccupied(forwardOne)) {
+                processedAdd(new Board(b, Position, forwardOne, new Pawn(forwardOne, White)));
+                if (Position.Y == startY && !b.IsOccupied(forwardTwo))
+                    processedAdd(new Board(b, Position, forwardTwo, new Pawn(forwardTwo, White, b.TurnNumber)));
+            }
+
+            //Capture
+            void captureForward(Position capture)
             {
-                if (tempPos.Y > 7 || tempPos.Y < 0) return;
-                if (!b.IsOccupied(tempPos))
+				if (Board.IsInBoard(capture) && b.IsOccupied(capture) && b.PieceByPosition[capture].White != White)
+					processedAdd(new Board(b, Position, capture, new Pawn(capture, White)));
+			}
+            captureForward(captureLeft); captureForward(captureRight);
+
+            //En passant
+            void enpassant(Position adjacent, Position capture)
+            {
+                if (Board.IsInBoard(adjacent) && b.IsOccupied(adjacent) && b.PieceByPosition[adjacent].White != White &&
+                    b.PieceByPosition[adjacent] is Pawn p && p.TwoSquareAdvanceTimestamp == b.TurnNumber-1)
                 {
-                    boards.Add(new Board(b, Position, tempPos, this));
+                    Board epb = new Board(b, Position, capture, new Pawn(capture, White));
+                    epb.PieceByPosition[adjacent] = null;
+                    processedAdd(epb);
                 }
             }
+            enpassant(left, captureLeft); enpassant(right, captureRight);
 
-            forward();
-            tempPos = new Position(Position.X, b.WhiteTurn ? Position.Y - 2 : Position.Y + 2);
-            forward();
-
-            void capture()
-            {
-                if (tempPos.X > 7 || tempPos.X < 0 || tempPos.Y > 7 || tempPos.Y < 0) return;
-                Board newBoard = new Board(b, Position, tempPos, this);
-
-                //en passant position
-                Position tempPos2 = new Position(tempPos.X, b.WhiteTurn ? tempPos.Y + 1 : tempPos.Y - 1);
-                if ((tempPos2.Y < 8 && tempPos2.Y >= 0) && b.IsOccupied(tempPos2) && b.PieceByPosition[tempPos2].GetType().Name == "Pawn" 
-                    && b.PieceByPosition[tempPos2].White != this.White)
-                {
-                    newBoard.PieceByPosition[tempPos2] = null;
-                }
-
-                else if (!b.IsOccupied(tempPos) || b.PieceByPosition[tempPos].White == this.White) return;
-                boards.Add(newBoard);
-            }
-
-            tempPos = new Position(Position.X + 1, b.WhiteTurn ? Position.Y - 1 : Position.Y + 1);
-            capture();
-            tempPos = new Position(Position.X - 1, b.WhiteTurn ? Position.Y - 1 : Position.Y + 1);
-            capture();
             return boards;
         }
 
         public override Piece Clone()
         {
-            Pawn p = new Pawn(this.Position, this.White);
+            Pawn p = new Pawn(this.Position, this.White, this.TwoSquareAdvanceTimestamp);
             return p;
         }
 

@@ -20,6 +20,8 @@ namespace ChessMate
         public Piece CurrentClickedPiece { get; set; }
         public GreenPosition NewPos { get; set; }
 
+        public int TurnNumber { get; set; } = 0;
+
         // copy constructor
         public Board(Board board)
         {
@@ -32,6 +34,7 @@ namespace ChessMate
                 else
                     PieceByPosition[key] = null;
             }
+            TurnNumber = board.TurnNumber + 1;
         }
 
         // copy 2
