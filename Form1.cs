@@ -100,17 +100,17 @@ namespace ChessMate
                     if (GameState.Board.NoPossibleMoves())
                     {
                         if (GameState.Board.KingIsInCheck(true))
-                            FormUtils.ShowDefeatDialog(() => this.Close());
+                            FormUtils.ShowDefeatDialog(() => newToolStripMenuItem_Click(null, EventArgs.Empty));
                         else
-                            FormUtils.ShowPlayerStalemateDialog(() => this.Close());
+                            FormUtils.ShowPlayerStalemateDialog(() => newToolStripMenuItem_Click(null, EventArgs.Empty));
                     }
                 }
                 else //ai didn't generate move
                 {
                     if (GameState.Board.KingIsInCheck(false))
-                        FormUtils.ShowVictoryDialog(() => this.Close());
+                        FormUtils.ShowVictoryDialog(() => newToolStripMenuItem_Click(null, EventArgs.Empty));
                     else
-                        FormUtils.ShowAIStalemateDialog(() => this.Close());
+                        FormUtils.ShowAIStalemateDialog(() => newToolStripMenuItem_Click(null, EventArgs.Empty));
                 }
             }
 
