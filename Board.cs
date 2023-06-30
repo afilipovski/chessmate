@@ -137,11 +137,9 @@ namespace ChessMate
 
         public void DrawTiles(Graphics g)
         {
-            Position[] pos = PieceByPosition.Keys.ToArray();
             for (int i = 0; i < 64; ++i)
             {
                 new Position(i % 8, i / 8).Draw(g);
-                //pos[i].Draw(g);
             }
             foreach (Position position in PieceByPosition.Keys)
             {
@@ -204,7 +202,7 @@ namespace ChessMate
                 sb.AppendLine($"{position}: {PieceByPosition[position]}");
             }
             sb.AppendLine("New pos: " + NewPos);
-            sb.AppendLine("Evaluation: " + EvaluationUtils.evaluateBoard(this));
+            sb.AppendLine("Evaluation: " + EvaluationUtils.EvaluateBoard(this));
 
             return sb.ToString();
         }

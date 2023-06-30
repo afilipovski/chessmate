@@ -18,7 +18,7 @@ namespace ChessMate.AlphaBeta
     [Serializable]
     public class Opponent
     {
-        static Random r = new Random();
+        static readonly Random r = new Random();
 
         public Opponent(OpponentDifficulty difficulty)
         {
@@ -44,7 +44,7 @@ namespace ChessMate.AlphaBeta
             List<Node> nodes = new List<Node>();
             int pivot_value = board.WhiteTurn ? -EvaluationUtils.INFTY : EvaluationUtils.INFTY;
             foreach (Board move in board.Successor()) {
-                int value = EvaluationUtils.alphabeta_init(move, (int)Difficulty, board.WhiteTurn);
+                int value = EvaluationUtils.AlphabetaInit(move, (int)Difficulty, board.WhiteTurn);
                 pivot_value = board.WhiteTurn ? Math.Max(pivot_value, value) : Math.Min(pivot_value,value);
                 nodes.Add(new Node(move, value));
             }

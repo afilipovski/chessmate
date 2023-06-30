@@ -13,7 +13,7 @@ namespace ChessMate
         public GameState GameState { get; set; } = new GameState();
         public bool InGame { get; set; } = false;
 
-        AIMoveOverlay aimo = new AIMoveOverlay();
+        readonly AIMoveOverlay aimo = new AIMoveOverlay();
         public string SavedGamePath { get; set; } = null;
         public bool Dirty { get; set; } = false;
 
@@ -25,7 +25,6 @@ namespace ChessMate
 			GenerateGame();
             Dirty = false;
             UpdateTitle();
-            checkmarks();
         }
 
         public void GenerateGame()
@@ -39,6 +38,7 @@ namespace ChessMate
 
             Dirty = false;
             UpdateTitle();
+            Checkmarks();
 
             Invalidate();
 		}
@@ -145,16 +145,18 @@ namespace ChessMate
 
 		private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-            if (saveAs())
+            if (SaveAs())
                 saveToolStripMenuItem_Click(sender, e);
 		}
 
-        private bool saveAs()
+        private bool SaveAs()
         {
-			SaveFileDialog sfd = new SaveFileDialog();
-            sfd.AddExtension = true;
-            sfd.DefaultExt = "sav";
-            sfd.Filter = "Saved Games (*.sav)|*.sav";
+			SaveFileDialog sfd = new SaveFileDialog
+			{
+				AddExtension = true,
+				DefaultExt = "sav",
+				Filter = "Saved Games (*.sav)|*.sav"
+			};
 			if (sfd.ShowDialog() == DialogResult.OK)
 			{
 				SavedGamePath = sfd.FileName;
@@ -168,17 +170,26 @@ namespace ChessMate
 		{
             if (UnsavedChangesAbort())
                 return;
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.DefaultExt = "sav";
-            ofd.Filter = "Saved Games (*.sav)|*.sav";
+			OpenFileDialog ofd = new OpenFileDialog
+			{
+				DefaultExt = "sav",
+				Filter = "Saved Games (*.sav)|*.sav"
+			};
 			if (ofd.ShowDialog() == DialogResult.OK)
             {
-                BinaryFormatter bf = new BinaryFormatter();
-                GameState = bf.Deserialize(ofd.OpenFile()) as GameState;
-                SavedGamePath = ofd.FileName;
-                Dirty = false;
-                UpdateTitle();
-                Invalidate();
+				try
+				{
+                    BinaryFormatter bf = new BinaryFormatter();
+                    GameState = bf.Deserialize(ofd.OpenFile()) as GameState;
+                    SavedGamePath = ofd.FileName;
+                    Dirty = false;
+                    UpdateTitle();
+                    Invalidate();
+                }
+                catch (Exception)
+				{
+                    MessageBox.Show("The file is either corrupted or not a ChessMate savegame.", "Loading failed");
+                }
             }
 
 		}
@@ -225,22 +236,22 @@ namespace ChessMate
 		private void easyToolStripMenuItem_Click(object sender, EventArgs e)
 		{
             GameState.o.Difficulty = OpponentDifficulty.EASY;
-            checkmarks();
+            Checkmarks();
 		}
 
 		private void mediumToolStripMenuItem_Click(object sender, EventArgs e)
 		{
             GameState.o.Difficulty = OpponentDifficulty.MEDIUM;
-            checkmarks();
+            Checkmarks();
 		}
 
 		private void hardToolStripMenuItem_Click(object sender, EventArgs e)
 		{
             GameState.o.Difficulty = OpponentDifficulty.HARD;
-            checkmarks();
+            Checkmarks();
 		}
 
-        private void checkmarks()
+        private void Checkmarks()
         {
             easyToolStripMenuItem.Checked = mediumToolStripMenuItem.Checked = hardToolStripMenuItem.Checked = false;
             switch (GameState.o.Difficulty)

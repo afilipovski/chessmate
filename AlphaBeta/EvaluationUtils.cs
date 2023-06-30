@@ -14,7 +14,7 @@ namespace ChessMate.AlphaBeta
 
 
         //high value favors white
-        public static int evaluateBoard(Board board)
+        public static int EvaluateBoard(Board board)
         {
             int value = 0;
             board.PieceByPosition.Values.ToList().ForEach(piece =>
@@ -36,23 +36,23 @@ namespace ChessMate.AlphaBeta
             return value;
         }
 
-        public static int alphabeta_init(Board node, int depth, bool maximisingPlayer)
+        public static int AlphabetaInit(Board node, int depth, bool maximisingPlayer)
         {
-            return alphabeta(node, depth, -INFTY, INFTY, maximisingPlayer);
+            return Alphabeta(node, depth, -INFTY, INFTY, maximisingPlayer);
         }
 
-        static int alphabeta(Board node, int depth, int alpha, int beta, bool maximisingPlayer)
+        static int Alphabeta(Board node, int depth, int alpha, int beta, bool maximisingPlayer)
         {
             List<Board> children = node.Successor();
 
             if (depth == 0 || children.Count == 0)
-                return evaluateBoard(node);
+                return EvaluateBoard(node);
             if (maximisingPlayer)
             {
                 int value = -INFTY;
                 foreach (Board child in children)
                 {
-                    value = Math.Max(value, alphabeta(child, depth - 1, alpha, beta, false));
+                    value = Math.Max(value, Alphabeta(child, depth - 1, alpha, beta, false));
                     if (value > beta)
                         break;
                     alpha = Math.Max(alpha, value);
@@ -63,7 +63,7 @@ namespace ChessMate.AlphaBeta
             {
                 int value = INFTY;
                 foreach (Board child in children) {
-                    value = Math.Min(value, alphabeta(child, depth - 1, alpha, beta, true));
+                    value = Math.Min(value, Alphabeta(child, depth - 1, alpha, beta, true));
                     if (value < alpha)
                         break;
                     beta = Math.Min(beta, value);
