@@ -26,9 +26,6 @@ namespace ChessMate.Interface
 
 			Font f = new Font("Arial", fontSize);
 
-			//g.FillRectangle(b, X * Board.HEIGHT + Board.OFFSET, Y * Board.HEIGHT, Board.HEIGHT, Board.HEIGHT);
-			//g.DrawRectangle(new Pen(new SolidBrush(Color.Black), 2), X * Board.HEIGHT + Board.OFFSET, Y * Board.HEIGHT, Board.HEIGHT, Board.HEIGHT);
-
 			g.FillRectangle(sb, boxOffsetX, boxOffsetY, boxWidth, boxHeight);
 			g.DrawString("AI turn...", f, sbs, textOffsetX, textOffsetY - 10);
 		}

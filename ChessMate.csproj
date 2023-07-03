@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{5200EBF9-3370-469E-832C-1131C4C06BA7}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>ChessMate</RootNamespace>
     <AssemblyName>ChessMate</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>

@@ -24,30 +24,6 @@ namespace ChessMate.Pieces
         public override List<Board> PossibleMoves(Board b)
         {
             List<Board> boards = AvailableMoves(b);
-
-            //boards = boards
-            //    .Where(board =>
-            //   {
-            //      Position current = board.NewPos;
-            //     return board.KingIsInCheck(this.White);
-
-            // Check if any move results in check
-            //return board.PieceByPosition.Values
-            //    .ToList()
-            //    .Where(p => p != null && p.White != White)
-            //    .Select(p =>
-            //    {
-            //        if (p is King k)
-            //            return k.AvailableMoves(board);
-            //        return p.PossibleMoves(board);
-            //    })
-            //    .SelectMany(l => l)
-            //    .All(nb => nb.PieceByPosition[current] is King k && k.White == White);
-
-
-            // })
-            //.ToList();
-
             return boards;
         }
 

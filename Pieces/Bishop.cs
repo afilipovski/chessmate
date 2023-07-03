@@ -5,7 +5,6 @@ using System.Drawing;
 
 namespace ChessMate.Pieces
 {
-    // Lovec
     [Serializable]
     public class Bishop : ContinuousPathPiece
     {
@@ -32,8 +31,6 @@ namespace ChessMate.Pieces
         public override List<Board> PossibleMoves(Board b)
         {
             List<Board> boards = new List<Board>();
-
-            Debug.WriteLine("POSITION " + Position.X + ", " + Position.Y);
 
             // top right
             findValidPositions(

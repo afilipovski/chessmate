@@ -22,7 +22,6 @@ namespace ChessMate
 
         public int TurnNumber { get; set; } = 0;
 
-        // copy constructor
         public Board(Board board)
         {
             PieceByPosition = new Dictionary<Position, Piece>();
@@ -37,19 +36,15 @@ namespace ChessMate
             TurnNumber = board.TurnNumber + 1;
         }
 
-        // copy 2
         public Board(Board b, Position posOld, Position posNew, Piece p) : this(b)
         {
             p = p.Clone();
             NewPos = new ColoredPosition(posNew);
             PieceByPosition[posNew] = p;
-            //PieceByPosition.Remove(posOld);
             PieceByPosition[posOld] = null;
-            //MOZHDA
             PieceByPosition[posNew].Position = posNew;
         }
 
-		// special move
 		public Board(Board b, Position posOld, ColoredPosition posNew, Piece p) : this(b, posOld, posNew as Position, p)
 		{
             NewPos = posNew;
@@ -137,7 +132,6 @@ namespace ChessMate
 
         public bool IsOccupied(Position position)
         {
-            Debug.WriteLine("POSITION " + position.X + " " + position.Y);
             return PieceByPosition[position] != null;
         }
 
@@ -168,11 +162,7 @@ namespace ChessMate
                 if (CurrentClickedPiece == null) return this;
 
                 //impossible move, i.e. unclicked the currently selected piece
-                //foreach (Board ss in successiveStates)
-                //{
-                //    Console.WriteLine(ss.NewPos + " " + clickedPosition);
-                //}
-                //Console.WriteLine();
+
                 if (!successiveStates.Any(ss => ss.NewPos.Equals(clickedPosition)))
                 {
                     CurrentClickedPiece = null;

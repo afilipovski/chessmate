@@ -50,7 +50,6 @@ namespace ChessMate
             GameState.Draw(e.Graphics);
 			if (!GameState.Board.WhiteTurn)
 			{
-				Console.WriteLine("draw overlay");
 				aimo.Draw(e.Graphics);
 			}
 		}
@@ -62,11 +61,9 @@ namespace ChessMate
 
         private void Form1_ResizeEnd(object sender, EventArgs e)
         {
-            //Height -= Height % 8;
             Invalidate();
         }
 
-        //Opponent o = new Opponent(OpponentDifficulty.EASY);
 
         private void Form1_MouseClick(object sender, MouseEventArgs e)
         {
@@ -86,14 +83,11 @@ namespace ChessMate
             //AI MOVE
             if (GameState.Board.WhiteTurn == false)
             {
-                //Console.WriteLine($"Player Move:\n{Board}");
                 Board aiMove = GameState.o.Move(GameState.Board);
 
-                //Console.WriteLine(aiMove);
                 if (aiMove != null)
                 {
                     GameState.Board = aiMove;
-                    //Console.WriteLine($"AI Move:\n{Board}");
                     if (GameState.Board.NoPossibleMoves())
                     {
                         if (GameState.Board.KingIsInCheck(true))
@@ -115,11 +109,6 @@ namespace ChessMate
 
             Refresh();
         }
-
-		private void customizeToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-
-		}
 
 		private void newToolStripMenuItem_Click(object sender, EventArgs e)
 		{
