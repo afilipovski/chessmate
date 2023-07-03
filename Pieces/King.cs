@@ -23,7 +23,19 @@ namespace ChessMate.Pieces
 
         public override List<Board> PossibleMoves(Board b)
         {
-            List<Board> boards = AvailableMoves(b);
+            List<Board> boards = getSurroundingPositions()
+                .Where(p => Board.IsInBoard(p) && isSpaceAvailable(b, p))
+                .Select(p => new Board(b, Position, p, this))
+                .ToList();
+            checkCastling(b, boards);
+
+            boards.ForEach(board =>
+            {
+                Position p = board.NewPos;
+                King k = (King)board.PieceByPosition[p];
+                k.MovedSinceStart = true;
+            });
+
             return boards;
         }
 
@@ -51,24 +63,6 @@ namespace ChessMate.Pieces
         private bool isSpaceAvailable(Board board, Position p)
         {
             return !board.IsOccupied(p) || board.IsOccupied(p) && board.PieceByPosition[p].White != White;
-        }
-
-        public List<Board> AvailableMoves(Board b)
-        {
-            List<Board> boards = getSurroundingPositions()
-                .Where(p => Board.IsInBoard(p) && isSpaceAvailable(b, p))
-                .Select(p => new Board(b, Position, p, this))
-                .ToList();
-            checkCastling(b, boards);
-
-            boards.ForEach(board =>
-            {
-                Position p = board.NewPos;
-                King k = (King)board.PieceByPosition[p];
-                k.MovedSinceStart = true;
-            });
-
-            return boards;
         }
 
         private List<Position> getSurroundingPositions()
