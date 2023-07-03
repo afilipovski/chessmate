@@ -25,38 +25,38 @@
 
 Папката Interface содржи класи за работење со исцртување на фигури и прикажување пораки на екранот.
 
-Класата Position се користи за означување на позиција од шаховкста табла со X и Y координата (двете меѓу 0 и 7). Оските се исти како тие во Windows Forms. Изведената класа GreenPosition служи за означување на постоечка позиција како зелена при означување на дозволени позиции на одбрана фигура.
+Класата Position се користи за означување на позиција од шаховкста табла со X и Y координата (двете меѓу 0 и 7). Оските се исти како тие во Windows Forms. Изведената класа ColoredPosition служи за означување на постоечка позиција како зелена при означување на дозволени позиции на одбрана фигура.
 
 Класата Board ја претставува шаховската табла. Секоја позиција, како и соодветната фигура на таа позција, се чува во хеш табела. Според потребите на вештачката интелигенција, секогаш кога се генерира нов валиден потег на фигура, тој потег ќе претставува нова табла што е deep copy на претходната (вклучувајќи ги сите фигури и позиции). Долниот код ги илустрира опишаните концепти за таблата. Така, вештачката интелигенција врши гранење на секој можен потег (до максимално дозволената длабочина на дрвото) и според оценувањата го бира најдобриот. Дополнително, класата Board содржи и методи за означување на новата позиција на мрдната фигура (NewPos), метод за генерирање на сите нови можни потези (Successor) и метод за одредување дали кралот е под ризик да биде фатен во една од новите позици (KingIsInCheck).
 
 ```c#
 public class Board
 {
-  public Dictionary<Position, Piece> PieceByPosition { get; set; }
-  public GreenPosition NewPos { get; set; }
+	public Dictionary<Position, Piece> PieceByPosition { get; set; }
+	public ColoredPosition NewPos { get; set; }
 
-  public Board(Board board)
-  {
+	public Board(Board board)
+	{
 		PieceByPosition = new Dictionary<Position, Piece>();
 		WhiteTurn = !board.WhiteTurn;
 		foreach (Position key in board.PieceByPosition.Keys)
 		{
 			if (board.PieceByPosition[key] != null)
-				PieceByPosition[key] = board.PieceByPosition[key].Clone();
+			    PieceByPosition[key] = board.PieceByPosition[key].Clone();
 			else
-				PieceByPosition[key] = null;
+			    PieceByPosition[key] = null;
 		}
 		TurnNumber = board.TurnNumber + 1;
 	}
 
-  public Board(Board b, Position posOld, Position posNew, Piece p) : this(b)
-  {
+	public Board(Board b, Position posOld, Position posNew, Piece p) : this(b)
+	{
 		p = p.Clone();
-		NewPos = new GreenPosition(posNew);
+		NewPos = new ColoredPosition(posNew);
 		PieceByPosition[posNew] = p;
 		PieceByPosition[posOld] = null;
 		PieceByPosition[posNew].Position = posNew;
-  }
+	}
 }
 ```
 Класата Form1.cs го содржи кодот на формата Form1. Содржи методи за справување со настани за кликање на различни елементи и настани за исцртување на шаховската табла. За да се овозможи зачувување на состојбата на моменталната игра, сите корисничко дефинирани класи како Piece, Board и Position се декларирани за серијализација со анотацијата Serializable.
