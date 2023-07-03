@@ -18,7 +18,7 @@ namespace ChessMate
         public static int OFFSET_X { get; set; }
         public static int OFFSET_Y { get; set; } = 25;
         public Piece CurrentClickedPiece { get; set; }
-        public GreenPosition NewPos { get; set; }
+        public ColoredPosition NewPos { get; set; }
 
         public int TurnNumber { get; set; } = 0;
 
@@ -41,7 +41,7 @@ namespace ChessMate
         public Board(Board b, Position posOld, Position posNew, Piece p) : this(b)
         {
             p = p.Clone();
-            NewPos = new GreenPosition(posNew);
+            NewPos = new ColoredPosition(posNew);
             PieceByPosition[posNew] = p;
             //PieceByPosition.Remove(posOld);
             PieceByPosition[posOld] = null;
@@ -49,7 +49,13 @@ namespace ChessMate
             PieceByPosition[posNew].Position = posNew;
         }
 
-        public static bool IsInBoard(Position p)
+		// special move
+		public Board(Board b, Position posOld, ColoredPosition posNew, Piece p) : this(b, posOld, posNew as Position, p)
+		{
+            NewPos = posNew;
+		}
+
+		public static bool IsInBoard(Position p)
         {
             return p.X >= 0 && p.Y >= 0 && p.X <= 7 && p.Y <= 7;
         }
@@ -209,34 +215,39 @@ namespace ChessMate
 
         public bool KingIsInCheck(bool white)
         {
-            King king = null;
-            foreach (Piece piece in PieceByPosition.Values)
-            {
-                if (piece is null) continue;
-                if (piece is King kx && piece.White == white)
-                {
-                    king = kx;
-                    break;
-                }
-            }
-
-            //For debug purposes only, if no king found then there is no check.
-            if (king is null)
-                return false;
-
-            foreach (Piece piece in PieceByPosition.Values.ToArray())
-            {
-                //skip friendly pieces
-                if (piece is null || piece.White == king.White)
-                    continue;
-                //if piece can attack king, king is in check
-                if (piece.PossibleMoves(this).Any(b => b.NewPos.Equals(king.Position)))
-                    return true;
-            }
-            return false;
+            return !(KingCheckPosition(white) is null);
         }
 
-        public bool NoPossibleMoves()
+		public Position KingCheckPosition(bool white)
+		{
+			King king = null;
+			foreach (Piece piece in PieceByPosition.Values)
+			{
+				if (piece is null) continue;
+				if (piece is King kx && piece.White == white)
+				{
+					king = kx;
+					break;
+				}
+			}
+
+			//For debug purposes only, if no king found then there is no check.
+			if (king is null)
+				return null;
+
+			foreach (Piece piece in PieceByPosition.Values.ToArray())
+			{
+				//skip friendly pieces
+				if (piece is null || piece.White == king.White)
+					continue;
+				//if piece can attack king, king is in check
+				if (piece.PossibleMoves(this).Any(b => b.NewPos.Equals(king.Position)))
+					return king.Position;
+			}
+			return null;
+		}
+
+		public bool NoPossibleMoves()
         {
             return Successor().Count == 0;
         }

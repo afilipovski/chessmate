@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 
 namespace ChessMate
@@ -32,7 +33,6 @@ namespace ChessMate
 			GameState.o = new Opponent(OpponentDifficulty.EASY);
 
 			GameState.Board = new Board();
-			
 
             SavedGamePath = null;
 
@@ -47,17 +47,13 @@ namespace ChessMate
         {
             Board.TILE_SIDE = (ClientSize.Height - Board.OFFSET_Y) / 8;
             Board.OFFSET_X = (ClientSize.Width - 8 * Board.TILE_SIDE) / 2;
-            GameState.Board.DrawTiles(e.Graphics);
-            foreach (Board sb in GameState.successiveBoards)
-            {
-                sb.NewPos.Draw(e.Graphics);
-            }
-            if (!GameState.Board.WhiteTurn)
-            {
-                Console.WriteLine("draw overlay");
-                aimo.Draw(e.Graphics);
-            }
-        }
+            GameState.Draw(e.Graphics);
+			if (!GameState.Board.WhiteTurn)
+			{
+				Console.WriteLine("draw overlay");
+				aimo.Draw(e.Graphics);
+			}
+		}
 
         private void Form1_Resize_1(object sender, EventArgs e)
         {
@@ -84,7 +80,8 @@ namespace ChessMate
             GameState.Board = newBoard;
 
             Invalidate();
-            this.Refresh();
+            GameState.SetCheckPosition();
+            Refresh();
 
             //AI MOVE
             if (GameState.Board.WhiteTurn == false)
@@ -114,7 +111,9 @@ namespace ChessMate
                 }
             }
 
-            Invalidate();
+            GameState.SetCheckPosition();
+
+            Refresh();
         }
 
 		private void customizeToolStripMenuItem_Click(object sender, EventArgs e)

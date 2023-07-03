@@ -59,7 +59,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="GameState.cs" />
-    <Compile Include="GreenPosition.cs" />
+    <Compile Include="ColoredPosition.cs" />
     <Compile Include="Interface\AboutForm.cs">
       <SubType>Form</SubType>
     </Compile>

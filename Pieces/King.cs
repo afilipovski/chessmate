@@ -61,7 +61,8 @@ namespace ChessMate.Pieces
                 !rook.MovedSinceStart &&
                 rook.White == White)
             {
-                Board board = new Board(b, Position, new Position(6, Position.Y), this);
+                ColoredPosition cp = new ColoredPosition(new Position(6, Position.Y), PositionColor.Blue);
+                Board board = new Board(b, Position, cp, this);
                 Piece r = rook.Clone();
                 r.Position = new Position(5, Position.Y);
                 board.PieceByPosition[new Position(5, Position.Y)] = r;

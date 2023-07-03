@@ -44,6 +44,7 @@ namespace ChessMate
             {
                 if (rawBoard.NewPos.Y == endY)
                 {
+                    rawBoard.NewPos = new ColoredPosition(rawBoard.NewPos, PositionColor.Blue);
                     rawBoard.PieceByPosition[rawBoard.NewPos] = new Queen(rawBoard.NewPos, White);
                 }
                 boards.Add(rawBoard);
@@ -70,7 +71,8 @@ namespace ChessMate
                 if (Board.IsInBoard(adjacent) && b.IsOccupied(adjacent) && b.PieceByPosition[adjacent].White != White &&
                     b.PieceByPosition[adjacent] is Pawn p && p.TwoSquareAdvanceTimestamp == b.TurnNumber-1)
                 {
-                    Board epb = new Board(b, Position, capture, new Pawn(capture, White));
+                    ColoredPosition cp = new ColoredPosition(capture, PositionColor.Blue);
+                    Board epb = new Board(b, Position, cp, new Pawn(capture, White));
                     epb.PieceByPosition[adjacent] = null;
                     processedAdd(epb);
                 }
