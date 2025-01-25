@@ -49,56 +49,56 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AlphaBeta\EvaluationUtils.cs" />
-    <Compile Include="AlphaBeta\Opponent.cs" />
-    <Compile Include="Board.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="Domain\AlphaBeta\EvaluationUtils.cs" />
+    <Compile Include="Domain\AlphaBeta\Opponent.cs" />
+    <Compile Include="Domain\Board\Board.cs" />
+    <Compile Include="Presentation\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
+    <Compile Include="Presentation\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="GameState.cs" />
-    <Compile Include="ColoredPosition.cs" />
-    <Compile Include="Interface\AboutForm.cs">
+    <Compile Include="Presentation\GameState.cs" />
+    <Compile Include="Domain\Position\ColoredPosition.cs" />
+    <Compile Include="Presentation\Interface\AboutForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Interface\AboutForm.Designer.cs">
+    <Compile Include="Presentation\Interface\AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Interface\AIMoveOverlay.cs" />
-    <Compile Include="Interface\FormUtils.cs" />
-    <Compile Include="Pieces\Bishop.cs" />
-    <Compile Include="Pieces\ContinuousPathPiece.cs" />
-    <Compile Include="Pieces\Knight.cs" />
-    <Compile Include="Pieces\Piece.cs" />
-    <Compile Include="Pieces\King.cs" />
-    <Compile Include="Pieces\Queen.cs" />
-    <Compile Include="Pieces\Rook.cs" />
-    <Compile Include="Pieces\Pawn.cs" />
-    <Compile Include="Position.cs" />
+    <Compile Include="Presentation\Interface\AIMoveOverlay.cs" />
+    <Compile Include="Presentation\Interface\FormUtils.cs" />
+    <Compile Include="Domain\Pieces\Bishop.cs" />
+    <Compile Include="Domain\Pieces\ContinuousPathPiece.cs" />
+    <Compile Include="Domain\Pieces\Knight.cs" />
+    <Compile Include="Domain\Pieces\Piece.cs" />
+    <Compile Include="Domain\Pieces\King.cs" />
+    <Compile Include="Domain\Pieces\Queen.cs" />
+    <Compile Include="Domain\Pieces\Rook.cs" />
+    <Compile Include="Domain\Pieces\Pawn.cs" />
+    <Compile Include="Domain\Position\Position.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
+    <EmbeddedResource Include="Presentation\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Interface\AboutForm.resx">
+    <EmbeddedResource Include="Presentation\Interface\AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -109,18 +109,22 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="PieceImages\b_bishop_png_shadow_1024px.png" />
-    <Content Include="PieceImages\b_king_png_shadow_1024px.png" />
-    <Content Include="PieceImages\b_knight_png_shadow_1024px.png" />
-    <Content Include="PieceImages\b_pawn_png_shadow_1024px.png" />
-    <Content Include="PieceImages\b_queen_png_shadow_1024px.png" />
-    <Content Include="PieceImages\b_rook_png_shadow_1024px.png" />
-    <Content Include="PieceImages\w_bishop_png_shadow_1024px.png" />
-    <Content Include="PieceImages\w_king_png_shadow_1024px.png" />
-    <Content Include="PieceImages\w_knight_png_shadow_1024px.png" />
-    <Content Include="PieceImages\w_pawn_png_shadow_1024px.png" />
-    <Content Include="PieceImages\w_queen_png_shadow_1024px.png" />
-    <Content Include="PieceImages\w_rook_png_shadow_1024px.png" />
+    <Content Include="Presentation\PieceImages\b_bishop_png_shadow_1024px.png" />
+    <Content Include="Presentation\PieceImages\b_king_png_shadow_1024px.png" />
+    <Content Include="Presentation\PieceImages\b_knight_png_shadow_1024px.png" />
+    <Content Include="Presentation\PieceImages\b_pawn_png_shadow_1024px.png" />
+    <Content Include="Presentation\PieceImages\b_queen_png_shadow_1024px.png" />
+    <Content Include="Presentation\PieceImages\b_rook_png_shadow_1024px.png" />
+    <Content Include="Presentation\PieceImages\w_bishop_png_shadow_1024px.png" />
+    <Content Include="Presentation\PieceImages\w_king_png_shadow_1024px.png" />
+    <Content Include="Presentation\PieceImages\w_knight_png_shadow_1024px.png" />
+    <Content Include="Presentation\PieceImages\w_pawn_png_shadow_1024px.png" />
+    <Content Include="Presentation\PieceImages\w_queen_png_shadow_1024px.png" />
+    <Content Include="Presentation\PieceImages\w_rook_png_shadow_1024px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Repository\" />
+    <Folder Include="Service\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
