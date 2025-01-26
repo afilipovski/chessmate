@@ -36,7 +36,7 @@ namespace ChessMate
             Color = c;
         }
 
-        public override void Draw(Graphics g)
+        public override void Draw(Graphics g) // move to presentation layer
         {
             g.FillRectangle(new SolidBrush(Color), X * Board.TILE_SIDE + Board.OFFSET_X, Y * Board.TILE_SIDE + Board.OFFSET_Y, Board.TILE_SIDE, Board.TILE_SIDE);
         }

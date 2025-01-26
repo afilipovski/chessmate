@@ -1,4 +1,6 @@
 ﻿using ChessMate.AlphaBeta;
+using ChessMate.Service.Implementation;
+using ChessMate.Service.Interface;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -15,8 +17,9 @@ namespace ChessMate
 		public List<Board> successiveBoards { get; set; } = new List<Board>();
 		public Opponent o { get; set; }
 		public ColoredPosition checkPosition { get; set; } = null;
+        private readonly IBoardService _boardService = new BoardService();
 
-		public GameState()
+        public GameState()
 		{
 			Board = new Board();
 			successiveBoards = new List<Board>();
@@ -40,7 +43,7 @@ namespace ChessMate
 		public void SetCheckPosition()
 		{
 			checkPosition = null;
-			Position king = Board.KingCheckPosition(Board.WhiteTurn);
+			Position king = _boardService.GetKingPositionIfInCheck(Board, Board.WhiteTurn);
 			if (king is null)
 				return;
 			checkPosition = new ColoredPosition(king, PositionColor.Red);

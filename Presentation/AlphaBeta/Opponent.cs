@@ -1,4 +1,6 @@
 ﻿using ChessMate.Pieces;
+using ChessMate.Service.Implementation;
+using ChessMate.Service.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +20,7 @@ namespace ChessMate.AlphaBeta
     [Serializable]
     public class Opponent
     {
+        private readonly IBoardService _boardService = new BoardService();
         static readonly Random r = new Random();
 
         public Opponent(OpponentDifficulty difficulty)
@@ -42,7 +45,7 @@ namespace ChessMate.AlphaBeta
         {
             List<Node> nodes = new List<Node>();
             int pivot_value = board.WhiteTurn ? -EvaluationUtils.INFTY : EvaluationUtils.INFTY;
-            foreach (Board move in board.Successor()) {
+            foreach (Board move in _boardService.GenerateSuccessiveStates(board)) {
                 int value = EvaluationUtils.AlphabetaInit(move, (int)Difficulty, board.WhiteTurn);
                 pivot_value = board.WhiteTurn ? Math.Max(pivot_value, value) : Math.Min(pivot_value,value);
                 nodes.Add(new Node(move, value));

@@ -110,32 +110,12 @@ namespace ChessMate
 
         }
 
-        public List<Board> Successor()
-        {
-            List<Board> res = new List<Board>();
-
-            List<Piece> pieces = PieceByPosition.Values.ToList();
-            foreach (Piece piece in pieces)
-            {
-
-                if (piece == null) continue;
-                if (piece.White != WhiteTurn)
-                    continue;
-                List<Board> moves = piece.PossibleMoves(this);
-                foreach (Board move in moves)
-                {
-                    res.Add(move);
-                }
-            }
-            return res.Where(b => !b.KingIsInCheck(!b.WhiteTurn)).ToList();
-        }
-
         public bool IsOccupied(Position position)
         {
             return PieceByPosition[position] != null;
         }
 
-        public void DrawTiles(Graphics g)
+        public void DrawTiles(Graphics g) // move to presentation layer
         {
             for (int i = 0; i < 64; ++i)
             {
@@ -147,100 +127,5 @@ namespace ChessMate
                 PieceByPosition[position].Draw(g, position);
             }
         }
-
-        public Board Click(Position p, List<Board> successiveStates)
-        {
-            Position clickedPosition = new Position((p.X - OFFSET_X) / TILE_SIDE, (p.Y - OFFSET_Y) / TILE_SIDE);
-            if (!WhiteTurn || !IsInBoard(clickedPosition))
-                return this;
-
-            Piece clickedPiece = PieceByPosition[clickedPosition];
-
-
-            if (clickedPiece == null || !clickedPiece.White)
-            {
-                if (CurrentClickedPiece == null) return this;
-
-                //impossible move, i.e. unclicked the currently selected piece
-
-                if (!successiveStates.Any(ss => ss.NewPos.Equals(clickedPosition)))
-                {
-                    CurrentClickedPiece = null;
-                    successiveStates.Clear();
-                    return this;
-                }
-
-                Board res = successiveStates.Find(ss => ss.NewPos.Equals(clickedPosition));
-                successiveStates.Clear();
-                return res;
-            }
-            else if (clickedPiece.White)
-            {
-                successiveStates.Clear();
-                CurrentClickedPiece = clickedPiece;
-                CurrentClickedPiece.PossibleMoves(this)
-                    .Where(board => !board.KingIsInCheck(true)).ToList()
-                    .ForEach(board => { successiveStates.Add(board); });
-            }
-
-            return this;
-
-        }
-
-        public override string ToString()
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine("Turn: " + (WhiteTurn ? "White" : "Black"));
-            foreach (Position position in PieceByPosition.Keys)
-            {
-                if (PieceByPosition[position] == null)
-                    continue;
-                sb.AppendLine($"{position}: {PieceByPosition[position]}");
-            }
-            sb.AppendLine("New pos: " + NewPos);
-            sb.AppendLine("Evaluation: " + EvaluationUtils.EvaluateBoard(this));
-
-            return sb.ToString();
-        }
-
-        public bool KingIsInCheck(bool white)
-        {
-            return !(KingCheckPosition(white) is null);
-        }
-
-		public Position KingCheckPosition(bool white)
-		{
-			King king = null;
-			foreach (Piece piece in PieceByPosition.Values)
-			{
-				if (piece is null) continue;
-				if (piece is King kx && piece.White == white)
-				{
-					king = kx;
-					break;
-				}
-			}
-
-			//For debug purposes only, if no king found then there is no check.
-			if (king is null)
-				return null;
-
-			foreach (Piece piece in PieceByPosition.Values.ToArray())
-			{
-				//skip friendly pieces
-				if (piece is null || piece.White == king.White)
-					continue;
-				//if piece can attack king, king is in check
-				if (piece.PossibleMoves(this).Any(b => b.NewPos.Equals(king.Position)))
-					return king.Position;
-			}
-			return null;
-		}
-
-		public bool NoPossibleMoves()
-        {
-            return Successor().Count == 0;
-        }
-
     }
 }

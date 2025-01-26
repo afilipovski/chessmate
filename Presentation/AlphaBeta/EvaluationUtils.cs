@@ -1,4 +1,6 @@
 ﻿using ChessMate.Pieces;
+using ChessMate.Service.Implementation;
+using ChessMate.Service.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +13,7 @@ namespace ChessMate.AlphaBeta
     public class EvaluationUtils
     {
         public const int INFTY = 10000;
-
+        private static readonly IBoardService _boardService = new BoardService();
 
         //high value favors white
         public static int EvaluateBoard(Board board)
@@ -43,7 +45,7 @@ namespace ChessMate.AlphaBeta
 
         static int Alphabeta(Board node, int depth, int alpha, int beta, bool maximisingPlayer)
         {
-            List<Board> children = node.Successor();
+            List<Board> children = _boardService.GenerateSuccessiveStates(node);
 
             if (depth == 0 || children.Count == 0)
                 return EvaluateBoard(node);

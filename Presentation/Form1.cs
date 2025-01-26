@@ -1,5 +1,7 @@
 ﻿using ChessMate.AlphaBeta;
 using ChessMate.Interface;
+using ChessMate.Service.Implementation;
+using ChessMate.Service.Interface;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,6 +19,8 @@ namespace ChessMate
         readonly AIMoveOverlay aimo = new AIMoveOverlay();
         public string SavedGamePath { get; set; } = null;
         public bool Dirty { get; set; } = false;
+
+        private readonly IBoardService _boardService = new BoardService();
 
 
         public Form1()
@@ -67,7 +71,7 @@ namespace ChessMate
 
         private void Form1_MouseClick(object sender, MouseEventArgs e)
         {
-            Board newBoard = GameState.Board.Click(new Position(e.X, e.Y), GameState.successiveBoards);
+            Board newBoard = _boardService.GetSuccessorStateForClickedPosition(new Position(e.X, e.Y), GameState.Board, GameState.successiveBoards);
 
             if (!ReferenceEquals(GameState.Board, newBoard)) { 
                 Dirty = true;
@@ -88,9 +92,9 @@ namespace ChessMate
                 if (aiMove != null)
                 {
                     GameState.Board = aiMove;
-                    if (GameState.Board.NoPossibleMoves())
+                    if (_boardService.PossibleMovesNotExisting(GameState.Board))
                     {
-                        if (GameState.Board.KingIsInCheck(true))
+                        if (_boardService.IsKingInCheck(GameState.Board, true))
                             FormUtils.ShowDefeatDialog(() => newToolStripMenuItem_Click(null, EventArgs.Empty));
                         else
                             FormUtils.ShowPlayerStalemateDialog(() => newToolStripMenuItem_Click(null, EventArgs.Empty));
@@ -98,7 +102,7 @@ namespace ChessMate
                 }
                 else //ai didn't generate move
                 {
-                    if (GameState.Board.KingIsInCheck(false))
+                    if (_boardService.IsKingInCheck(GameState.Board, false))
                         FormUtils.ShowVictoryDialog(() => newToolStripMenuItem_Click(null, EventArgs.Empty));
                     else
                         FormUtils.ShowAIStalemateDialog(() => newToolStripMenuItem_Click(null, EventArgs.Empty));

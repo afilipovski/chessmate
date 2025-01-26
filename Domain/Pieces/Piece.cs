@@ -29,9 +29,9 @@ namespace ChessMate.Pieces
 
         public abstract List<Board> PossibleMoves(Board b);
 
-        public abstract Bitmap GetBitmap(Graphics g);
+        public abstract Bitmap GetBitmap(Graphics g); // move to presentation layer
 
-        public void Draw(Graphics g, Position key)
+        public void Draw(Graphics g, Position key) // move to presentation layer
         {
             Bitmap bitmap = GetBitmap(g);
             g.DrawImage(bitmap, key.X * Board.TILE_SIDE + Board.OFFSET_X, key.Y * Board.TILE_SIDE + Board.OFFSET_Y, Board.TILE_SIDE, Board.TILE_SIDE);
