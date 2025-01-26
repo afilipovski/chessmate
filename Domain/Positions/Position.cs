@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Drawing;
 
-namespace ChessMate
+namespace ChessMate.Domain.Positions
 {
     [Serializable]
     public class Position : IEquatable<Position>
@@ -63,13 +63,7 @@ namespace ChessMate
             return !(left == right);
         }
 
-        public virtual void Draw(Graphics g) // move to presentation layer
-        {
-            Brush b = new SolidBrush(White ? Color.White : Color.DarkSlateGray);
-            g.FillRectangle(b, X * Board.TILE_SIDE + Board.OFFSET_X, Y * Board.TILE_SIDE + Board.OFFSET_Y, Board.TILE_SIDE, Board.TILE_SIDE);
-            g.DrawRectangle(new Pen(new SolidBrush(Color.Black), 2), X * Board.TILE_SIDE + Board.OFFSET_X, Y * Board.TILE_SIDE + Board.OFFSET_Y, Board.TILE_SIDE, Board.TILE_SIDE);
-            b.Dispose();
-        }
+        public virtual String Name() => "position";
 
         public override string ToString()
         {

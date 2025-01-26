@@ -1,4 +1,5 @@
-﻿using ChessMate.Pieces;
+﻿using ChessMate.Domain;
+using ChessMate.Domain.Positions;
 using ChessMate.Service.Implementation;
 using ChessMate.Service.Interface;
 using System;
@@ -8,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ChessMate.AlphaBeta
+namespace ChessMate.Presentation.AlphaBeta
 {
     public enum OpponentDifficulty
     {

@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using ChessMate.Domain.Positions;
 
-namespace ChessMate.Pieces
+namespace ChessMate.Domain.Pieces
 {
     [Serializable]
     public class King : Piece
@@ -13,12 +14,6 @@ namespace ChessMate.Pieces
         public King(Position position, bool white) : base(position, white)
         {
             MovedSinceStart = false;
-        }
-
-        public override Bitmap GetBitmap(Graphics g)
-        {
-            return White ? Properties.Resources.w_king_png_shadow_1024px
-                : @Properties.Resources.b_king_png_shadow_1024px;
         }
 
         public override List<Board> PossibleMoves(Board b)
@@ -87,5 +82,7 @@ namespace ChessMate.Pieces
             p.MovedSinceStart = this.MovedSinceStart;
             return p;
         }
+
+        public override string Name() => "king";
     }
 }

@@ -1,4 +1,8 @@
-﻿using ChessMate.AlphaBeta;
+﻿using ChessMate.Domain;
+using ChessMate.Domain.Positions;
+using ChessMate.Presentation.AlphaBeta;
+using ChessMate.Presentation.GraphicsRenderers;
+using ChessMate.Presentation.GraphicsRenderers.Renderers;
 using ChessMate.Service.Implementation;
 using ChessMate.Service.Interface;
 using System;
@@ -8,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChessMate
+namespace ChessMate.Presentation
 {
 	[Serializable]
 	public class GameState
@@ -18,6 +22,8 @@ namespace ChessMate
 		public Opponent o { get; set; }
 		public ColoredPosition checkPosition { get; set; } = null;
         private readonly IBoardService _boardService = new BoardService();
+		private readonly IShapeRenderer<Position> _positionRenderer = new PositionRenderer();
+		private readonly IShapeRenderer<Board> _boardRenderer = new BoardRenderer();
 
         public GameState()
 		{
@@ -29,14 +35,14 @@ namespace ChessMate
 
 		public void Draw(Graphics g)
 		{
-			Board.DrawTiles(g);
+			_boardRenderer.Draw(g, Board);
 			foreach (Board sb in successiveBoards)
 			{
-				sb.NewPos.Draw(g);
+				_positionRenderer.Draw(g, sb.NewPos);
 			}
 			if (checkPosition is ColoredPosition)
 			{
-				checkPosition.Draw(g);
+                _positionRenderer.Draw(g, checkPosition);
 			}
 		}
 

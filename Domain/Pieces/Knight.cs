@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using ChessMate.Domain.Positions;
 
-namespace ChessMate.Pieces
+namespace ChessMate.Domain.Pieces
 {
     [Serializable]
     internal class Knight : Piece
@@ -17,11 +18,7 @@ namespace ChessMate.Pieces
             return p;
         }
 
-        public override Bitmap GetBitmap(Graphics g)
-        {
-            return White ? Properties.Resources.w_knight_png_shadow_1024px
-                : @Properties.Resources.b_knight_png_shadow_1024px;
-        }
+        public override string Name() => "knight";
 
         public override List<Board> PossibleMoves(Board b)
         {

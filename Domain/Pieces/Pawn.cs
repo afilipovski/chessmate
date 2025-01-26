@@ -1,10 +1,10 @@
-﻿using ChessMate.Pieces;
+﻿using ChessMate.Domain.Positions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 
-namespace ChessMate
+namespace ChessMate.Domain.Pieces
 {
     [Serializable]
     internal class Pawn : Piece
@@ -18,12 +18,6 @@ namespace ChessMate
 		public Pawn(Position position, bool white, int twoSquareAdvanceTimestamp) : base(position, white)
         {
             TwoSquareAdvanceTimestamp = twoSquareAdvanceTimestamp;
-        }
-
-        public override Bitmap GetBitmap(Graphics g)
-        {
-            return White ? Properties.Resources.w_pawn_png_shadow_1024px
-                : @Properties.Resources.b_pawn_png_shadow_1024px;
         }
 
         public override List<Board> PossibleMoves(Board b)
@@ -88,5 +82,6 @@ namespace ChessMate
             return p;
         }
 
+        public override string Name() => "pawn";
     }
 }

@@ -4,8 +4,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ChessMate.Domain;
 
-namespace ChessMate.Interface
+namespace ChessMate.Presentation.Interface
 {
 	internal class AIMoveOverlay
 	{

@@ -1,13 +1,13 @@
-﻿using ChessMate.AlphaBeta;
-using ChessMate.Pieces;
+﻿using ChessMate.Domain.Pieces;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using ChessMate.Domain.Positions;
 
-namespace ChessMate
+namespace ChessMate.Domain
 {
     [Serializable]
     public class Board
@@ -113,19 +113,6 @@ namespace ChessMate
         public bool IsOccupied(Position position)
         {
             return PieceByPosition[position] != null;
-        }
-
-        public void DrawTiles(Graphics g) // move to presentation layer
-        {
-            for (int i = 0; i < 64; ++i)
-            {
-                new Position(i % 8, i / 8).Draw(g);
-            }
-            foreach (Position position in PieceByPosition.Keys)
-            {
-                if (PieceByPosition[position] == null) continue;
-                PieceByPosition[position].Draw(g, position);
-            }
         }
     }
 }

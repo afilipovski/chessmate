@@ -5,8 +5,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ChessMate.Domain.Positions;
 
-namespace ChessMate.Pieces
+namespace ChessMate.Domain.Pieces
 {
     [Serializable]
     public abstract class Piece
@@ -29,13 +30,9 @@ namespace ChessMate.Pieces
 
         public abstract List<Board> PossibleMoves(Board b);
 
-        public abstract Bitmap GetBitmap(Graphics g); // move to presentation layer
+        public string NameColor() => (White ? "white" : "black") + "-" + Name();
 
-        public void Draw(Graphics g, Position key) // move to presentation layer
-        {
-            Bitmap bitmap = GetBitmap(g);
-            g.DrawImage(bitmap, key.X * Board.TILE_SIDE + Board.OFFSET_X, key.Y * Board.TILE_SIDE + Board.OFFSET_Y, Board.TILE_SIDE, Board.TILE_SIDE);
-        }
+        public abstract string Name();
 
         public bool Equals(Piece piece)
         {
@@ -51,6 +48,5 @@ namespace ChessMate.Pieces
         }
 
         abstract public Piece Clone();
-
     }
 }

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using ChessMate.Domain.Positions;
 
-namespace ChessMate.Pieces
+namespace ChessMate.Domain.Pieces
 {
     [Serializable]
     public abstract class ContinuousPathPiece : Piece

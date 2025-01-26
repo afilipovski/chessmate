@@ -1,5 +1,7 @@
-﻿using ChessMate.AlphaBeta;
-using ChessMate.Interface;
+﻿using ChessMate.Domain;
+using ChessMate.Domain.Positions;
+using ChessMate.Presentation.AlphaBeta;
+using ChessMate.Presentation.Interface;
 using ChessMate.Service.Implementation;
 using ChessMate.Service.Interface;
 using System;
@@ -9,7 +11,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 
-namespace ChessMate
+namespace ChessMate.Presentation
 {
     public partial class Form1 : Form
     {

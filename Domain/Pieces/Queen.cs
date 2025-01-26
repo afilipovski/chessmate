@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using ChessMate.Domain.Positions;
 
-namespace ChessMate.Pieces
+namespace ChessMate.Domain.Pieces
 {
     [Serializable]
     public class Queen : ContinuousPathPiece
@@ -16,12 +17,6 @@ namespace ChessMate.Pieces
         {
             Queen p = new Queen(this.Position, this.White);
             return p;
-        }
-
-        public override Bitmap GetBitmap(Graphics g)
-        {
-            return White ? Properties.Resources.w_queen_png_shadow_1024px
-                : @Properties.Resources.b_queen_png_shadow_1024px;
         }
 
         public override List<Board> PossibleMoves(Board b)
@@ -59,5 +54,7 @@ namespace ChessMate.Pieces
 
             return boards;
         }
+
+        public override string Name() => "queen";
     }
 }

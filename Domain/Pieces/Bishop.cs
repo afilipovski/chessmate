@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using ChessMate.Domain.Positions;
 
-namespace ChessMate.Pieces
+namespace ChessMate.Domain.Pieces
 {
     [Serializable]
     public class Bishop : ContinuousPathPiece
@@ -22,11 +23,7 @@ namespace ChessMate.Pieces
             return p;
         }
 
-        public override Bitmap GetBitmap(Graphics g)
-        {
-            return White ? Properties.Resources.w_bishop_png_shadow_1024px
-                : @Properties.Resources.b_bishop_png_shadow_1024px;
-        }
+        public override string Name() => "bishop";
 
         public override List<Board> PossibleMoves(Board b)
         {

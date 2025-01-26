@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using ChessMate.Domain.Positions;
 
-namespace ChessMate.Pieces
+namespace ChessMate.Domain.Pieces
 {
     // Top
     [Serializable]
@@ -17,14 +18,6 @@ namespace ChessMate.Pieces
 
         public Rook(ContinuousPathPiece cpp) : base(cpp)
         {
-        }
-
-
-
-        public override Bitmap GetBitmap(Graphics g)
-        {
-            return White ? Properties.Resources.w_rook_png_shadow_1024px
-                : @Properties.Resources.b_rook_png_shadow_1024px;
         }
 
         public override List<Board> PossibleMoves(Board b)
@@ -57,5 +50,7 @@ namespace ChessMate.Pieces
             r.MovedSinceStart = this.MovedSinceStart;
             return r;
         }
+
+        public override string Name() => "rook";
     }
 }

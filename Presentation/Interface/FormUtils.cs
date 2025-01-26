@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ChessMate.Interface
+namespace ChessMate.Presentation.Interface
 {
 	public class FormUtils
 	{

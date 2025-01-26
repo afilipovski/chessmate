@@ -1,4 +1,5 @@
-﻿using ChessMate.Pieces;
+﻿using ChessMate.Domain;
+using ChessMate.Domain.Pieces;
 using ChessMate.Service.Implementation;
 using ChessMate.Service.Interface;
 using System;
@@ -8,7 +9,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChessMate.AlphaBeta
+namespace ChessMate.Presentation.AlphaBeta
 {
     public class EvaluationUtils
     {

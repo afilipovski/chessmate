@@ -5,8 +5,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ChessMate.Domain;
 
-namespace ChessMate
+namespace ChessMate.Domain.Positions
 {
     public static class PositionColor
     {
@@ -18,7 +19,8 @@ namespace ChessMate
     [Serializable]
     public class ColoredPosition : Position
     {
-        Color Color = PositionColor.Green;
+        public Color Color { get; set; } = PositionColor.Green;
+        
         public ColoredPosition(string stringpos) : base(stringpos)
         {
         }
@@ -36,9 +38,6 @@ namespace ChessMate
             Color = c;
         }
 
-        public override void Draw(Graphics g) // move to presentation layer
-        {
-            g.FillRectangle(new SolidBrush(Color), X * Board.TILE_SIDE + Board.OFFSET_X, Y * Board.TILE_SIDE + Board.OFFSET_Y, Board.TILE_SIDE, Board.TILE_SIDE);
-        }
+        public override String Name() => "colored-position";
     }
 }
