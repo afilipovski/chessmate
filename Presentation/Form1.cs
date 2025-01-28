@@ -17,11 +17,11 @@ namespace ChessMate.Presentation
     public partial class Form1 : Form
     {
         public GameState GameState { get; set; } = new GameState();
-        private string savedGamePath { get; set; } = null;
+        private string SavedGamePath { get; set; } = null;
         public bool Dirty { get; set; } = false;
         private readonly IBoardService _boardService = new BoardService();
         private readonly Drawer _drawer = new Drawer();
-
+        private readonly IGameStateService _gameStateService = new GameStateService();
 
         public Form1()
         {
@@ -38,7 +38,7 @@ namespace ChessMate.Presentation
 
 			GameState.Board = new Board();
 
-            savedGamePath = null;
+            SavedGamePath = null;
 
             Dirty = false;
             UpdateTitle();
@@ -63,7 +63,6 @@ namespace ChessMate.Presentation
         {
             Invalidate();
         }
-
 
         private void Form1_MouseClick(object sender, MouseEventArgs e)
         {
@@ -119,14 +118,11 @@ namespace ChessMate.Presentation
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (savedGamePath is null) { 
+            if (SavedGamePath is null) { 
                 saveAsToolStripMenuItem_Click(sender, e);
                 return;
             }
-			FileStream stream = File.OpenWrite(savedGamePath);
-			BinaryFormatter bf = new BinaryFormatter();
-			bf.Serialize(stream, GameState);
-			stream.Dispose();
+			_gameStateService.SaveToFile(GameState, SavedGamePath);
             Dirty = false;
             UpdateTitle();
 		}
@@ -147,8 +143,8 @@ namespace ChessMate.Presentation
 			};
 			if (sfd.ShowDialog() == DialogResult.OK)
 			{
-				savedGamePath = sfd.FileName;
-                this.Text = $"ChessMate: {Path.GetFileNameWithoutExtension(savedGamePath)}";
+				SavedGamePath = sfd.FileName;
+                this.Text = $"ChessMate: {Path.GetFileNameWithoutExtension(SavedGamePath)}";
                 return true;
 			}
 			return false;
@@ -167,9 +163,8 @@ namespace ChessMate.Presentation
             {
 				try
 				{
-                    BinaryFormatter bf = new BinaryFormatter();
-                    GameState = bf.Deserialize(ofd.OpenFile()) as GameState;
-                    savedGamePath = ofd.FileName;
+                    GameState = _gameStateService.LoadFromFile(ofd.OpenFile());
+                    SavedGamePath = ofd.FileName;
                     Dirty = false;
                     UpdateTitle();
                     Invalidate();
@@ -185,8 +180,8 @@ namespace ChessMate.Presentation
         private void UpdateTitle()
         {
             Text = $"ChessMate";
-            if (savedGamePath != null)
-                Text += $" - {Path.GetFileNameWithoutExtension(savedGamePath)}";
+            if (SavedGamePath != null)
+                Text += $" - {Path.GetFileNameWithoutExtension(SavedGamePath)}";
             if (Dirty)
                 Text += "*";
         }

@@ -100,9 +100,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\Implementation\BoardService.cs" />
-    <Compile Include="Service\Implementation\FileService.cs" />
+    <Compile Include="Service\Implementation\GameStateService.cs" />
     <Compile Include="Service\Interface\IBoardService.cs" />
-    <Compile Include="Service\Interface\IFileService.cs" />
+    <Compile Include="Service\Interface\IGameStateService.cs" />
     <EmbeddedResource Include="Presentation\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
