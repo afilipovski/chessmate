@@ -1,6 +1,7 @@
 ﻿using ChessMate.Domain;
 using ChessMate.Domain.Positions;
 using ChessMate.Presentation.AlphaBeta;
+using ChessMate.Presentation.GraphicsRendering;
 using ChessMate.Presentation.Interface;
 using ChessMate.Service.Implementation;
 using ChessMate.Service.Interface;
@@ -16,19 +17,16 @@ namespace ChessMate.Presentation
     public partial class Form1 : Form
     {
         public GameState GameState { get; set; } = new GameState();
-        public bool InGame { get; set; } = false;
-
-        readonly AIMoveOverlay aimo = new AIMoveOverlay();
-        public string SavedGamePath { get; set; } = null;
+        private string savedGamePath { get; set; } = null;
         public bool Dirty { get; set; } = false;
-
         private readonly IBoardService _boardService = new BoardService();
+        private readonly Drawer _drawer = new Drawer();
 
 
         public Form1()
         {
             InitializeComponent();
-			this.DoubleBuffered = true;
+			DoubleBuffered = true;
 			GenerateGame();
             Dirty = false;
             UpdateTitle();
@@ -40,7 +38,7 @@ namespace ChessMate.Presentation
 
 			GameState.Board = new Board();
 
-            SavedGamePath = null;
+            savedGamePath = null;
 
             Dirty = false;
             UpdateTitle();
@@ -53,12 +51,8 @@ namespace ChessMate.Presentation
         {
             Board.TILE_SIDE = (ClientSize.Height - Board.OFFSET_Y) / 8;
             Board.OFFSET_X = (ClientSize.Width - 8 * Board.TILE_SIDE) / 2;
-            GameState.Draw(e.Graphics);
-			if (!GameState.Board.WhiteTurn)
-			{
-				aimo.Draw(e.Graphics);
-			}
-		}
+            _drawer.DrawChessBoardForm(GameState, e.Graphics);
+        }
 
         private void Form1_Resize_1(object sender, EventArgs e)
         {
@@ -125,11 +119,11 @@ namespace ChessMate.Presentation
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (SavedGamePath is null) { 
+            if (savedGamePath is null) { 
                 saveAsToolStripMenuItem_Click(sender, e);
                 return;
             }
-			FileStream stream = File.OpenWrite(SavedGamePath);
+			FileStream stream = File.OpenWrite(savedGamePath);
 			BinaryFormatter bf = new BinaryFormatter();
 			bf.Serialize(stream, GameState);
 			stream.Dispose();
@@ -153,8 +147,8 @@ namespace ChessMate.Presentation
 			};
 			if (sfd.ShowDialog() == DialogResult.OK)
 			{
-				SavedGamePath = sfd.FileName;
-                this.Text = $"ChessMate: {Path.GetFileNameWithoutExtension(SavedGamePath)}";
+				savedGamePath = sfd.FileName;
+                this.Text = $"ChessMate: {Path.GetFileNameWithoutExtension(savedGamePath)}";
                 return true;
 			}
 			return false;
@@ -175,7 +169,7 @@ namespace ChessMate.Presentation
 				{
                     BinaryFormatter bf = new BinaryFormatter();
                     GameState = bf.Deserialize(ofd.OpenFile()) as GameState;
-                    SavedGamePath = ofd.FileName;
+                    savedGamePath = ofd.FileName;
                     Dirty = false;
                     UpdateTitle();
                     Invalidate();
@@ -191,8 +185,8 @@ namespace ChessMate.Presentation
         private void UpdateTitle()
         {
             Text = $"ChessMate";
-            if (SavedGamePath != null)
-                Text += $" - {Path.GetFileNameWithoutExtension(SavedGamePath)}";
+            if (savedGamePath != null)
+                Text += $" - {Path.GetFileNameWithoutExtension(savedGamePath)}";
             if (Dirty)
                 Text += "*";
         }

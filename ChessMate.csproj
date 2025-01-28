@@ -67,7 +67,8 @@
     <Compile Include="Presentation\AlphaBeta\EvaluationUtils.cs" />
     <Compile Include="Presentation\AlphaBeta\Opponent.cs" />
     <Compile Include="Domain\Board.cs" />
-    <Compile Include="Presentation\GraphicsRenderers\IShapeRenderer.cs" />
+    <Compile Include="Presentation\GraphicsRendering\Drawer.cs" />
+    <Compile Include="Presentation\GraphicsRendering\IShapeRenderer.cs" />
     <Compile Include="Presentation\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -76,16 +77,16 @@
     </Compile>
     <Compile Include="Presentation\GameState.cs" />
     <Compile Include="Domain\Positions\ColoredPosition.cs" />
-    <Compile Include="Presentation\GraphicsRenderers\Renderers\BoardRenderer.cs" />
-    <Compile Include="Presentation\GraphicsRenderers\Renderers\PieceRenderer.cs" />
-    <Compile Include="Presentation\GraphicsRenderers\Renderers\PositionRenderer.cs" />
+    <Compile Include="Presentation\GraphicsRendering\Renderers\OverlayRenderer.cs" />
+    <Compile Include="Presentation\GraphicsRendering\Renderers\BoardRenderer.cs" />
+    <Compile Include="Presentation\GraphicsRendering\Renderers\PieceRenderer.cs" />
+    <Compile Include="Presentation\GraphicsRendering\Renderers\PositionRenderer.cs" />
     <Compile Include="Presentation\Interface\AboutForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Presentation\Interface\AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Presentation\Interface\AIMoveOverlay.cs" />
     <Compile Include="Presentation\Interface\FormUtils.cs" />
     <Compile Include="Domain\Pieces\Bishop.cs" />
     <Compile Include="Domain\Pieces\ContinuousPathPiece.cs" />
@@ -99,7 +100,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\Implementation\BoardService.cs" />
+    <Compile Include="Service\Implementation\FileService.cs" />
     <Compile Include="Service\Interface\IBoardService.cs" />
+    <Compile Include="Service\Interface\IFileService.cs" />
     <EmbeddedResource Include="Presentation\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

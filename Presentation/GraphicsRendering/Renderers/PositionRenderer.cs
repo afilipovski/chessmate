@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using ChessMate.Domain;
 using ChessMate.Domain.Positions;
 
-namespace ChessMate.Presentation.GraphicsRenderers.Renderers
+namespace ChessMate.Presentation.GraphicsRendering.Renderers
 {
     public class PositionRenderer : IShapeRenderer<Position>
     {

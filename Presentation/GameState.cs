@@ -1,8 +1,6 @@
 ﻿using ChessMate.Domain;
 using ChessMate.Domain.Positions;
 using ChessMate.Presentation.AlphaBeta;
-using ChessMate.Presentation.GraphicsRenderers;
-using ChessMate.Presentation.GraphicsRenderers.Renderers;
 using ChessMate.Service.Implementation;
 using ChessMate.Service.Interface;
 using System;
@@ -22,8 +20,6 @@ namespace ChessMate.Presentation
 		public Opponent o { get; set; }
 		public ColoredPosition checkPosition { get; set; } = null;
         private readonly IBoardService _boardService = new BoardService();
-		private readonly IShapeRenderer<Position> _positionRenderer = new PositionRenderer();
-		private readonly IShapeRenderer<Board> _boardRenderer = new BoardRenderer();
 
         public GameState()
 		{
@@ -31,19 +27,6 @@ namespace ChessMate.Presentation
 			successiveBoards = new List<Board>();
 			o = new Opponent(OpponentDifficulty.EASY);
 			checkPosition = null;
-		}
-
-		public void Draw(Graphics g)
-		{
-			_boardRenderer.Draw(g, Board);
-			foreach (Board sb in successiveBoards)
-			{
-				_positionRenderer.Draw(g, sb.NewPos);
-			}
-			if (checkPosition is ColoredPosition)
-			{
-                _positionRenderer.Draw(g, checkPosition);
-			}
 		}
 
 		public void SetCheckPosition()

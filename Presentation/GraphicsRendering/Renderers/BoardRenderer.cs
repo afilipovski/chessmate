@@ -8,7 +8,7 @@ using ChessMate.Domain;
 using ChessMate.Domain.Pieces;
 using ChessMate.Domain.Positions;
 
-namespace ChessMate.Presentation.GraphicsRenderers.Renderers
+namespace ChessMate.Presentation.GraphicsRendering.Renderers
 {
     public class BoardRenderer : IShapeRenderer<Board>
     {

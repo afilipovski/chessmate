@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using ChessMate.Domain;
 using ChessMate.Domain.Pieces;
 
-namespace ChessMate.Presentation.GraphicsRenderers.Renderers
+namespace ChessMate.Presentation.GraphicsRendering.Renderers
 {
     public class PieceRenderer : IShapeRenderer<Piece>
     {

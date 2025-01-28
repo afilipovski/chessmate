@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChessMate.Presentation.GraphicsRenderers
+namespace ChessMate.Presentation.GraphicsRendering
 {
     public interface IShapeRenderer<T>
     {
