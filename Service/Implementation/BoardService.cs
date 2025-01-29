@@ -10,12 +10,11 @@ using ChessMate.Service.Interface;
 
 namespace ChessMate.Service.Implementation
 {
-    [Serializable]
     public class BoardService : IBoardService
     {
         public Board GetSuccessorStateForClickedPosition(Position position, Board board, List<Board> successiveStates)
         {
-            Position clickedPosition = new Position((position.X - Board.OFFSET_X) / Board.TILE_SIDE, (position.Y - Board.OFFSET_Y) / Board.TILE_SIDE);
+            Position clickedPosition = new Position((position.X - Board.OffsetX) / Board.TileSide, (position.Y - Board.OffsetY) / Board.TileSide);
             if (!board.WhiteTurn || !Board.IsInBoard(clickedPosition))
                 return board;
 
@@ -104,6 +103,12 @@ namespace ChessMate.Service.Implementation
         public bool PossibleMovesNotExisting(Board board)
         {
             return GenerateSuccessiveStates(board).Count() == 0;
+        }
+
+        public ColoredPosition GetColoredKingCheckPosition(Board board)
+        {
+            Position king = GetKingPositionIfInCheck(board, board.WhiteTurn);
+            return king is null ? null : new ColoredPosition(king, PositionColor.Red);
         }
     }
 }

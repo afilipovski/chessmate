@@ -13,8 +13,8 @@ namespace ChessMate.Presentation.AlphaBeta
 {
     public class EvaluationUtils
     {
-        public const int INFTY = 10000;
-        private static readonly IBoardService _boardService = new BoardService();
+        public const int Infty = 10000;
+        private static readonly IBoardService BoardService = new BoardService();
 
         //high value favors white
         public static int EvaluateBoard(Board board)
@@ -41,18 +41,18 @@ namespace ChessMate.Presentation.AlphaBeta
 
         public static int AlphabetaInit(Board node, int depth, bool maximisingPlayer)
         {
-            return Alphabeta(node, depth, -INFTY, INFTY, maximisingPlayer);
+            return Alphabeta(node, depth, -Infty, Infty, maximisingPlayer);
         }
 
         static int Alphabeta(Board node, int depth, int alpha, int beta, bool maximisingPlayer)
         {
-            List<Board> children = _boardService.GenerateSuccessiveStates(node);
+            List<Board> children = BoardService.GenerateSuccessiveStates(node);
 
             if (depth == 0 || children.Count == 0)
                 return EvaluateBoard(node);
             if (maximisingPlayer)
             {
-                int value = -INFTY;
+                int value = -Infty;
                 foreach (Board child in children)
                 {
                     value = Math.Max(value, Alphabeta(child, depth - 1, alpha, beta, false));
@@ -64,7 +64,7 @@ namespace ChessMate.Presentation.AlphaBeta
             }
             else
             {
-                int value = INFTY;
+                int value = Infty;
                 foreach (Board child in children) {
                     value = Math.Min(value, Alphabeta(child, depth - 1, alpha, beta, true));
                     if (value < alpha)

@@ -23,21 +23,21 @@ namespace ChessMate.Domain.Pieces
         public override List<Board> PossibleMoves(Board b)
         {
             List<Board> boards = new List<Board>();
-            void move(Position tempPos)
+            void Move(Position tempPos)
             {
                 if (tempPos.X < 0 || tempPos.X > 7 || tempPos.Y < 0 || tempPos.Y > 7) return;
                 if (b.IsOccupied(tempPos) && b.PieceByPosition[tempPos].White == White) return;
                 Board newBoard = new Board(b, Position, tempPos, this);
                 boards.Add(newBoard);
             }
-            move(new Position(Position.X + 1, Position.Y + 2));
-            move(new Position(Position.X - 1, Position.Y + 2));
-            move(new Position(Position.X + 2, Position.Y + 1));
-            move(new Position(Position.X + 2, Position.Y - 1));
-            move(new Position(Position.X + 1, Position.Y - 2));
-            move(new Position(Position.X - 1, Position.Y - 2));
-            move(new Position(Position.X - 2, Position.Y + 1));
-            move(new Position(Position.X - 2, Position.Y - 1));
+            Move(new Position(Position.X + 1, Position.Y + 2));
+            Move(new Position(Position.X - 1, Position.Y + 2));
+            Move(new Position(Position.X + 2, Position.Y + 1));
+            Move(new Position(Position.X + 2, Position.Y - 1));
+            Move(new Position(Position.X + 1, Position.Y - 2));
+            Move(new Position(Position.X - 1, Position.Y - 2));
+            Move(new Position(Position.X - 2, Position.Y + 1));
+            Move(new Position(Position.X - 2, Position.Y - 1));
 
             return boards;
         }

@@ -15,11 +15,11 @@ namespace ChessMate.Presentation.GraphicsRendering.Renderers
             SolidBrush sb = new SolidBrush(Color.Black);
             SolidBrush sbs = new SolidBrush(Color.White);
 
-            int boxOffsetX = Board.OFFSET_X + 3 * Board.TILE_SIDE;
-            int boxOffsetY = Board.OFFSET_Y + (int)(3.5 * Board.TILE_SIDE);
+            int boxOffsetX = Board.OffsetX + 3 * Board.TileSide;
+            int boxOffsetY = Board.OffsetY + (int)(3.5 * Board.TileSide);
 
-            int boxWidth = 2 * Board.TILE_SIDE;
-            int boxHeight = Board.TILE_SIDE;
+            int boxWidth = 2 * Board.TileSide;
+            int boxHeight = Board.TileSide;
 
             float fontSize = (float)(boxHeight * 0.3);
             int textOffsetX = boxOffsetX;

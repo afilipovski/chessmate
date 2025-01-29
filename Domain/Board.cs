@@ -14,9 +14,9 @@ namespace ChessMate.Domain
     {
         public Dictionary<Position, Piece> PieceByPosition { get; set; }
         public bool WhiteTurn { get; set; } = true;
-        public static int TILE_SIDE { get; set; }
-        public static int OFFSET_X { get; set; }
-        public static int OFFSET_Y { get; set; } = 25;
+        public static int TileSide { get; set; }
+        public static int OffsetX { get; set; }
+        public static int OffsetY { get; set; } = 25;
         public Piece CurrentClickedPiece { get; set; }
         public ColoredPosition NewPos { get; set; }
 

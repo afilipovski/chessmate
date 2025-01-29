@@ -11,18 +11,10 @@ using System.Windows.Forms;
 
 namespace ChessMate.Presentation.AlphaBeta
 {
-    public enum OpponentDifficulty
-    {
-        EASY = 0,
-        MEDIUM = 1,
-        HARD = 2
-    }
-
-    [Serializable]
     public class Opponent
     {
         private readonly IBoardService _boardService = new BoardService();
-        static readonly Random r = new Random();
+        static readonly Random R = new Random();
 
         public Opponent(OpponentDifficulty difficulty)
         {
@@ -33,28 +25,28 @@ namespace ChessMate.Presentation.AlphaBeta
 
         private struct Node
         {
-            public Board board;
-            public int value;
+            public Board Board;
+            public int Value;
 
             public Node(Board board, int value)
             {
-                this.board = board;
-                this.value = value;
+                this.Board = board;
+                this.Value = value;
             }
         }
         public Board Move(Board board)
         {
             List<Node> nodes = new List<Node>();
-            int pivot_value = board.WhiteTurn ? -EvaluationUtils.INFTY : EvaluationUtils.INFTY;
+            int pivotValue = board.WhiteTurn ? -EvaluationUtils.Infty : EvaluationUtils.Infty;
             foreach (Board move in _boardService.GenerateSuccessiveStates(board)) {
                 int value = EvaluationUtils.AlphabetaInit(move, (int)Difficulty, board.WhiteTurn);
-                pivot_value = board.WhiteTurn ? Math.Max(pivot_value, value) : Math.Min(pivot_value,value);
+                pivotValue = board.WhiteTurn ? Math.Max(pivotValue, value) : Math.Min(pivotValue,value);
                 nodes.Add(new Node(move, value));
             }
-            List<Node> eligibleMoves = nodes.FindAll(n => n.value == pivot_value);
+            List<Node> eligibleMoves = nodes.FindAll(n => n.Value == pivotValue);
             if (eligibleMoves.Count > 0)
             {
-                Board next = eligibleMoves[r.Next(eligibleMoves.Count)].board;
+                Board next = eligibleMoves[R.Next(eligibleMoves.Count)].Board;
                 Position newPos = next.NewPos;
                 return next;
             }

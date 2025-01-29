@@ -17,7 +17,7 @@ namespace ChessMate.Domain.Pieces
 
         protected delegate Position Operation(Position p);
 
-        protected void findValidPositions(Position p, Board b, List<Board> boards, Predicate<Position> condition, Operation operation)
+        protected void FindValidPositions(Position p, Board b, List<Board> boards, Predicate<Position> condition, Operation operation)
         {
             Position position = p;
             while (condition(position))

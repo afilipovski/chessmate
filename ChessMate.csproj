@@ -64,6 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\OpponentDifficulty.cs" />
     <Compile Include="Presentation\AlphaBeta\EvaluationUtils.cs" />
     <Compile Include="Presentation\AlphaBeta\Opponent.cs" />
     <Compile Include="Domain\Board.cs" />
@@ -75,7 +76,7 @@
     <Compile Include="Presentation\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Presentation\GameState.cs" />
+    <Compile Include="Domain\GameState.cs" />
     <Compile Include="Domain\Positions\ColoredPosition.cs" />
     <Compile Include="Presentation\GraphicsRendering\Renderers\OverlayRenderer.cs" />
     <Compile Include="Presentation\GraphicsRendering\Renderers\BoardRenderer.cs" />

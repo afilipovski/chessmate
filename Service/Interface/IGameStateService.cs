@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ChessMate.Domain;
 using ChessMate.Presentation;
 
 namespace ChessMate.Service.Interface

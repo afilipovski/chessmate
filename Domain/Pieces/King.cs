@@ -18,11 +18,11 @@ namespace ChessMate.Domain.Pieces
 
         public override List<Board> PossibleMoves(Board b)
         {
-            List<Board> boards = getSurroundingPositions()
-                .Where(p => Board.IsInBoard(p) && isSpaceAvailable(b, p))
+            List<Board> boards = GetSurroundingPositions()
+                .Where(p => Board.IsInBoard(p) && IsSpaceAvailable(b, p))
                 .Select(p => new Board(b, Position, p, this))
                 .ToList();
-            checkCastling(b, boards);
+            CheckCastling(b, boards);
 
             boards.ForEach(board =>
             {
@@ -34,7 +34,7 @@ namespace ChessMate.Domain.Pieces
             return boards;
         }
 
-        private void checkCastling(Board b, List<Board> boards)
+        private void CheckCastling(Board b, List<Board> boards)
         {
             if (!MovedSinceStart &&
                 !b.IsOccupied(new Position(5, Position.Y)) &&
@@ -55,12 +55,12 @@ namespace ChessMate.Domain.Pieces
             }
         }
 
-        private bool isSpaceAvailable(Board board, Position p)
+        private bool IsSpaceAvailable(Board board, Position p)
         {
             return !board.IsOccupied(p) || board.IsOccupied(p) && board.PieceByPosition[p].White != White;
         }
 
-        private List<Position> getSurroundingPositions()
+        private List<Position> GetSurroundingPositions()
         {
             return new List<Position>()
             {

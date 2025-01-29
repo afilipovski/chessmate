@@ -34,7 +34,7 @@ namespace ChessMate.Domain.Pieces
             int startY = White ? 6 : 1;
             int endY = White ? 0 : 7;
 
-            void processedAdd(Board rawBoard)
+            void ProcessedAdd(Board rawBoard)
             {
                 if (rawBoard.NewPos.Y == endY)
                 {
@@ -46,21 +46,21 @@ namespace ChessMate.Domain.Pieces
 
 			//Forward
             if (Board.IsInBoard(forwardOne) && !b.IsOccupied(forwardOne)) {
-                processedAdd(new Board(b, Position, forwardOne, new Pawn(forwardOne, White)));
+                ProcessedAdd(new Board(b, Position, forwardOne, new Pawn(forwardOne, White)));
                 if (Position.Y == startY && !b.IsOccupied(forwardTwo))
-                    processedAdd(new Board(b, Position, forwardTwo, new Pawn(forwardTwo, White, b.TurnNumber)));
+                    ProcessedAdd(new Board(b, Position, forwardTwo, new Pawn(forwardTwo, White, b.TurnNumber)));
             }
 
             //Capture
-            void captureForward(Position capture)
+            void CaptureForward(Position capture)
             {
 				if (Board.IsInBoard(capture) && b.IsOccupied(capture) && b.PieceByPosition[capture].White != White)
-					processedAdd(new Board(b, Position, capture, new Pawn(capture, White)));
+					ProcessedAdd(new Board(b, Position, capture, new Pawn(capture, White)));
 			}
-            captureForward(captureLeft); captureForward(captureRight);
+            CaptureForward(captureLeft); CaptureForward(captureRight);
 
             //En passant
-            void enpassant(Position adjacent, Position capture)
+            void Enpassant(Position adjacent, Position capture)
             {
                 if (Board.IsInBoard(adjacent) && b.IsOccupied(adjacent) && b.PieceByPosition[adjacent].White != White &&
                     b.PieceByPosition[adjacent] is Pawn p && p.TwoSquareAdvanceTimestamp == b.TurnNumber-1)
@@ -68,10 +68,10 @@ namespace ChessMate.Domain.Pieces
                     ColoredPosition cp = new ColoredPosition(capture, PositionColor.Blue);
                     Board epb = new Board(b, Position, cp, new Pawn(capture, White));
                     epb.PieceByPosition[adjacent] = null;
-                    processedAdd(epb);
+                    ProcessedAdd(epb);
                 }
             }
-            enpassant(left, captureLeft); enpassant(right, captureRight);
+            Enpassant(left, captureLeft); Enpassant(right, captureRight);
 
             return boards;
         }

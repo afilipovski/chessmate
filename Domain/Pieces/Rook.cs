@@ -25,13 +25,13 @@ namespace ChessMate.Domain.Pieces
             List<Board> boards = new List<Board>();
 
             // right
-            findValidPositions(new Position(Position.X + 1, Position.Y), b, boards, p => p.X <= 7, p => new Position(p.X + 1, p.Y));
+            FindValidPositions(new Position(Position.X + 1, Position.Y), b, boards, p => p.X <= 7, p => new Position(p.X + 1, p.Y));
             // left
-            findValidPositions(new Position(Position.X - 1, Position.Y), b, boards, p => p.X >= 0, p => new Position(p.X - 1, p.Y));
+            FindValidPositions(new Position(Position.X - 1, Position.Y), b, boards, p => p.X >= 0, p => new Position(p.X - 1, p.Y));
             // top
-            findValidPositions(new Position(Position.X, Position.Y + 1), b, boards, p => p.Y <= 7, p => new Position(p.X, p.Y + 1));
+            FindValidPositions(new Position(Position.X, Position.Y + 1), b, boards, p => p.Y <= 7, p => new Position(p.X, p.Y + 1));
             // bottom
-            findValidPositions(new Position(Position.X, Position.Y - 1), b, boards, p => p.Y >= 0, p => new Position(p.X, p.Y - 1));
+            FindValidPositions(new Position(Position.X, Position.Y - 1), b, boards, p => p.Y >= 0, p => new Position(p.X, p.Y - 1));
 
             boards.ForEach(board =>
             {

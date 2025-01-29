@@ -19,7 +19,7 @@ namespace ChessMate.Presentation.Interface
 			}
 
 		}
-		public static void ShowAIStalemateDialog(Delegate callback)
+		public static void ShowAiStalemateDialog(Delegate callback)
 		{
 			if (MessageBox.Show("The AI is in stalemate.", "Stalemate") == DialogResult.OK)
 			{

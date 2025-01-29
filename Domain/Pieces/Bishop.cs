@@ -30,7 +30,7 @@ namespace ChessMate.Domain.Pieces
             List<Board> boards = new List<Board>();
 
             // top right
-            findValidPositions(
+            FindValidPositions(
                 new Position(Position.X + 1, Position.Y + 1),
                 b,
                 boards,
@@ -39,7 +39,7 @@ namespace ChessMate.Domain.Pieces
             );
 
             // top left
-            findValidPositions(
+            FindValidPositions(
                 new Position(Position.X - 1, Position.Y + 1),
                 b,
                 boards,
@@ -48,7 +48,7 @@ namespace ChessMate.Domain.Pieces
             );
 
             // bottom left
-            findValidPositions(
+            FindValidPositions(
                 new Position(Position.X - 1, Position.Y - 1),
                 b,
                 boards,
@@ -57,7 +57,7 @@ namespace ChessMate.Domain.Pieces
             );
 
             // bottom right
-            findValidPositions(
+            FindValidPositions(
                 new Position(Position.X + 1, Position.Y - 1),
                 b,
                 boards,

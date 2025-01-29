@@ -19,13 +19,13 @@ namespace ChessMate.Presentation.GraphicsRendering
         public void DrawChessBoardForm(GameState gameState, Graphics graphics)
         {
             _boardRenderer.Draw(graphics, gameState.Board);
-            foreach (Board sb in gameState.successiveBoards)
+            foreach (Board sb in gameState.SuccessiveBoards)
             {
                 _positionRenderer.Draw(graphics, sb.NewPos);
             }
-            if (gameState.checkPosition is ColoredPosition)
+            if (gameState.CheckPosition is ColoredPosition)
             {
-                _positionRenderer.Draw(graphics, gameState.checkPosition);
+                _positionRenderer.Draw(graphics, gameState.CheckPosition);
             }
             if (!gameState.Board.WhiteTurn)
             {

@@ -21,6 +21,7 @@ namespace ChessMate.Presentation
         public bool Dirty { get; set; } = false;
         private readonly IBoardService _boardService = new BoardService();
         private readonly Drawer _drawer = new Drawer();
+        private Opponent opponent;
         private readonly IGameStateService _gameStateService = new GameStateService();
 
         public Form1()
@@ -34,7 +35,7 @@ namespace ChessMate.Presentation
 
         public void GenerateGame()
         {
-			GameState.o = new Opponent(OpponentDifficulty.EASY);
+            opponent = new Opponent(OpponentDifficulty.Easy);
 
 			GameState.Board = new Board();
 
@@ -49,8 +50,8 @@ namespace ChessMate.Presentation
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
-            Board.TILE_SIDE = (ClientSize.Height - Board.OFFSET_Y) / 8;
-            Board.OFFSET_X = (ClientSize.Width - 8 * Board.TILE_SIDE) / 2;
+            Board.TileSide = (ClientSize.Height - Board.OffsetY) / 8;
+            Board.OffsetX = (ClientSize.Width - 8 * Board.TileSide) / 2;
             _drawer.DrawChessBoardForm(GameState, e.Graphics);
         }
 
@@ -66,7 +67,7 @@ namespace ChessMate.Presentation
 
         private void Form1_MouseClick(object sender, MouseEventArgs e)
         {
-            Board newBoard = _boardService.GetSuccessorStateForClickedPosition(new Position(e.X, e.Y), GameState.Board, GameState.successiveBoards);
+            Board newBoard = _boardService.GetSuccessorStateForClickedPosition(new Position(e.X, e.Y), GameState.Board, GameState.SuccessiveBoards);
 
             if (!ReferenceEquals(GameState.Board, newBoard)) { 
                 Dirty = true;
@@ -76,13 +77,13 @@ namespace ChessMate.Presentation
             GameState.Board = newBoard;
 
             Invalidate();
-            GameState.SetCheckPosition();
+            GameState.CheckPosition = _boardService.GetColoredKingCheckPosition(GameState.Board);
             Refresh();
 
             //AI MOVE
             if (GameState.Board.WhiteTurn == false)
             {
-                Board aiMove = GameState.o.Move(GameState.Board);
+                Board aiMove = opponent.Move(GameState.Board);
 
                 if (aiMove != null)
                 {
@@ -100,11 +101,11 @@ namespace ChessMate.Presentation
                     if (_boardService.IsKingInCheck(GameState.Board, false))
                         FormUtils.ShowVictoryDialog(() => newToolStripMenuItem_Click(null, EventArgs.Empty));
                     else
-                        FormUtils.ShowAIStalemateDialog(() => newToolStripMenuItem_Click(null, EventArgs.Empty));
+                        FormUtils.ShowAiStalemateDialog(() => newToolStripMenuItem_Click(null, EventArgs.Empty));
                 }
             }
 
-            GameState.SetCheckPosition();
+            GameState.CheckPosition = _boardService.GetColoredKingCheckPosition(GameState.Board);
 
             Refresh();
         }
@@ -164,6 +165,7 @@ namespace ChessMate.Presentation
 				try
 				{
                     GameState = _gameStateService.LoadFromFile(ofd.OpenFile());
+                    opponent = new Opponent(GameState.OpponentDifficulty);
                     SavedGamePath = ofd.FileName;
                     Dirty = false;
                     UpdateTitle();
@@ -218,30 +220,30 @@ namespace ChessMate.Presentation
 
 		private void easyToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-            GameState.o.Difficulty = OpponentDifficulty.EASY;
+            opponent.Difficulty = GameState.OpponentDifficulty = OpponentDifficulty.Easy;
             Checkmarks();
 		}
 
 		private void mediumToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-            GameState.o.Difficulty = OpponentDifficulty.MEDIUM;
+            opponent.Difficulty = GameState.OpponentDifficulty = OpponentDifficulty.Medium;
             Checkmarks();
 		}
 
 		private void hardToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-            GameState.o.Difficulty = OpponentDifficulty.HARD;
+            opponent.Difficulty = GameState.OpponentDifficulty = OpponentDifficulty.Hard;
             Checkmarks();
 		}
 
         private void Checkmarks()
         {
             easyToolStripMenuItem.Checked = mediumToolStripMenuItem.Checked = hardToolStripMenuItem.Checked = false;
-            switch (GameState.o.Difficulty)
+            switch (GameState.OpponentDifficulty)
             {
-                case OpponentDifficulty.EASY: easyToolStripMenuItem.Checked = true; break;
-                case OpponentDifficulty.MEDIUM: mediumToolStripMenuItem.Checked = true; break;
-                case OpponentDifficulty.HARD: hardToolStripMenuItem.Checked = true; break;
+                case OpponentDifficulty.Easy: easyToolStripMenuItem.Checked = true; break;
+                case OpponentDifficulty.Medium: mediumToolStripMenuItem.Checked = true; break;
+                case OpponentDifficulty.Hard: hardToolStripMenuItem.Checked = true; break;
             }
         }
 	}

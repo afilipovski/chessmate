@@ -15,5 +15,6 @@ namespace ChessMate.Service.Interface
         Position GetKingPositionIfInCheck(Board board, bool isKingWhite);
         bool IsKingInCheck(Board board, bool isKingWhite);
         bool PossibleMovesNotExisting(Board board);
+        ColoredPosition GetColoredKingCheckPosition(Board board);
     }
 }
