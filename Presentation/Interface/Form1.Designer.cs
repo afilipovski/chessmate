@@ -1,4 +1,4 @@
-﻿namespace ChessMate.Presentation
+﻿namespace ChessMate.Presentation.Interface
 {
     partial class Form1
     {
