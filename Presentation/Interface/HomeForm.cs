@@ -24,5 +24,16 @@ namespace ChessMate.Presentation.Interface
             aiForm.ShowDialog();
             Show();
         }
+
+        private void multiplayerBtn_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void aboutBtn_Click(object sender, EventArgs e)
+        {
+            AboutForm aboutForm = new AboutForm();
+            aboutForm.ShowDialog();
+        }
     }
 }

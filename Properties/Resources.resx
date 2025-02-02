@@ -136,6 +136,9 @@
   <data name="b_rook_png_shadow_1024px" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Presentation\PieceImages\b_rook_png_shadow_1024px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="chess_background" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Presentation\Background\chess_background.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="w_bishop_png_shadow_1024px" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Presentation\PieceImages\w_bishop_png_shadow_1024px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

@@ -77,12 +77,6 @@ namespace ChessMate.Presentation.Interface
             _gameController.ExitGame(e);
 		}
 
-		private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-            AboutForm af = new AboutForm();
-            af.ShowDialog();
-		}
-
 		private void easyToolStripMenuItem_Click(object sender, EventArgs e)
 		{
             _gameController.SetDifficulty(OpponentDifficulty.Easy);
