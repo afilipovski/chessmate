@@ -147,19 +147,19 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Presentation\Background\chess_background.jpg" />
-    <Content Include="Presentation\PieceImages\b_bishop_png_shadow_1024px.png" />
-    <Content Include="Presentation\PieceImages\b_king_png_shadow_1024px.png" />
-    <Content Include="Presentation\PieceImages\b_knight_png_shadow_1024px.png" />
-    <Content Include="Presentation\PieceImages\b_pawn_png_shadow_1024px.png" />
-    <Content Include="Presentation\PieceImages\b_queen_png_shadow_1024px.png" />
-    <Content Include="Presentation\PieceImages\b_rook_png_shadow_1024px.png" />
-    <Content Include="Presentation\PieceImages\w_bishop_png_shadow_1024px.png" />
-    <Content Include="Presentation\PieceImages\w_king_png_shadow_1024px.png" />
-    <Content Include="Presentation\PieceImages\w_knight_png_shadow_1024px.png" />
-    <Content Include="Presentation\PieceImages\w_pawn_png_shadow_1024px.png" />
-    <Content Include="Presentation\PieceImages\w_queen_png_shadow_1024px.png" />
-    <Content Include="Presentation\PieceImages\w_rook_png_shadow_1024px.png" />
+    <Content Include="Presentation\Images\chess_background.jpg" />
+    <Content Include="Presentation\Images\b_bishop_png_shadow_1024px.png" />
+    <Content Include="Presentation\Images\b_king_png_shadow_1024px.png" />
+    <Content Include="Presentation\Images\b_knight_png_shadow_1024px.png" />
+    <Content Include="Presentation\Images\b_pawn_png_shadow_1024px.png" />
+    <Content Include="Presentation\Images\b_queen_png_shadow_1024px.png" />
+    <Content Include="Presentation\Images\b_rook_png_shadow_1024px.png" />
+    <Content Include="Presentation\Images\w_bishop_png_shadow_1024px.png" />
+    <Content Include="Presentation\Images\w_king_png_shadow_1024px.png" />
+    <Content Include="Presentation\Images\w_knight_png_shadow_1024px.png" />
+    <Content Include="Presentation\Images\w_pawn_png_shadow_1024px.png" />
+    <Content Include="Presentation\Images\w_queen_png_shadow_1024px.png" />
+    <Content Include="Presentation\Images\w_rook_png_shadow_1024px.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Repository\" />
