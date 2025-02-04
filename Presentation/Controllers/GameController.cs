@@ -197,7 +197,7 @@ namespace ChessMate.Presentation.Controllers
 
         private void UpdateTitle()
         {
-            _form.Text = "ChessMate";
+            _form.Text = "ChessMate - AI Opponent";
             if (SavedGamePath != null)
                 _form.Text += $" - {Path.GetFileNameWithoutExtension(SavedGamePath)}";
             if (Dirty)

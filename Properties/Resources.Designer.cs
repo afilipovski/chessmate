@@ -123,6 +123,16 @@ namespace ChessMate.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap chess_background {
+            get {
+                object obj = ResourceManager.GetObject("chess_background", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap w_bishop_png_shadow_1024px {
             get {
                 object obj = ResourceManager.GetObject("w_bishop_png_shadow_1024px", resourceCulture);

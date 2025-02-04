@@ -102,7 +102,7 @@
             this.MinimizeBox = false;
             this.Name = "AboutForm";
             this.ShowInTaskbar = false;
-            this.Text = "About";
+            this.Text = "ChessMate - About";
             this.ResumeLayout(false);
             this.PerformLayout();
 
