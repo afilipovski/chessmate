@@ -83,7 +83,21 @@ namespace ChessMate.Service.Implementation
 
         public async Task<MultiplayerGame> Move(string username, string joinCode, Move move)
         {
-            throw new NotImplementedException();
+            var body = new Dictionary<string, string>
+            {
+                { "username", username },
+                { "join_code", joinCode },
+                { "from", move.PositionFrom.ToString() },
+                { "to", move.PositionTo.ToString() },
+                { "promotion", move.ShouldConvertToQueen ? "q" : null }
+            };
+
+            var json = JsonConvert.SerializeObject(body);
+
+            var response = await MakePostRequest("/game/move", new StringContent(json));
+            var stringResponse = await response.Content.ReadAsStringAsync();
+
+            return new MultiplayerGame(stringResponse);
         }
     }
 }

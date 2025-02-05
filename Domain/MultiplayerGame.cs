@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using ChessMate.Domain.Positions;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,11 @@ namespace ChessMate.Domain
             Username1 = dictionary["username1"] as string;
             WhiteTurn = (bool)dictionary["white_move"];
             Username2 = dictionary.ContainsKey("username2") ? dictionary["username2"] as string : String.Empty;
+            LastMove = dictionary.ContainsKey("last_move_from") ? new Move
+            {
+                PositionFrom = new Position(dictionary["last_move_from"] as string),
+                PositionTo = new Position(dictionary["last_move_to"] as string),
+            } : null;
         }
     }
 }

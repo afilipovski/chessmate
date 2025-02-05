@@ -11,6 +11,6 @@ namespace ChessMate.Domain
     {
         public Position PositionFrom { get; set; }
         public Position PositionTo { get; set; }
-        public Type PieceType { get; set; }
+        public bool ShouldConvertToQueen { get; set; }
     }
 }
