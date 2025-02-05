@@ -67,7 +67,7 @@ namespace ChessMate.Domain.Positions
 
         public override string ToString()
         {
-            return $"({X},{Y})";
+            return $"{X+'a'}{Y+'1'}";
         }
     }
 }
