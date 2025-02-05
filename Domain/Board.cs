@@ -16,7 +16,7 @@ namespace ChessMate.Domain
         public bool WhiteTurn { get; set; } = true;
         public static int TileSide { get; set; }
         public static int OffsetX { get; set; }
-        public static int OffsetY { get; set; } = 25;
+        public static int OffsetY { get; set; } = 50;
         public Piece CurrentClickedPiece { get; set; }
         public ColoredPosition NewPos { get; set; }
 

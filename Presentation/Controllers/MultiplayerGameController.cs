@@ -30,9 +30,12 @@ namespace ChessMate.Presentation.Controllers
         private readonly Drawer _drawer = new Drawer();
         private readonly Form2 _form;
 
-        public MultiplayerGameController(Form2 form)
+        private bool whitePov;
+
+        public MultiplayerGameController(Form2 form, bool whitePov)
         {
             _form = form;
+            this.whitePov = whitePov;
         }
 
         public void GenerateGame()
@@ -57,7 +60,14 @@ namespace ChessMate.Presentation.Controllers
 
         public void SubmitPlayerClick(int x, int y)
         {
-            Board newBoard = _boardService.GetSuccessorStateForClickedPosition(new Position(x, y), GameState.Board, GameState.SuccessiveBoards);
+            int xBoard = (x - Board.OffsetX) / Board.TileSide;
+            int yBoard = (y - Board.OffsetY) / Board.TileSide;
+
+            var position = new Position(
+                !whitePov ? 7 - xBoard : xBoard,
+                !whitePov ? 7 - yBoard : yBoard
+            );
+            Board newBoard = _boardService.GetSuccessorStateForClickedPosition(position, GameState.Board, GameState.SuccessiveBoards);
 
             GameState.Board = newBoard;
 

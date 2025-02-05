@@ -12,8 +12,16 @@ namespace ChessMate.Presentation.GraphicsRendering.Renderers
 {
     public class BoardRenderer : IShapeRenderer<Board>
     {
-        private readonly IShapeRenderer<Piece> _pieceRenderer = new PieceRenderer();
-        private readonly IShapeRenderer<Position> _positionRenderer = new PositionRenderer();
+        private bool whitePov;
+
+        public BoardRenderer(bool whitePov)
+        {
+            _pieceRenderer = new PieceRenderer(whitePov);
+            _positionRenderer = new PositionRenderer(whitePov);
+        }
+
+        private readonly IShapeRenderer<Piece> _pieceRenderer;
+        private readonly IShapeRenderer<Position> _positionRenderer;
 
         public void Draw(Graphics graphics, Board shape)
         {
