@@ -65,7 +65,10 @@ namespace ChessMate.Presentation.Controllers
 
         public void SubmitPlayerClick(int x, int y)
         {
-            Board newBoard = _boardService.GetSuccessorStateForClickedPosition(new Position(x, y), GameState.Board, GameState.SuccessiveBoards);
+            int xBoard = (x - Board.OffsetX) / Board.TileSide;
+            int yBoard = (y - Board.OffsetY) / Board.TileSide;
+
+            Board newBoard = _boardService.GetSuccessorStateForClickedPosition(new Position(xBoard, yBoard), GameState.Board, GameState.SuccessiveBoards);
 
             if (!ReferenceEquals(GameState.Board, newBoard))
             {
