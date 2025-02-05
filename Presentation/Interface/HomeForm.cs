@@ -27,9 +27,9 @@ namespace ChessMate.Presentation.Interface
 
         private void multiplayerBtn_Click(object sender, EventArgs e)
         {
-            Form2 mpForm = new Form2();
+            Form3 configureMultiplayerGameForm = new Form3();
             Hide();
-            mpForm.ShowDialog();
+            configureMultiplayerGameForm.ShowDialog();
             Show();
         }
 

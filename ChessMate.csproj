@@ -98,6 +98,12 @@
     <Compile Include="Presentation\Interface\AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Presentation\Interface\Form3.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Presentation\Interface\Form3.Designer.cs">
+      <DependentUpon>Form3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Presentation\Interface\FormUtils.cs" />
     <Compile Include="Domain\Pieces\Bishop.cs" />
     <Compile Include="Domain\Pieces\ContinuousPathPiece.cs" />
@@ -134,6 +140,9 @@
     <EmbeddedResource Include="Presentation\Interface\AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presentation\Interface\Form3.resx">
+      <DependentUpon>Form3.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Presentation\Interface\HomeForm.resx">
       <DependentUpon>HomeForm.cs</DependentUpon>

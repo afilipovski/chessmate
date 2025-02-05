@@ -23,8 +23,6 @@ namespace ChessMate.Presentation.Controllers
     public class MultiplayerGameController
     {
         public GameState GameState { get; set; }
-        public string SavedGamePath { get; set; }
-        public bool Dirty { get; set; }
         private Opponent opponent;
 
         private readonly IBoardService _boardService = new BoardService();
@@ -41,11 +39,7 @@ namespace ChessMate.Presentation.Controllers
         {
             GameState = new GameState();
             opponent = new Opponent(GameState.OpponentDifficulty);
-            SavedGamePath = null;
-            Dirty = false;
 
-            UpdateTitle();
-            _form.Checkmarks();
             _form.Invalidate();
         }
 
@@ -58,20 +52,12 @@ namespace ChessMate.Presentation.Controllers
 
         public void NewGame()
         {
-            if (UnsavedChangesAbort())
-                return;
             GenerateGame();
         }
 
         public void SubmitPlayerClick(int x, int y)
         {
             Board newBoard = _boardService.GetSuccessorStateForClickedPosition(new Position(x, y), GameState.Board, GameState.SuccessiveBoards);
-
-            if (!ReferenceEquals(GameState.Board, newBoard))
-            {
-                Dirty = true;
-                UpdateTitle();
-            }
 
             GameState.Board = newBoard;
 
@@ -109,99 +95,9 @@ namespace ChessMate.Presentation.Controllers
             _form.Refresh();
         }
 
-        public void SaveGame()
-        {
-            if (SavedGamePath is null)
-            {
-                SaveGameAs();
-                return;
-            }
-            _gameStateService.SaveToFile(GameState, SavedGamePath);
-            Dirty = false;
-            UpdateTitle();
-        }
-
-        public void SaveGameAs()
-        {
-            if (ChooseSaveGamePath())
-                SaveGame();
-        }
-
-        public void OpenGame()
-        {
-            if (UnsavedChangesAbort())
-                return;
-            OpenFileResult result;
-            try
-            {
-                result = FormUtils.ShowOpenFileDialog();
-            }
-            catch (FileNotChosenException e)
-            {
-                return;
-            }
-            try
-            {
-                GameState = _gameStateService.LoadFromFile(result.File);
-            }
-            catch (Exception)
-            {
-                FormUtils.ShowMessage("The file is either corrupted or not a ChessMate savegame.", "Loading failed", () => { });
-            }
-            opponent = new Opponent(GameState.OpponentDifficulty);
-            SavedGamePath = result.FilePath;
-            Dirty = false;
-            UpdateTitle();
-            _form.Invalidate();
-        }
-
         public void SetDifficulty(OpponentDifficulty difficulty)
         {
             opponent.Difficulty = GameState.OpponentDifficulty = difficulty;
-            _form.Checkmarks();
-        }
-
-        public void ExitGame(FormClosingEventArgs e)
-        {
-            if (UnsavedChangesAbort())
-                e.Cancel = true;
-        }
-
-        private bool ChooseSaveGamePath()
-        {
-            string filename;
-            try
-            {
-                filename = FormUtils.ShowSaveFileDialog();
-            }
-            catch (FilePathNotChosenException e)
-            {
-                return false;
-            }
-            SavedGamePath = filename;
-            _form.Text = $"ChessMate: {Path.GetFileNameWithoutExtension(SavedGamePath)}";
-            return true;
-        }
-
-        private bool UnsavedChangesAbort()
-        {
-            if (!Dirty)
-                return false;
-            if (!FormUtils.ShowConfirmDialog("Do you want to save your game ? ", "Unsaved progress", () => { }))
-                return false;
-            SaveGame();
-            if (!Dirty)
-                return false;
-            return true;
-        }
-
-        private void UpdateTitle()
-        {
-            _form.Text = "ChessMate - AI Opponent";
-            if (SavedGamePath != null)
-                _form.Text += $" - {Path.GetFileNameWithoutExtension(SavedGamePath)}";
-            if (Dirty)
-                _form.Text += "*";
         }
     }
 }
