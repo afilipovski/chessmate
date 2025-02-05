@@ -11,6 +11,13 @@ namespace ChessMate.Presentation.GraphicsRendering.Renderers
 {
     public class PieceRenderer : IShapeRenderer<Piece>
     {
+        private bool whitePov;
+
+        public PieceRenderer(bool whitePov = true)
+        {
+            this.whitePov = whitePov;
+        }
+
         private readonly Dictionary<string, Bitmap> _imageByName = new Dictionary<string, Bitmap>
         {
             { "black-king", Properties.Resources.b_king_png_shadow_1024px },
@@ -30,7 +37,11 @@ namespace ChessMate.Presentation.GraphicsRendering.Renderers
         public void Draw(Graphics graphics, Piece shape)
         {
             Bitmap bitmap = _imageByName[shape.NameColor()];
-            graphics.DrawImage(bitmap, shape.Position.X * Board.TileSide + Board.OffsetX, shape.Position.Y * Board.TileSide + Board.OffsetY, Board.TileSide, Board.TileSide);
+
+            int positionX = !whitePov ? 7 - shape.Position.X : shape.Position.X;
+            int positionY = !whitePov ? 7 - shape.Position.Y : shape.Position.Y;
+
+            graphics.DrawImage(bitmap, positionX * Board.TileSide + Board.OffsetX, positionY * Board.TileSide + Board.OffsetY, Board.TileSide, Board.TileSide);
         }
     }
 }

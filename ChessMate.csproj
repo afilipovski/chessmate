@@ -45,6 +45,9 @@
     <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=9.0.0.1, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Extensions.DependencyInjection.Abstractions.9.0.1\lib\net462\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -66,13 +69,22 @@
   <ItemGroup>
     <Compile Include="Domain\Exceptions\FileNotChosenException.cs" />
     <Compile Include="Domain\Exceptions\FilePathNotChosenException.cs" />
+    <Compile Include="Domain\Move.cs" />
+    <Compile Include="Domain\MultiplayerGame.cs" />
     <Compile Include="Domain\OpponentDifficulty.cs" />
     <Compile Include="Presentation\AlphaBeta\EvaluationUtils.cs" />
     <Compile Include="Presentation\AlphaBeta\Opponent.cs" />
     <Compile Include="Domain\Board.cs" />
-    <Compile Include="Presentation\Controllers\GameController.cs" />
+    <Compile Include="Presentation\Controllers\AiGameController.cs" />
+    <Compile Include="Presentation\Controllers\MultiplayerGameController.cs" />
     <Compile Include="Presentation\GraphicsRendering\Drawer.cs" />
     <Compile Include="Presentation\GraphicsRendering\IShapeRenderer.cs" />
+    <Compile Include="Presentation\Interface\Form2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Presentation\Interface\Form2.Designer.cs">
+      <DependentUpon>Form2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Presentation\Interface\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -90,6 +102,12 @@
     </Compile>
     <Compile Include="Presentation\Interface\AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\Interface\Form3.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Presentation\Interface\Form3.Designer.cs">
+      <DependentUpon>Form3.cs</DependentUpon>
     </Compile>
     <Compile Include="Presentation\Interface\FormUtils.cs" />
     <Compile Include="Domain\Pieces\Bishop.cs" />
@@ -116,14 +134,22 @@
     </Compile>
     <Compile Include="Service\Implementation\BoardService.cs" />
     <Compile Include="Service\Implementation\GameStateService.cs" />
+    <Compile Include="Service\Implementation\MultiplayerService.cs" />
     <Compile Include="Service\Interface\IBoardService.cs" />
     <Compile Include="Service\Interface\IGameStateService.cs" />
+    <Compile Include="Service\Interface\IMultiplayerService.cs" />
+    <EmbeddedResource Include="Presentation\Interface\Form2.resx">
+      <DependentUpon>Form2.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Presentation\Interface\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Presentation\Interface\AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presentation\Interface\Form3.resx">
+      <DependentUpon>Form3.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Presentation\Interface\HomeForm.resx">
       <DependentUpon>HomeForm.cs</DependentUpon>
@@ -133,6 +159,7 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

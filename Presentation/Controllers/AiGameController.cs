@@ -20,7 +20,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace ChessMate.Presentation.Controllers
 {
-    public class GameController
+    public class AiGameController
     {
         public GameState GameState { get; set; }
         public string SavedGamePath { get; set; }
@@ -32,7 +32,7 @@ namespace ChessMate.Presentation.Controllers
         private readonly Drawer _drawer = new Drawer();
         private readonly Form1 _form;
 
-        public GameController(Form1 form)
+        public AiGameController(Form1 form)
         {
             _form = form;
         }
@@ -65,7 +65,10 @@ namespace ChessMate.Presentation.Controllers
 
         public void SubmitPlayerClick(int x, int y)
         {
-            Board newBoard = _boardService.GetSuccessorStateForClickedPosition(new Position(x, y), GameState.Board, GameState.SuccessiveBoards);
+            int xBoard = (x - Board.OffsetX) / Board.TileSide;
+            int yBoard = (y - Board.OffsetY) / Board.TileSide;
+
+            Board newBoard = _boardService.GetSuccessorStateForClickedPosition(new Position(xBoard, yBoard), GameState.Board, GameState.SuccessiveBoards);
 
             if (!ReferenceEquals(GameState.Board, newBoard))
             {

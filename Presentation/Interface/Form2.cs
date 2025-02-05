@@ -15,34 +15,34 @@ using ChessMate.Presentation.Controllers;
 
 namespace ChessMate.Presentation.Interface
 {
-    public partial class Form1 : Form
+    public partial class Form2 : Form
     {
-        private readonly AiGameController _gameController;
+        private readonly MultiplayerGameController _gameController;
 
-        public Form1()
+        public Form2(bool whitePov)
         {
             InitializeComponent();
 			DoubleBuffered = true;
-            _gameController = new AiGameController(this);
+            _gameController = new MultiplayerGameController(this, whitePov);
             _gameController.GenerateGame();
         }
 
-        private void Form1_Paint(object sender, PaintEventArgs e)
+        private void Form2_Paint(object sender, PaintEventArgs e)
         {
             _gameController.PaintForm(e);
         }
 
-        private void Form1_Resize_1(object sender, EventArgs e)
+        private void Form2_Resize_1(object sender, EventArgs e)
         {
             Invalidate();
         }
 
-        private void Form1_ResizeEnd(object sender, EventArgs e)
+        private void Form2_ResizeEnd(object sender, EventArgs e)
         {
             Invalidate();
         }
 
-        private void Form1_MouseClick(object sender, MouseEventArgs e)
+        private void Form2_MouseClick(object sender, MouseEventArgs e)
         {
             _gameController.SubmitPlayerClick(e.X, e.Y);
         }
@@ -54,17 +54,14 @@ namespace ChessMate.Presentation.Interface
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _gameController.SaveGame();
 		}
 
 		private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-            _gameController.SaveGameAs();
 		}
 
 		private void openToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-            _gameController.OpenGame();
 		}
 
 		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -72,9 +69,8 @@ namespace ChessMate.Presentation.Interface
             Close();
 		}
 
-		private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+		private void Form2_FormClosing(object sender, FormClosingEventArgs e)
         {
-            _gameController.ExitGame(e);
 		}
 
 		private void easyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -91,16 +87,5 @@ namespace ChessMate.Presentation.Interface
 		{
             _gameController.SetDifficulty(OpponentDifficulty.Hard);
 		}
-
-        public void Checkmarks()
-        {
-            easyToolStripMenuItem.Checked = mediumToolStripMenuItem.Checked = hardToolStripMenuItem.Checked = false;
-            switch (_gameController.GameState.OpponentDifficulty)
-            {
-                case OpponentDifficulty.Easy: easyToolStripMenuItem.Checked = true; break;
-                case OpponentDifficulty.Medium: mediumToolStripMenuItem.Checked = true; break;
-                case OpponentDifficulty.Hard: hardToolStripMenuItem.Checked = true; break;
-            }
-        }
 	}
 }

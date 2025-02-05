@@ -14,11 +14,10 @@ namespace ChessMate.Service.Implementation
     {
         public Board GetSuccessorStateForClickedPosition(Position position, Board board, List<Board> successiveStates)
         {
-            Position clickedPosition = new Position((position.X - Board.OffsetX) / Board.TileSide, (position.Y - Board.OffsetY) / Board.TileSide);
-            if (!board.WhiteTurn || !Board.IsInBoard(clickedPosition))
+            if (!board.WhiteTurn || !Board.IsInBoard(position))
                 return board;
 
-            Piece clickedPiece = board.PieceByPosition[clickedPosition];
+            Piece clickedPiece = board.PieceByPosition[position];
 
 
             if (clickedPiece == null || !clickedPiece.White)
@@ -27,14 +26,14 @@ namespace ChessMate.Service.Implementation
 
                 //impossible move, i.e. unclicked the currently selected piece
 
-                if (!successiveStates.Any(ss => ss.NewPos.Equals(clickedPosition)))
+                if (!successiveStates.Any(ss => ss.NewPos.Equals(position)))
                 {
                     board.CurrentClickedPiece = null;
                     successiveStates.Clear();
                     return board;
                 }
 
-                Board res = successiveStates.Find(ss => ss.NewPos.Equals(clickedPosition));
+                Board res = successiveStates.Find(ss => ss.NewPos.Equals(position));
                 successiveStates.Clear();
                 return res;
             }

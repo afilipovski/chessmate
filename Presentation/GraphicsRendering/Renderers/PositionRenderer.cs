@@ -12,30 +12,46 @@ namespace ChessMate.Presentation.GraphicsRendering.Renderers
 {
     public class PositionRenderer : IShapeRenderer<Position>
     {
+        private bool whitePov;
+
+        public PositionRenderer(bool whitePov = true)
+        {
+            this.whitePov = whitePov;
+        }
+
         public void Draw(Graphics graphics, Position shape)
         {
-            _functions[shape.Name()].Invoke(graphics, shape);
+            switch (shape.Name())
+            {
+                case "position":
+                    _drawRegularShape(graphics, shape);
+                    break;
+                case "colored-position":
+                    _drawColoredShape(graphics, shape);
+                    break;
+            }
         }
 
         private delegate void ColorPosition(Graphics graphics, Position position);
 
-        private readonly Dictionary<string, ColorPosition> _functions = new Dictionary<string, ColorPosition> {
-            { "position", _drawRegularShape },
-            { "colored-position", _drawColoredShape }
-        };
-
-        private static ColorPosition _drawRegularShape = (graphics, position) =>
+        private void _drawRegularShape(Graphics graphics, Position position)
         {
+            var positionX = !this.whitePov ? 7 - position.X : position.X;
+            var positionY = !this.whitePov ? 7 - position.Y : position.Y;
+
             Brush b = new SolidBrush(position.White ? Color.White : Color.DarkSlateGray);
-            graphics.FillRectangle(b, position.X * Board.TileSide + Board.OffsetX, position.Y * Board.TileSide + Board.OffsetY, Board.TileSide, Board.TileSide);
-            graphics.DrawRectangle(new Pen(new SolidBrush(Color.Black), 2), position.X * Board.TileSide + Board.OffsetX, position.Y * Board.TileSide + Board.OffsetY, Board.TileSide, Board.TileSide);
+            graphics.FillRectangle(b, positionX * Board.TileSide + Board.OffsetX, positionY * Board.TileSide + Board.OffsetY, Board.TileSide, Board.TileSide);
+            graphics.DrawRectangle(new Pen(new SolidBrush(Color.Black), 2), positionX * Board.TileSide + Board.OffsetX, positionY * Board.TileSide + Board.OffsetY, Board.TileSide, Board.TileSide);
             b.Dispose();
-        };
+        }
 
-        private static ColorPosition _drawColoredShape = (graphics, position) =>
+        private void _drawColoredShape(Graphics graphics, Position position)
         {
+            var positionX = !this.whitePov ? 7 - position.X : position.X;
+            var positionY = !this.whitePov ? 7 - position.Y : position.Y;
+
             ColoredPosition coloredPosition = (ColoredPosition)position;
-            graphics.FillRectangle(new SolidBrush(coloredPosition.Color), coloredPosition.X * Board.TileSide + Board.OffsetX, coloredPosition.Y * Board.TileSide + Board.OffsetY, Board.TileSide, Board.TileSide);
-        };
+            graphics.FillRectangle(new SolidBrush(coloredPosition.Color), positionX * Board.TileSide + Board.OffsetX, positionY * Board.TileSide + Board.OffsetY, Board.TileSide, Board.TileSide);
+        }
     }
 }
