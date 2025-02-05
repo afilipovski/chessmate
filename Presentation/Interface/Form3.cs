@@ -68,7 +68,8 @@ namespace ChessMate.Presentation.Interface
             }
 
             Hide();
-            Form2 multiplayerGame = new Form2();
+            bool whitePov = string.IsNullOrEmpty(textBox2.Text);
+            Form2 multiplayerGame = new Form2(whitePov);
             multiplayerGame.ShowDialog();
             Show();
 
