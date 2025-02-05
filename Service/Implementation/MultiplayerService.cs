@@ -1,7 +1,9 @@
 ﻿using ChessMate.Domain;
 using ChessMate.Service.Interface;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -34,28 +36,49 @@ namespace ChessMate.Service.Implementation
                 { "username", username }
             };
 
-            var queryString = new FormUrlEncodedContent(queryParams).ReadAsStringAsync().Result;
+            var queryString = new FormUrlEncodedContent(queryParams);
 
-            var urlWithParams = $"/game?{queryString}";
+            var response = await MakePostRequest("/game", queryString);
+            var stringResponse = await response.Content.ReadAsStringAsync();
 
-            var response = await MakePostRequest(urlWithParams);
-
-            return new MultiplayerGame();
+            return new MultiplayerGame(stringResponse);
         }
 
         public async Task<MultiplayerGame> GetMultiplayerGame(string username)
         {
-            throw new NotImplementedException();
+            var response = await httpClient.GetAsync($"/game?username={username}");
+            var stringResponse = await response.Content.ReadAsStringAsync();
+
+            return new MultiplayerGame(stringResponse);
         }
 
         public async Task<MultiplayerGame> JoinGame(string username, string joinCode)
         {
-            throw new NotImplementedException();
+            var queryParams = new Dictionary<string, string>
+            {
+                { "username", username },
+                { "join_code", joinCode }
+            };
+
+            var queryString = new FormUrlEncodedContent(queryParams);
+
+            var response = await MakePostRequest("/game/join", queryString);
+            var stringResponse = await response.Content.ReadAsStringAsync();
+
+            return new MultiplayerGame(stringResponse);
         }
 
         public async Task LeaveGame(string username, string joinCode)
         {
-            throw new NotImplementedException();
+            var queryParams = new Dictionary<string, string>
+            {
+                { "username", username },
+                { "join_code", joinCode }
+            };
+
+            var queryString = new FormUrlEncodedContent(queryParams);
+
+            await MakePostRequest("/game/leave", queryString);
         }
 
         public async Task<MultiplayerGame> Move(string username, string joinCode, Move move)

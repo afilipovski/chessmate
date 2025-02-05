@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChessMate.Service.Implementation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,9 +13,11 @@ namespace ChessMate.Presentation.Interface
 {
     public partial class Form3 : Form
     {
+        public MultiplayerService multiplayerService;
         public Form3()
         {
             InitializeComponent();
+            multiplayerService = new MultiplayerService();
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -42,17 +45,34 @@ namespace ChessMate.Presentation.Interface
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private async void button1_Click(object sender, EventArgs e)
         {
-            if (textBox1.Text == "")
+            string username = textBox1.Text;
+            if (username == "")
             {
                 MessageBox.Show("Please enter a username.", "Error");
                 return;
             }
-            if (textBox2.Text != "" && textBox2.Text.Length != 5)
+
+            string joinCode = textBox2.Text;
+            if (joinCode != "" && joinCode.Length != 5)
             {
                 MessageBox.Show("Please enter a valid join code");
+                return;
             }
+
+            if (string.IsNullOrEmpty(joinCode))
+            {
+                var response = await multiplayerService.CreateGame(username);
+                joinCode = response.JoinCode;
+            }
+
+            Hide();
+            Form2 multiplayerGame = new Form2();
+            multiplayerGame.ShowDialog();
+            Show();
+
+            await multiplayerService.LeaveGame(username, joinCode);
         }
     }
 }
