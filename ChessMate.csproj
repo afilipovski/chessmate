@@ -70,9 +70,16 @@
     <Compile Include="Presentation\AlphaBeta\EvaluationUtils.cs" />
     <Compile Include="Presentation\AlphaBeta\Opponent.cs" />
     <Compile Include="Domain\Board.cs" />
-    <Compile Include="Presentation\Controllers\GameController.cs" />
+    <Compile Include="Presentation\Controllers\AiGameController.cs" />
+    <Compile Include="Presentation\Controllers\MultiplayerGameController.cs" />
     <Compile Include="Presentation\GraphicsRendering\Drawer.cs" />
     <Compile Include="Presentation\GraphicsRendering\IShapeRenderer.cs" />
+    <Compile Include="Presentation\Interface\Form2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Presentation\Interface\Form2.Designer.cs">
+      <DependentUpon>Form2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Presentation\Interface\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -118,6 +125,9 @@
     <Compile Include="Service\Implementation\GameStateService.cs" />
     <Compile Include="Service\Interface\IBoardService.cs" />
     <Compile Include="Service\Interface\IGameStateService.cs" />
+    <EmbeddedResource Include="Presentation\Interface\Form2.resx">
+      <DependentUpon>Form2.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Presentation\Interface\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

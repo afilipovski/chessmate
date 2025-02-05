@@ -27,7 +27,10 @@ namespace ChessMate.Presentation.Interface
 
         private void multiplayerBtn_Click(object sender, EventArgs e)
         {
-            
+            Form2 mpForm = new Form2();
+            Hide();
+            mpForm.ShowDialog();
+            Show();
         }
 
         private void aboutBtn_Click(object sender, EventArgs e)

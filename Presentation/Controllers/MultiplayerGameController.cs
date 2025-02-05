@@ -20,7 +20,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace ChessMate.Presentation.Controllers
 {
-    public class GameController
+    public class MultiplayerGameController
     {
         public GameState GameState { get; set; }
         public string SavedGamePath { get; set; }
@@ -30,9 +30,9 @@ namespace ChessMate.Presentation.Controllers
         private readonly IBoardService _boardService = new BoardService();
         private readonly IGameStateService _gameStateService = new GameStateService();
         private readonly Drawer _drawer = new Drawer();
-        private readonly Form1 _form;
+        private readonly Form2 _form;
 
-        public GameController(Form1 form)
+        public MultiplayerGameController(Form2 form)
         {
             _form = form;
         }
@@ -146,7 +146,7 @@ namespace ChessMate.Presentation.Controllers
             }
             catch (Exception)
             {
-                FormUtils.ShowMessage("The file is either corrupted or not a ChessMate savegame.", "Loading failed", () => {});
+                FormUtils.ShowMessage("The file is either corrupted or not a ChessMate savegame.", "Loading failed", () => { });
             }
             opponent = new Opponent(GameState.OpponentDifficulty);
             SavedGamePath = result.FilePath;
@@ -187,7 +187,7 @@ namespace ChessMate.Presentation.Controllers
         {
             if (!Dirty)
                 return false;
-            if (!FormUtils.ShowConfirmDialog("Do you want to save your game ? ", "Unsaved progress", () => {}))
+            if (!FormUtils.ShowConfirmDialog("Do you want to save your game ? ", "Unsaved progress", () => { }))
                 return false;
             SaveGame();
             if (!Dirty)
