@@ -37,7 +37,7 @@ namespace ChessMate.Presentation.GraphicsRendering
             }
             if (!gameState.Board.WhiteTurn)
             {
-                _overlayRenderer.Draw(graphics, "AI turn...");
+                _overlayRenderer.Draw(graphics, "Opponent turn...");
             }
         }
     }

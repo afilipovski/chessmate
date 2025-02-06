@@ -25,7 +25,7 @@ namespace ChessMate.Presentation.Controllers
         public GameState GameState { get; set; }
         private Opponent opponent;
 
-        private readonly IBoardService _boardService = new BoardService();
+        private readonly IBoardService _boardService = new MultiplayerBoardService();
         private readonly IGameStateService _gameStateService = new GameStateService();
         private readonly Drawer _drawer;
         private readonly Form2 _form;
@@ -76,39 +76,10 @@ namespace ChessMate.Presentation.Controllers
             GameState.CheckPosition = _boardService.GetColoredKingCheckPosition(GameState.Board);
             _form.Refresh();
 
-            //AI MOVE
-            if (GameState.Board.WhiteTurn == false)
-            {
-                Board aiMove = opponent.Move(GameState.Board);
-
-                if (aiMove != null)
-                {
-                    GameState.Board = aiMove;
-                    if (_boardService.PossibleMovesNotExisting(GameState.Board))
-                    {
-                        if (_boardService.IsKingInCheck(GameState.Board, true))
-                            FormUtils.ShowMessage("You are in checkmate.", "Defeat", NewGame);
-                        else
-                            FormUtils.ShowMessage("You are in stalemate.", "Stalemate", NewGame);
-                    }
-                }
-                else //ai didn't generate move
-                {
-                    if (_boardService.IsKingInCheck(GameState.Board, false))
-                        FormUtils.ShowMessage("AI is in checkmate.", "Victory", NewGame);
-                    else
-                        FormUtils.ShowMessage("The AI is in stalemate.", "Stalemate", NewGame);
-                }
-            }
 
             GameState.CheckPosition = _boardService.GetColoredKingCheckPosition(GameState.Board);
 
             _form.Refresh();
-        }
-
-        public void SetDifficulty(OpponentDifficulty difficulty)
-        {
-            opponent.Difficulty = GameState.OpponentDifficulty = difficulty;
         }
     }
 }
