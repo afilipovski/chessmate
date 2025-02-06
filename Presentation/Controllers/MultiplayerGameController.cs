@@ -25,7 +25,7 @@ namespace ChessMate.Presentation.Controllers
         public GameState GameState { get; set; }
         private Opponent opponent;
 
-        private readonly IBoardService _boardService = new MultiplayerBoardService();
+        private readonly IBoardService _boardService;
         private readonly IGameStateService _gameStateService = new GameStateService();
         private readonly Drawer _drawer;
         private readonly Form2 _form;
@@ -37,6 +37,7 @@ namespace ChessMate.Presentation.Controllers
             _form = form;
             this.whitePov = whitePov;
             this._drawer = new Drawer(whitePov);
+            this._boardService = new MultiplayerBoardService(whitePov);
         }
 
         public void GenerateGame()

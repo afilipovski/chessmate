@@ -12,15 +12,24 @@ namespace ChessMate.Service.Implementation
 {
     public class MultiplayerBoardService : IBoardService
     {
+        private bool whitePov;
+        public MultiplayerBoardService(bool whitePov)
+        {
+            this.whitePov = whitePov;
+        }
+
         public Board GetSuccessorStateForClickedPosition(Position position, Board board, List<Board> successiveStates)
         {
-            if (!board.WhiteTurn || !Board.IsInBoard(position))
+            bool isPlayerTurn = whitePov == board.WhiteTurn;
+
+            if (!isPlayerTurn || !Board.IsInBoard(position))
                 return board;
 
             Piece clickedPiece = board.PieceByPosition[position];
 
 
-            if (clickedPiece == null || !clickedPiece.White)
+            bool clickedPieceBelongsToPlayer = clickedPiece.White;
+            if (clickedPiece == null || !(clickedPieceBelongsToPlayer == whitePov))
             {
                 if (board.CurrentClickedPiece == null) return board;
 
@@ -37,7 +46,7 @@ namespace ChessMate.Service.Implementation
                 successiveStates.Clear();
                 return res;
             }
-            else if (clickedPiece.White)
+            else if (clickedPieceBelongsToPlayer)
             {
                 successiveStates.Clear();
                 board.CurrentClickedPiece = clickedPiece;
