@@ -35,7 +35,7 @@ namespace ChessMate.Presentation.GraphicsRendering
             {
                 _positionRenderer.Draw(graphics, gameState.CheckPosition);
             }
-            if (!gameState.Board.WhiteTurn)
+            if (!(gameState.Board.WhiteTurn == _whitePov))
             {
                 _overlayRenderer.Draw(graphics, "Opponent turn...");
             }
