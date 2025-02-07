@@ -32,8 +32,6 @@ namespace ChessMate.Presentation.GraphicsRendering.Renderers
             }
         }
 
-        private delegate void ColorPosition(Graphics graphics, Position position);
-
         private void _drawRegularShape(Graphics graphics, Position position)
         {
             var positionX = !this.whitePov ? 7 - position.X : position.X;

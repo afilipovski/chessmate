@@ -26,7 +26,7 @@ namespace ChessMate.Presentation.Controllers
         private Opponent opponent;
 
         private readonly IBoardService _boardService;
-        private readonly IGameStateService _gameStateService = new GameStateService();
+        private readonly IGameStateService _gameStateService = GameStateService.Instance;
         private readonly Drawer _drawer;
         private readonly Form2 _form;
 

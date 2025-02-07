@@ -20,7 +20,7 @@ namespace ChessMate.Presentation.GraphicsRendering
             _boardRenderer = new BoardRenderer(whitePov);
         }
 
-        private readonly IShapeRenderer<string> _overlayRenderer = new OverlayRenderer();
+        private readonly IShapeRenderer<string> _overlayRenderer = OverlayRenderer.Instance;
         private readonly IShapeRenderer<Position> _positionRenderer;
         private readonly IShapeRenderer<Board> _boardRenderer;
 

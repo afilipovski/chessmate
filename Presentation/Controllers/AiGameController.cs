@@ -27,8 +27,8 @@ namespace ChessMate.Presentation.Controllers
         public bool Dirty { get; set; }
         private Opponent opponent;
 
-        private readonly IBoardService _boardService = new AiBoardService();
-        private readonly IGameStateService _gameStateService = new GameStateService();
+        private readonly IBoardService _boardService = AiBoardService.Instance;
+        private readonly IGameStateService _gameStateService = GameStateService.Instance;
         private readonly Drawer _drawer = new Drawer();
         private readonly Form1 _form;
 

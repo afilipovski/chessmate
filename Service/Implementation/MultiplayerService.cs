@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ChessMate.Service.Implementation
 {
-    public class MultiplayerService : IMultiplayerService
+    public class MultiplayerService : SingletonBase<MultiplayerService>, IMultiplayerService
     {
         private readonly CancellationTokenSource _cts = new CancellationTokenSource();
 
