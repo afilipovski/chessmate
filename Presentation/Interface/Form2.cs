@@ -75,17 +75,14 @@ namespace ChessMate.Presentation.Interface
 
 		private void easyToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-            _gameController.SetDifficulty(OpponentDifficulty.Easy);
 		}
 
 		private void mediumToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-            _gameController.SetDifficulty(OpponentDifficulty.Medium);
 		}
 
 		private void hardToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-            _gameController.SetDifficulty(OpponentDifficulty.Hard);
 		}
 	}
 }
