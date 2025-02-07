@@ -138,6 +138,7 @@
     <Compile Include="Service\Interface\IBoardService.cs" />
     <Compile Include="Service\Interface\IGameStateService.cs" />
     <Compile Include="Service\Interface\IMultiplayerService.cs" />
+    <Compile Include="SingletonBase.cs" />
     <EmbeddedResource Include="Presentation\Interface\Form2.resx">
       <DependentUpon>Form2.cs</DependentUpon>
     </EmbeddedResource>
