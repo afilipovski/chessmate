@@ -5,22 +5,26 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ChessMate.Service.Implementation
 {
     public class MultiplayerService : IMultiplayerService
     {
-        public static HttpClient httpClient = new HttpClient
+        private readonly CancellationTokenSource _cts = new CancellationTokenSource();
+
+        public static readonly HttpClient httpClient = new HttpClient
         {
             BaseAddress = new Uri("https://chess.filipovski.net")
         };
 
-        private static async Task<HttpResponseMessage> MakePostRequest(string requestUri, HttpContent httpContent = null)
+        private static async Task<HttpResponseMessage> MakePostRequest(string requestUri, HttpContent httpContent, CancellationTokenSource cts=null)
         {
             var token = await GetToken();
             httpContent.Headers.Add("X-CSRF-TOKEN", token);
-            return await httpClient.PostAsync(requestUri, httpContent);
+            cts = cts ?? new CancellationTokenSource();
+            return await httpClient.PostAsync(requestUri, httpContent, cts.Token);
         }
 
         public static async Task<string> GetToken()
@@ -81,7 +85,7 @@ namespace ChessMate.Service.Implementation
             await MakePostRequest("/game/leave", queryString);
         }
 
-        public async Task<MultiplayerGame> Move(string username, string joinCode, Move move)
+        public async Task Move(string username, string joinCode, Move move, Action<MultiplayerGame> callback)
         {
             var body = new Dictionary<string, string>
             {
@@ -93,11 +97,38 @@ namespace ChessMate.Service.Implementation
             };
 
             var json = JsonConvert.SerializeObject(body);
+            await LongPollingForMove(json, callback);
+        }
 
-            var response = await MakePostRequest("/game/move", new StringContent(json));
-            var stringResponse = await response.Content.ReadAsStringAsync();
+        private async Task LongPollingForMove(string jsonContent, Action<MultiplayerGame> callback)
+        {
+            while (!_cts.Token.IsCancellationRequested)
+            {
+                try
+                {
+                    var response = await MakePostRequest("/game/move", new StringContent(jsonContent), _cts);
 
-            return new MultiplayerGame(stringResponse);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string jsonData = await response.Content.ReadAsStringAsync();
+                        callback.Invoke(new MultiplayerGame(jsonData));
+                    }
+
+                    // Simulate long polling: Wait before sending another request
+                    await Task.Delay(5000, _cts.Token);
+                }
+                catch (TaskCanceledException) { break; } // Stop if cancellation is requested
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Long polling error: {ex.Message}");
+                    await Task.Delay(5000); // Retry delay
+                }
+            }
+        }
+
+        public void CancelMove()
+        {
+            _cts.Cancel();
         }
     }
 }
