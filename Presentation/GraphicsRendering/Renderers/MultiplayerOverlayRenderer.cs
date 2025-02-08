@@ -10,20 +10,9 @@ using ChessMate.Service.Interface;
 
 namespace ChessMate.Presentation.GraphicsRendering.Renderers
 {
-    public class MultiplayerOverlayRenderer : IShapeRenderer<string>
+    public class MultiplayerOverlayRenderer : IShapeRenderer<MultiplayerGame>
     {
-        private string _username;
-        private string _joinCode;
-
-        private MultiplayerGame multiplayerGame;
-        private IMultiplayerService _multiplayerService;
-        public MultiplayerOverlayRenderer(string username, string joinCode)
-        {
-            _username = username;
-            _joinCode = joinCode;
-            _multiplayerService = new MultiplayerService();
-        }
-        public void Draw(Graphics graphics, string shape)
+        public void Draw(Graphics graphics, MultiplayerGame multiplayerGame)
         {
             SolidBrush sb = new SolidBrush(Color.Black);
             SolidBrush sbs = new SolidBrush(Color.Black);
@@ -33,21 +22,11 @@ namespace ChessMate.Presentation.GraphicsRendering.Renderers
 
             Font f = new Font("Arial", 15);
 
-            graphics.DrawString("Join code: " + _joinCode, f, sbs, textOffsetX, textOffsetY);
+            graphics.DrawString("Join code: " + multiplayerGame.JoinCode, f, sbs, textOffsetX, textOffsetY);
 
-            if (multiplayerGame != null && !string.IsNullOrEmpty(multiplayerGame.Username2))
+            if (multiplayerGame != null && !string.IsNullOrEmpty(multiplayerGame.OpponentUsername))
             {
-                graphics.DrawString("Opponent: " + multiplayerGame.Username2, f, sbs, textOffsetX, textOffsetY + 20);
-            }
-        }
-
-        public async Task GetUsernames()
-        {
-            while (this.multiplayerGame == null || string.IsNullOrEmpty(multiplayerGame.Username2))
-            {
-                MultiplayerGame multiplayerGame = await _multiplayerService.GetMultiplayerGame(_username);
-                await Task.Delay(1000);
-                this.multiplayerGame = multiplayerGame;
+                graphics.DrawString("Opponent: " + multiplayerGame.OpponentUsername, f, sbs, textOffsetX, textOffsetY + 20);
             }
         }
     }

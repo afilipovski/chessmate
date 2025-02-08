@@ -13,25 +13,21 @@ namespace ChessMate.Presentation.GraphicsRendering
     public class Drawer
     {
         private bool _whitePov;
-        private string _joinCode;
 
-        public Drawer(bool whitePov = true, string username = null, string joinCode = null)
+        public Drawer(bool whitePov = true)
         {
             _positionRenderer = new PositionRenderer(whitePov);
             _boardRenderer = new BoardRenderer(whitePov);
 
-            _joinCode = joinCode;
             _whitePov = whitePov;
-
-            _multiplayerOverlayRenderer = new MultiplayerOverlayRenderer(username, _joinCode);
         }
 
         private readonly IShapeRenderer<string> _overlayRenderer = new OpponentMoveMessageOverlayRenderer();
-        private readonly IShapeRenderer<string> _multiplayerOverlayRenderer;
+        private readonly IShapeRenderer<MultiplayerGame> _multiplayerOverlayRenderer = new MultiplayerOverlayRenderer();
         private readonly IShapeRenderer<Position> _positionRenderer;
         private readonly IShapeRenderer<Board> _boardRenderer;
 
-        public void DrawChessBoardForm(GameState gameState, Graphics graphics)
+        public void DrawChessBoardForm(GameState gameState, Graphics graphics, MultiplayerGame multiplayerGame = null)
         {
             _boardRenderer.Draw(graphics, gameState.Board);
             foreach (Board sb in gameState.SuccessiveBoards)
@@ -46,9 +42,9 @@ namespace ChessMate.Presentation.GraphicsRendering
             {
                 _overlayRenderer.Draw(graphics, "Opponent turn...");
             }
-            if (_joinCode != null)
+            if (multiplayerGame != null)
             {
-                _multiplayerOverlayRenderer.Draw(graphics, "Join code: xxxxx");
+                _multiplayerOverlayRenderer.Draw(graphics, multiplayerGame);
             }
         }
     }
