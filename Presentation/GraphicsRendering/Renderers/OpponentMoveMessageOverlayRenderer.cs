@@ -8,7 +8,7 @@ using ChessMate.Domain;
 
 namespace ChessMate.Presentation.GraphicsRendering.Renderers
 {
-    public class OverlayRenderer : IShapeRenderer<string>
+    public class OpponentMoveMessageOverlayRenderer : IShapeRenderer<string>
     {
         public void Draw(Graphics graphics, string shape)
         {

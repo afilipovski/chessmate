@@ -66,10 +66,14 @@ namespace ChessMate.Presentation.Interface
                 var response = await multiplayerService.CreateGame(username);
                 joinCode = response.JoinCode;
             }
+            else
+            {
+                var response = await multiplayerService.JoinGame(username, joinCode);
+            }
 
             Hide();
             bool whitePov = string.IsNullOrEmpty(textBox2.Text);
-            Form2 multiplayerGame = new Form2(whitePov);
+            Form2 multiplayerGame = new Form2(whitePov, username, joinCode);
             multiplayerGame.ShowDialog();
             Show();
 

@@ -27,9 +27,10 @@ namespace ChessMate.Domain
 
             JoinCode = dictionary["join_code"] as string;
             Username1 = dictionary["username1"] as string;
-            WhiteTurn = (bool)dictionary["white_move"];
+            string whiteTurnString = dictionary["white_move"].ToString();
+            WhiteTurn = whiteTurnString == "1" || whiteTurnString == "true";
             Username2 = dictionary.ContainsKey("username2") ? dictionary["username2"] as string : String.Empty;
-            LastMove = dictionary.ContainsKey("last_move_from") ? new Move
+            LastMove = dictionary.ContainsKey("last_move_from") && dictionary["last_move_from"] != null ? new Move
             {
                 PositionFrom = new Position(dictionary["last_move_from"] as string),
                 PositionTo = new Position(dictionary["last_move_to"] as string),

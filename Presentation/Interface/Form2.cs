@@ -19,11 +19,11 @@ namespace ChessMate.Presentation.Interface
     {
         private readonly MultiplayerGameController _gameController;
 
-        public Form2(bool whitePov)
+        public Form2(bool whitePov, string username, string joinCode)
         {
             InitializeComponent();
 			DoubleBuffered = true;
-            _gameController = new MultiplayerGameController(this, whitePov);
+            _gameController = new MultiplayerGameController(this, whitePov, username, joinCode);
             _gameController.GenerateGame();
         }
 

@@ -31,12 +31,14 @@ namespace ChessMate.Presentation.Controllers
         private readonly Form2 _form;
 
         private bool whitePov;
+        private string joinCode;
 
-        public MultiplayerGameController(Form2 form, bool whitePov)
+        public MultiplayerGameController(Form2 form, bool whitePov, string username, string joinCode)
         {
             _form = form;
             this.whitePov = whitePov;
-            this._drawer = new Drawer(whitePov);
+            this.joinCode = joinCode;
+            this._drawer = new Drawer(whitePov, username, joinCode);
             this._boardService = new MultiplayerBoardService(whitePov);
         }
 
