@@ -12,7 +12,7 @@ namespace ChessMate.Service.Interface
         Task<MultiplayerGame> GetMultiplayerGame(string username);
         Task<MultiplayerGame> CreateGame(string username);
         Task<MultiplayerGame> JoinGame(string username, string joinCode);
-        Task Move(string username, string joinCode, Move move, Action<MultiplayerGame> callback);
+        Task Move(string username, string joinCode, Move move);
         Task LeaveGame(string username, string joinCode);
         void CancelMove();
     }

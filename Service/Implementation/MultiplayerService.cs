@@ -85,7 +85,7 @@ namespace ChessMate.Service.Implementation
             await MakePostRequest("/game/leave", queryString);
         }
 
-        public async Task Move(string username, string joinCode, Move move, Action<MultiplayerGame> callback)
+        public async Task Move(string username, string joinCode, Move move)
         {
             var body = new Dictionary<string, string>
             {
@@ -97,7 +97,6 @@ namespace ChessMate.Service.Implementation
             };
 
             var json = JsonConvert.SerializeObject(body);
-            await LongPollingForMove(json, callback);
         }
 
         private async Task LongPollingForMove(string jsonContent, Action<MultiplayerGame> callback)

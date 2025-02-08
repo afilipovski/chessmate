@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ChessMate.Domain;
 using ChessMate.Domain.Exceptions;
+using ChessMate.Domain.Pieces;
 using ChessMate.Domain.Positions;
 using ChessMate.Presentation.AlphaBeta;
 using ChessMate.Presentation.GraphicsRendering;
@@ -88,6 +89,8 @@ namespace ChessMate.Presentation.Controllers
                 !_whitePov ? 7 - yBoard : yBoard
             );
             Board newBoard = _boardService.GetSuccessorStateForClickedPosition(position, GameState.Board, GameState.SuccessiveBoards);
+            
+            TryPublishPlayerMove(newBoard);
 
             GameState.Board = newBoard;
 
@@ -99,6 +102,23 @@ namespace ChessMate.Presentation.Controllers
             GameState.CheckPosition = _boardService.GetColoredKingCheckPosition(GameState.Board);
 
             _form.Refresh();
+        }
+
+        private void TryPublishPlayerMove(Board newBoard)
+        {
+            bool playerMadeAMove = GameState.Board.WhiteTurn == _whitePov && newBoard.WhiteTurn != _whitePov;
+            if (!playerMadeAMove)
+                return;
+            Piece currentClickedPiece = GameState.Board.CurrentClickedPiece;
+            bool shouldPromoteToQueen = (newBoard.NewPos.Y == 0 && currentClickedPiece.White) ||
+                                        (newBoard.NewPos.Y == 7 && !currentClickedPiece.White);
+            var move = new Move
+            {
+                PositionFrom = currentClickedPiece.Position,
+                PositionTo = newBoard.NewPos,
+                ShouldConvertToQueen = shouldPromoteToQueen
+            };
+            _multiplayerService.Move(_multiplayerGame.PlayerUsername, _multiplayerGame.JoinCode, move);
         }
     }
 }
