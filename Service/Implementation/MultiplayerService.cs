@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -93,37 +94,18 @@ namespace ChessMate.Service.Implementation
                 { "join_code", joinCode },
                 { "from", move.PositionFrom.ToString() },
                 { "to", move.PositionTo.ToString() },
-                { "promotion", move.ShouldConvertToQueen ? "q" : null }
             };
 
-            var json = JsonConvert.SerializeObject(body);
-        }
-
-        private async Task LongPollingForMove(string jsonContent, Action<MultiplayerGame> callback)
-        {
-            while (!_cts.Token.IsCancellationRequested)
+            if (move.ShouldConvertToQueen)
             {
-                try
-                {
-                    var response = await MakePostRequest("/game/move", new StringContent(jsonContent), _cts);
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        string jsonData = await response.Content.ReadAsStringAsync();
-                        //TODO: find a way to update the game state outside of the service
-                        //callback.Invoke(new MultiplayerGame(jsonData));
-                    }
-
-                    // Simulate long polling: Wait before sending another request
-                    await Task.Delay(5000, _cts.Token);
-                }
-                catch (TaskCanceledException) { break; } // Stop if cancellation is requested
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Long polling error: {ex.Message}");
-                    await Task.Delay(5000); // Retry delay
-                }
+                body.Add("promotion", "q");
             }
+
+            var json = JsonConvert.SerializeObject(body);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await MakePostRequest("/game/move", content);
+            return;
         }
 
         public void CancelMove()

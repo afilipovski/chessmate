@@ -44,16 +44,40 @@ namespace ChessMate.Presentation.Controllers
             this._boardService = new MultiplayerBoardService(whitePov);
             this._multiplayerGame = multiplayerGame;
 
+            GenerateGame();
+
             GetUsernames().ContinueWith(t =>
             {
                 _form.Invalidate();
             });
+            if (!whitePov)
+            {
+                ConsumeOpponentMove();
+            }
+        }
+
+        private async Task ConsumeOpponentMove()
+        {
+            while (_whitePov != GameState.Board.WhiteTurn)
+            {
+                MultiplayerGame game = await _multiplayerService.GetMultiplayerGame(_multiplayerGame.PlayerUsername);
+                if (game.WhiteTurn == _whitePov)
+                {
+                    Move opponentMove = game.LastMove;
+                    var piece = GameState.Board.PieceByPosition[opponentMove.PositionFrom];
+                    piece.Position = opponentMove.PositionTo;
+                    GameState.Board.PieceByPosition[opponentMove.PositionTo] = piece;
+                    GameState.Board.WhiteTurn = _whitePov;
+                    _form.Invalidate();
+                    return;
+                }
+                await Task.Delay(1000);
+            }
         }
 
         public void GenerateGame()
         {
             GameState = new GameState();
-
             _form.Invalidate();
         }
 
@@ -118,7 +142,10 @@ namespace ChessMate.Presentation.Controllers
                 PositionTo = newBoard.NewPos,
                 ShouldConvertToQueen = shouldPromoteToQueen
             };
-            _multiplayerService.Move(_multiplayerGame.PlayerUsername, _multiplayerGame.JoinCode, move);
+            _multiplayerService.Move(_multiplayerGame.PlayerUsername, _multiplayerGame.JoinCode, move).ContinueWith(t =>
+            {
+                ConsumeOpponentMove();
+            });
         }
     }
 }

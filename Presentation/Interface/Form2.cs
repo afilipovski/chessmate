@@ -24,7 +24,6 @@ namespace ChessMate.Presentation.Interface
             InitializeComponent();
 			DoubleBuffered = true;
             _gameController = new MultiplayerGameController(this, whitePov, multiplayerGame);
-            _gameController.GenerateGame();
         }
 
         private void Form2_Paint(object sender, PaintEventArgs e)
