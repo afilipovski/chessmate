@@ -19,11 +19,11 @@ namespace ChessMate.Presentation.Interface
     {
         private readonly MultiplayerGameController _gameController;
 
-        public Form2(bool whitePov)
+        public Form2(bool whitePov, MultiplayerGame multiplayerGame)
         {
             InitializeComponent();
 			DoubleBuffered = true;
-            _gameController = new MultiplayerGameController(this, whitePov);
+            _gameController = new MultiplayerGameController(this, whitePov, multiplayerGame);
             _gameController.GenerateGame();
         }
 
@@ -75,17 +75,14 @@ namespace ChessMate.Presentation.Interface
 
 		private void easyToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-            _gameController.SetDifficulty(OpponentDifficulty.Easy);
 		}
 
 		private void mediumToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-            _gameController.SetDifficulty(OpponentDifficulty.Medium);
 		}
 
 		private void hardToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-            _gameController.SetDifficulty(OpponentDifficulty.Hard);
 		}
 	}
 }

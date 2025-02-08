@@ -26,7 +26,7 @@ namespace ChessMate.Service.Implementation
         public static async Task<string> GetToken()
         {
             var response = await httpClient.GetAsync("/token");
-            return response.Content.ReadAsStringAsync().Result;
+            return await response.Content.ReadAsStringAsync();
         }
 
         public async Task<MultiplayerGame> CreateGame(string username)
@@ -41,7 +41,7 @@ namespace ChessMate.Service.Implementation
             var response = await MakePostRequest("/game", queryString);
             var stringResponse = await response.Content.ReadAsStringAsync();
 
-            return new MultiplayerGame(stringResponse);
+            return new MultiplayerGame(stringResponse, username);
         }
 
         public async Task<MultiplayerGame> GetMultiplayerGame(string username)
@@ -49,7 +49,7 @@ namespace ChessMate.Service.Implementation
             var response = await httpClient.GetAsync($"/game?username={username}");
             var stringResponse = await response.Content.ReadAsStringAsync();
 
-            return new MultiplayerGame(stringResponse);
+            return new MultiplayerGame(stringResponse, username);
         }
 
         public async Task<MultiplayerGame> JoinGame(string username, string joinCode)
@@ -65,7 +65,7 @@ namespace ChessMate.Service.Implementation
             var response = await MakePostRequest("/game/join", queryString);
             var stringResponse = await response.Content.ReadAsStringAsync();
 
-            return new MultiplayerGame(stringResponse);
+            return new MultiplayerGame(stringResponse, username);
         }
 
         public async Task LeaveGame(string username, string joinCode)
@@ -97,7 +97,7 @@ namespace ChessMate.Service.Implementation
             var response = await MakePostRequest("/game/move", new StringContent(json));
             var stringResponse = await response.Content.ReadAsStringAsync();
 
-            return new MultiplayerGame(stringResponse);
+            return new MultiplayerGame(stringResponse, username);
         }
     }
 }

@@ -79,6 +79,7 @@
     <Compile Include="Presentation\Controllers\MultiplayerGameController.cs" />
     <Compile Include="Presentation\GraphicsRendering\Drawer.cs" />
     <Compile Include="Presentation\GraphicsRendering\IShapeRenderer.cs" />
+    <Compile Include="Presentation\GraphicsRendering\Renderers\MultiplayerOverlayRenderer.cs" />
     <Compile Include="Presentation\Interface\Form2.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -93,7 +94,7 @@
     </Compile>
     <Compile Include="Domain\GameState.cs" />
     <Compile Include="Domain\Positions\ColoredPosition.cs" />
-    <Compile Include="Presentation\GraphicsRendering\Renderers\OverlayRenderer.cs" />
+    <Compile Include="Presentation\GraphicsRendering\Renderers\OpponentMoveMessageOverlayRenderer.cs" />
     <Compile Include="Presentation\GraphicsRendering\Renderers\BoardRenderer.cs" />
     <Compile Include="Presentation\GraphicsRendering\Renderers\PieceRenderer.cs" />
     <Compile Include="Presentation\GraphicsRendering\Renderers\PositionRenderer.cs" />
@@ -132,8 +133,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Service\Implementation\BoardService.cs" />
+    <Compile Include="Service\Implementation\AiBoardService.cs" />
     <Compile Include="Service\Implementation\GameStateService.cs" />
+    <Compile Include="Service\Implementation\MultiplayerBoardService.cs" />
     <Compile Include="Service\Implementation\MultiplayerService.cs" />
     <Compile Include="Service\Interface\IBoardService.cs" />
     <Compile Include="Service\Interface\IGameStateService.cs" />

@@ -10,7 +10,7 @@ using ChessMate.Service.Interface;
 
 namespace ChessMate.Service.Implementation
 {
-    public class BoardService : IBoardService
+    public class AiBoardService : IBoardService
     {
         public Board GetSuccessorStateForClickedPosition(Position position, Board board, List<Board> successiveStates)
         {
