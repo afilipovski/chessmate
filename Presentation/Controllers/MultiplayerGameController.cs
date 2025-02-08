@@ -67,6 +67,7 @@ namespace ChessMate.Presentation.Controllers
                     var piece = GameState.Board.PieceByPosition[opponentMove.PositionFrom];
                     piece.Position = opponentMove.PositionTo;
                     GameState.Board.PieceByPosition[opponentMove.PositionTo] = piece;
+                    GameState.Board.PieceByPosition[opponentMove.PositionFrom] = null;
                     GameState.Board.WhiteTurn = _whitePov;
                     _form.Invalidate();
                     return;
