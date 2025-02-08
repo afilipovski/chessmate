@@ -28,8 +28,8 @@ namespace ChessMate.Service.Implementation
             Piece clickedPiece = board.PieceByPosition[position];
 
 
-            bool clickedPieceBelongsToPlayer = clickedPiece.White;
-            if (clickedPiece == null || !(clickedPieceBelongsToPlayer == whitePov))
+            bool clickedPieceBelongsToPlayer = clickedPiece != null && clickedPiece.White == whitePov;
+            if (!clickedPieceBelongsToPlayer)
             {
                 if (board.CurrentClickedPiece == null) return board;
 

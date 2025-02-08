@@ -30,7 +30,7 @@ namespace ChessMate.Service.Implementation
         public static async Task<string> GetToken()
         {
             var response = await httpClient.GetAsync("/token");
-            return response.Content.ReadAsStringAsync().Result;
+            return await response.Content.ReadAsStringAsync();
         }
 
         public async Task<MultiplayerGame> CreateGame(string username)
@@ -45,7 +45,7 @@ namespace ChessMate.Service.Implementation
             var response = await MakePostRequest("/game", queryString);
             var stringResponse = await response.Content.ReadAsStringAsync();
 
-            return new MultiplayerGame(stringResponse);
+            return new MultiplayerGame(stringResponse, username);
         }
 
         public async Task<MultiplayerGame> GetMultiplayerGame(string username)
@@ -53,7 +53,7 @@ namespace ChessMate.Service.Implementation
             var response = await httpClient.GetAsync($"/game?username={username}");
             var stringResponse = await response.Content.ReadAsStringAsync();
 
-            return new MultiplayerGame(stringResponse);
+            return new MultiplayerGame(stringResponse, username);
         }
 
         public async Task<MultiplayerGame> JoinGame(string username, string joinCode)
@@ -69,7 +69,7 @@ namespace ChessMate.Service.Implementation
             var response = await MakePostRequest("/game/join", queryString);
             var stringResponse = await response.Content.ReadAsStringAsync();
 
-            return new MultiplayerGame(stringResponse);
+            return new MultiplayerGame(stringResponse, username);
         }
 
         public async Task LeaveGame(string username, string joinCode)
@@ -111,7 +111,8 @@ namespace ChessMate.Service.Implementation
                     if (response.IsSuccessStatusCode)
                     {
                         string jsonData = await response.Content.ReadAsStringAsync();
-                        callback.Invoke(new MultiplayerGame(jsonData));
+                        //TODO: find a way to update the game state outside of the service
+                        //callback.Invoke(new MultiplayerGame(jsonData));
                     }
 
                     // Simulate long polling: Wait before sending another request
@@ -130,5 +131,5 @@ namespace ChessMate.Service.Implementation
         {
             _cts.Cancel();
         }
-    }
+}
 }
