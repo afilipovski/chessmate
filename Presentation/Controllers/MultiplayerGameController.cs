@@ -70,6 +70,15 @@ namespace ChessMate.Presentation.Controllers
                     GameState.Board.PieceByPosition[opponentMove.PositionTo] = piece;
                     GameState.Board.PieceByPosition[opponentMove.PositionFrom] = null;
                     GameState.Board.WhiteTurn = _whitePov;
+
+                    if (_boardService.PossibleMovesNotExisting(GameState.Board))
+                    {
+                        if (_boardService.IsKingInCheck(GameState.Board, _whitePov))
+                            FormUtils.ShowMessage("You are in checkmate.", "Defeat", QuitGame);
+                        else
+                            FormUtils.ShowMessage("You are in stalemate.", "Stalemate", QuitGame);
+                    }
+
                     _form.Invalidate();
                     return;
                 }
@@ -105,6 +114,11 @@ namespace ChessMate.Presentation.Controllers
             GenerateGame();
         }
 
+        public void QuitGame()
+        {
+            _form.Close();
+        }
+
         public void SubmitPlayerClick(int x, int y)
         {
             int xBoard = (x - Board.OffsetX) / Board.TileSide;
@@ -130,9 +144,9 @@ namespace ChessMate.Presentation.Controllers
             if (isOpponentTurn && noMovesPossible)
             {
                 if (_boardService.IsKingInCheck(GameState.Board, !_whitePov))
-                    FormUtils.ShowMessage("Opponent is in checkmate.", "Defeat", NewGame);
+                    FormUtils.ShowMessage("Opponent is in checkmate.", "Victory", QuitGame);
                 else
-                    FormUtils.ShowMessage("Opponent is in stalemate.", "Stalemate", NewGame);
+                    FormUtils.ShowMessage("Opponent is in stalemate.", "Stalemate", QuitGame);
             }
 
             GameState.CheckPosition = _boardService.GetColoredKingCheckPosition(GameState.Board);
