@@ -69,6 +69,9 @@
   <ItemGroup>
     <Compile Include="Domain\Exceptions\FileNotChosenException.cs" />
     <Compile Include="Domain\Exceptions\FilePathNotChosenException.cs" />
+    <Compile Include="Domain\Exceptions\GameFullException.cs" />
+    <Compile Include="Domain\Exceptions\GameNotFoundException.cs" />
+    <Compile Include="Domain\Exceptions\UsernameTakenException.cs" />
     <Compile Include="Domain\Move.cs" />
     <Compile Include="Domain\MultiplayerGame.cs" />
     <Compile Include="Domain\OpponentDifficulty.cs" />
@@ -76,6 +79,7 @@
     <Compile Include="Presentation\AlphaBeta\Opponent.cs" />
     <Compile Include="Domain\Board.cs" />
     <Compile Include="Presentation\Controllers\AiGameController.cs" />
+    <Compile Include="Presentation\Controllers\JoinMultiplayerController.cs" />
     <Compile Include="Presentation\Controllers\MultiplayerGameController.cs" />
     <Compile Include="Presentation\GraphicsRendering\Drawer.cs" />
     <Compile Include="Presentation\GraphicsRendering\IShapeRenderer.cs" />

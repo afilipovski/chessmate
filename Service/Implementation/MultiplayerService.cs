@@ -4,10 +4,12 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using ChessMate.Domain.Exceptions;
 
 namespace ChessMate.Service.Implementation
 {
@@ -46,6 +48,9 @@ namespace ChessMate.Service.Implementation
             var response = await MakePostRequest("/game", queryString);
             var stringResponse = await response.Content.ReadAsStringAsync();
 
+            if (response.StatusCode == HttpStatusCode.BadRequest)
+                throw new UsernameTakenException(username);
+
             return new MultiplayerGame(stringResponse, username);
         }
 
@@ -69,6 +74,16 @@ namespace ChessMate.Service.Implementation
 
             var response = await MakePostRequest("/game/join", queryString);
             var stringResponse = await response.Content.ReadAsStringAsync();
+
+            switch (response.StatusCode)
+            {
+                case HttpStatusCode.BadRequest:
+                    if (stringResponse.StartsWith("User"))
+                        throw new UsernameTakenException(username);
+                    throw new GameFullException();
+                case HttpStatusCode.NotFound:
+                    throw new GameNotFoundException(joinCode);
+            }
 
             return new MultiplayerGame(stringResponse, username);
         }
@@ -104,13 +119,7 @@ namespace ChessMate.Service.Implementation
             var json = JsonConvert.SerializeObject(body);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await MakePostRequest("/game/move", content);
-            return;
+            await MakePostRequest("/game/move", content);
         }
-
-        public void CancelMove()
-        {
-            _cts.Cancel();
-        }
-}
+    }
 }

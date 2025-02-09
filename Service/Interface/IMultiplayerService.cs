@@ -14,6 +14,5 @@ namespace ChessMate.Service.Interface
         Task<MultiplayerGame> JoinGame(string username, string joinCode);
         Task Move(string username, string joinCode, Move move);
         Task LeaveGame(string username, string joinCode);
-        void CancelMove();
     }
 }
