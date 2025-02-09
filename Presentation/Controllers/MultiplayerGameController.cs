@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -123,6 +124,16 @@ namespace ChessMate.Presentation.Controllers
             GameState.CheckPosition = _boardService.GetColoredKingCheckPosition(GameState.Board);
             _form.Refresh();
 
+
+            bool isOpponentTurn = GameState.Board.WhiteTurn != _whitePov;
+            bool noMovesPossible = _boardService.PossibleMovesNotExisting(GameState.Board);
+            if (isOpponentTurn && noMovesPossible)
+            {
+                if (_boardService.IsKingInCheck(GameState.Board, !_whitePov))
+                    FormUtils.ShowMessage("Opponent is in checkmate.", "Defeat", NewGame);
+                else
+                    FormUtils.ShowMessage("Opponent is in stalemate.", "Stalemate", NewGame);
+            }
 
             GameState.CheckPosition = _boardService.GetColoredKingCheckPosition(GameState.Board);
 
