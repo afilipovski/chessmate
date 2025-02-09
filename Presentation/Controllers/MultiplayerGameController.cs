@@ -30,14 +30,14 @@ namespace ChessMate.Presentation.Controllers
         private readonly IGameStateService _gameStateService = GameStateService.Instance;
         private readonly IMultiplayerService _multiplayerService = MultiplayerService.Instance;
         private Drawer _drawer;
-        private readonly Form2 _form;
+        private readonly MultiplayerGameForm _form;
 
         private bool _whitePov;
 
         private MultiplayerGame _multiplayerGame;
 
 
-        public MultiplayerGameController(Form2 form, bool whitePov, MultiplayerGame multiplayerGame)
+        public MultiplayerGameController(MultiplayerGameForm form, bool whitePov, MultiplayerGame multiplayerGame)
         {
             _form = form;
             this._whitePov = whitePov;
@@ -72,9 +72,9 @@ namespace ChessMate.Presentation.Controllers
                     if (_boardService.PossibleMovesNotExisting(GameState.Board))
                     {
                         if (_boardService.IsKingInCheck(GameState.Board, _whitePov))
-                            FormUtils.ShowMessage("You are in checkmate.", "Defeat", QuitGame);
+                            UserInteractionUtils.ShowMessage("You are in checkmate.", "Defeat", QuitGame);
                         else
-                            FormUtils.ShowMessage("You are in stalemate.", "Stalemate", QuitGame);
+                            UserInteractionUtils.ShowMessage("You are in stalemate.", "Stalemate", QuitGame);
                     }
 
                     _form.Invalidate();
@@ -142,9 +142,9 @@ namespace ChessMate.Presentation.Controllers
             if (isOpponentTurn && noMovesPossible)
             {
                 if (_boardService.IsKingInCheck(GameState.Board, !_whitePov))
-                    FormUtils.ShowMessage("Opponent is in checkmate.", "Victory", QuitGame);
+                    UserInteractionUtils.ShowMessage("Opponent is in checkmate.", "Victory", QuitGame);
                 else
-                    FormUtils.ShowMessage("Opponent is in stalemate.", "Stalemate", QuitGame);
+                    UserInteractionUtils.ShowMessage("Opponent is in stalemate.", "Stalemate", QuitGame);
             }
 
             GameState.CheckPosition = _boardService.GetColoredKingCheckPosition(GameState.Board);

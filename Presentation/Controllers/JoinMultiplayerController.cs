@@ -14,9 +14,9 @@ namespace ChessMate.Presentation.Controllers
     public class JoinMultiplayerController
     {
         private readonly IMultiplayerService _multiplayerService = MultiplayerService.Instance;
-        private readonly Form3 _form;
+        private readonly JoinMpGameForm _form;
 
-        public JoinMultiplayerController(Form3 form)
+        public JoinMultiplayerController(JoinMpGameForm form)
         {
             _form = form;
         }
@@ -25,13 +25,13 @@ namespace ChessMate.Presentation.Controllers
         {
             if (username == "")
             {
-                FormUtils.ShowMessage("Please enter a username!", "Error", () => {});
+                UserInteractionUtils.ShowMessage("Please enter a username!", "Error", () => {});
                 return;
             }
 
             if (joinCode != "" && joinCode.Length != 5)
             {
-                FormUtils.ShowMessage("Please enter a valid join code!", "Error", () => {});
+                UserInteractionUtils.ShowMessage("Please enter a valid join code!", "Error", () => {});
                 return;
             }
 
@@ -50,13 +50,13 @@ namespace ChessMate.Presentation.Controllers
             }
             catch (Exception exception)
             {
-                FormUtils.ShowMessage(exception.Message, "Error", () => {});
+                UserInteractionUtils.ShowMessage(exception.Message, "Error", () => {});
                 return;
             }
 
             _form.Hide();
             bool whitePov = _form.IsJoinCodeNull();
-            Form2 multiplayerGame = new Form2(whitePov, response);
+            MultiplayerGameForm multiplayerGame = new MultiplayerGameForm(whitePov, response);
             multiplayerGame.ShowDialog();
             _form.Show();
 

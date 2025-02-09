@@ -1,6 +1,6 @@
 ﻿namespace ChessMate.Presentation.Interface
 {
-    partial class Form2
+    partial class MultiplayerGameForm
     {
         /// <summary>
         /// Required designer variable.

@@ -14,11 +14,11 @@ using ChessMate.Service.Interface;
 
 namespace ChessMate.Presentation.Interface
 {
-    public partial class Form3 : Form
+    public partial class JoinMpGameForm : Form
     {
         private readonly JoinMultiplayerController _controller;
 
-        public Form3()
+        public JoinMpGameForm()
         {
             InitializeComponent();
             _controller = new JoinMultiplayerController(this);

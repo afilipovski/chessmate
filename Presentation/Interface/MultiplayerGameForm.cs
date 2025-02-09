@@ -15,11 +15,11 @@ using ChessMate.Presentation.Controllers;
 
 namespace ChessMate.Presentation.Interface
 {
-    public partial class Form2 : Form
+    public partial class MultiplayerGameForm : Form
     {
         private readonly MultiplayerGameController _gameController;
 
-        public Form2(bool whitePov, MultiplayerGame multiplayerGame)
+        public MultiplayerGameForm(bool whitePov, MultiplayerGame multiplayerGame)
         {
             InitializeComponent();
 			DoubleBuffered = true;

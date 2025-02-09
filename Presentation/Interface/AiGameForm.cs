@@ -15,11 +15,11 @@ using ChessMate.Presentation.Controllers;
 
 namespace ChessMate.Presentation.Interface
 {
-    public partial class Form1 : Form
+    public partial class AiGameForm : Form
     {
         private readonly AiGameController _gameController;
 
-        public Form1()
+        public AiGameForm()
         {
             InitializeComponent();
 			DoubleBuffered = true;

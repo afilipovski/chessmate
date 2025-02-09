@@ -1,6 +1,6 @@
 ﻿namespace ChessMate.Presentation.Interface
 {
-    partial class Form3
+    partial class JoinMpGameForm
     {
         /// <summary>
         /// Required designer variable.

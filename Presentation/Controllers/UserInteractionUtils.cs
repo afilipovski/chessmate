@@ -7,23 +7,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using ChessMate.Domain;
 using ChessMate.Domain.Exceptions;
 
-namespace ChessMate.Presentation.Interface
+namespace ChessMate.Presentation.Controllers
 {
-    public class OpenFileResult
-    {
-        public string FilePath { get; set; }
-        public Stream File { get; set; }
-
-        public OpenFileResult(string filePath, Stream file)
-        {
-            FilePath = filePath;
-            File = file;
-        }
-    }
-
-	public class FormUtils
+	public class UserInteractionUtils
 	{
         public static void ShowMessage(string text, string title, Action callback)
         {
