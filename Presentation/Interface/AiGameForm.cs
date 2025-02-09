@@ -12,12 +12,14 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 using ChessMate.Presentation.Controllers;
+using ChessMate.Presentation.Controllers.Implementation;
+using ChessMate.Presentation.Controllers.Interface;
 
 namespace ChessMate.Presentation.Interface
 {
     public partial class AiGameForm : Form
     {
-        private readonly AiGameController _gameController;
+        private readonly IAiGameController _gameController;
 
         public AiGameForm()
         {
@@ -95,7 +97,7 @@ namespace ChessMate.Presentation.Interface
         public void Checkmarks()
         {
             easyToolStripMenuItem.Checked = mediumToolStripMenuItem.Checked = hardToolStripMenuItem.Checked = false;
-            switch (_gameController.GameState.OpponentDifficulty)
+            switch (_gameController.GetDifficulty())
             {
                 case OpponentDifficulty.Easy: easyToolStripMenuItem.Checked = true; break;
                 case OpponentDifficulty.Medium: mediumToolStripMenuItem.Checked = true; break;

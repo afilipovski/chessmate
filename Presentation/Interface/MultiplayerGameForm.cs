@@ -12,12 +12,14 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 using ChessMate.Presentation.Controllers;
+using ChessMate.Presentation.Controllers.Implementation;
+using ChessMate.Presentation.Controllers.Interface;
 
 namespace ChessMate.Presentation.Interface
 {
     public partial class MultiplayerGameForm : Form
     {
-        private readonly MultiplayerGameController _gameController;
+        private readonly IMultiplayerGameController _gameController;
 
         public MultiplayerGameForm(bool whitePov, MultiplayerGame multiplayerGame)
         {

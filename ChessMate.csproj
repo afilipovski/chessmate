@@ -79,9 +79,12 @@
     <Compile Include="Presentation\AlphaBeta\EvaluationUtils.cs" />
     <Compile Include="Presentation\AlphaBeta\Opponent.cs" />
     <Compile Include="Domain\Board.cs" />
-    <Compile Include="Presentation\Controllers\AiGameController.cs" />
-    <Compile Include="Presentation\Controllers\JoinMultiplayerController.cs" />
-    <Compile Include="Presentation\Controllers\MultiplayerGameController.cs" />
+    <Compile Include="Presentation\Controllers\Implementation\AiGameController.cs" />
+    <Compile Include="Presentation\Controllers\Interface\IAiGameController.cs" />
+    <Compile Include="Presentation\Controllers\Interface\IJoinMultiplayerController.cs" />
+    <Compile Include="Presentation\Controllers\Interface\IMultiplayerGameController.cs" />
+    <Compile Include="Presentation\Controllers\Implementation\JoinMultiplayerController.cs" />
+    <Compile Include="Presentation\Controllers\Implementation\MultiplayerGameController.cs" />
     <Compile Include="Presentation\GraphicsRendering\Drawer.cs" />
     <Compile Include="Presentation\GraphicsRendering\IShapeRenderer.cs" />
     <Compile Include="Presentation\GraphicsRendering\Renderers\MultiplayerOverlayRenderer.cs" />

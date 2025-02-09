@@ -5,13 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using ChessMate.Domain;
 using System.Windows.Forms;
+using ChessMate.Presentation.Controllers.Interface;
 using ChessMate.Presentation.Interface;
 using ChessMate.Service.Implementation;
 using ChessMate.Service.Interface;
 
-namespace ChessMate.Presentation.Controllers
+namespace ChessMate.Presentation.Controllers.Implementation
 {
-    public class JoinMultiplayerController
+    public class JoinMultiplayerController : IJoinMultiplayerController
     {
         private readonly IMultiplayerService _multiplayerService = MultiplayerService.Instance;
         private readonly JoinMpGameForm _form;

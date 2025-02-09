@@ -10,13 +10,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ChessMate.Presentation.Controllers;
+using ChessMate.Presentation.Controllers.Implementation;
+using ChessMate.Presentation.Controllers.Interface;
 using ChessMate.Service.Interface;
 
 namespace ChessMate.Presentation.Interface
 {
     public partial class JoinMpGameForm : Form
     {
-        private readonly JoinMultiplayerController _controller;
+        private readonly IJoinMultiplayerController _controller;
 
         public JoinMpGameForm()
         {

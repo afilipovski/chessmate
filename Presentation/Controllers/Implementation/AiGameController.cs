@@ -12,15 +12,16 @@ using ChessMate.Domain;
 using ChessMate.Domain.Exceptions;
 using ChessMate.Domain.Positions;
 using ChessMate.Presentation.AlphaBeta;
+using ChessMate.Presentation.Controllers.Interface;
 using ChessMate.Presentation.GraphicsRendering;
 using ChessMate.Presentation.Interface;
 using ChessMate.Service.Implementation;
 using ChessMate.Service.Interface;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace ChessMate.Presentation.Controllers
+namespace ChessMate.Presentation.Controllers.Implementation
 {
-    public class AiGameController
+    public class AiGameController : IAiGameController
     {
         public GameState GameState { get; set; }
         public string SavedGamePath { get; set; }
@@ -168,6 +169,11 @@ namespace ChessMate.Presentation.Controllers
         {
             if (UnsavedChangesAbort())
                 e.Cancel = true;
+        }
+
+        public OpponentDifficulty GetDifficulty()
+        {
+            return GameState.OpponentDifficulty;
         }
 
         private bool ChooseSaveGamePath()

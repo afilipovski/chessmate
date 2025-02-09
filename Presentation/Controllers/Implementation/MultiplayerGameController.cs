@@ -14,22 +14,22 @@ using ChessMate.Domain.Exceptions;
 using ChessMate.Domain.Pieces;
 using ChessMate.Domain.Positions;
 using ChessMate.Presentation.AlphaBeta;
+using ChessMate.Presentation.Controllers.Interface;
 using ChessMate.Presentation.GraphicsRendering;
 using ChessMate.Presentation.Interface;
 using ChessMate.Service.Implementation;
 using ChessMate.Service.Interface;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace ChessMate.Presentation.Controllers
+namespace ChessMate.Presentation.Controllers.Implementation
 {
-    public class MultiplayerGameController
+    public class MultiplayerGameController : IMultiplayerGameController
     {
         public GameState GameState { get; set; }
 
         private readonly IBoardService _boardService;
-        private readonly IGameStateService _gameStateService = GameStateService.Instance;
         private readonly IMultiplayerService _multiplayerService = MultiplayerService.Instance;
-        private Drawer _drawer;
+        private readonly Drawer _drawer;
         private readonly MultiplayerGameForm _form;
 
         private bool _whitePov;
@@ -84,13 +84,13 @@ namespace ChessMate.Presentation.Controllers
             }
         }
 
-        public void GenerateGame()
+        private void GenerateGame()
         {
             GameState = new GameState();
             _form.Invalidate();
         }
 
-        public async Task GetUsernames()
+        private async Task GetUsernames()
         {
             while (this._multiplayerGame == null || string.IsNullOrEmpty(_multiplayerGame.Username2))
             {
@@ -107,12 +107,7 @@ namespace ChessMate.Presentation.Controllers
             _drawer.DrawChessBoardForm(GameState, e.Graphics, _multiplayerGame);
         }
 
-        public void NewGame()
-        {
-            GenerateGame();
-        }
-
-        public void QuitGame()
+        private void QuitGame()
         {
             _form.Close();
         }
