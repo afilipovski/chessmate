@@ -29,76 +29,77 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.titleLbl = new System.Windows.Forms.Label();
+            this.usernameLbl = new System.Windows.Forms.Label();
+            this.usernameTxtBx = new System.Windows.Forms.TextBox();
+            this.codeTxtBx = new System.Windows.Forms.TextBox();
+            this.codeLbl = new System.Windows.Forms.Label();
+            this.joinBtn = new System.Windows.Forms.Button();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
-            // label1
+            // titleLbl
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
-            this.label1.Location = new System.Drawing.Point(33, 34);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(489, 36);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Welcome to ChessMate Multiplayer!";
+            this.titleLbl.AutoSize = true;
+            this.titleLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
+            this.titleLbl.Location = new System.Drawing.Point(22, 22);
+            this.titleLbl.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.titleLbl.Name = "titleLbl";
+            this.titleLbl.Size = new System.Drawing.Size(327, 25);
+            this.titleLbl.TabIndex = 0;
+            this.titleLbl.Text = "Welcome to ChessMate Multiplayer!";
             // 
-            // label2
+            // usernameLbl
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label2.Location = new System.Drawing.Point(28, 103);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(108, 25);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Username:";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
+            this.usernameLbl.AutoSize = true;
+            this.usernameLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.usernameLbl.Location = new System.Drawing.Point(19, 67);
+            this.usernameLbl.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.usernameLbl.Name = "usernameLbl";
+            this.usernameLbl.Size = new System.Drawing.Size(77, 17);
+            this.usernameLbl.TabIndex = 1;
+            this.usernameLbl.Text = "Username:";
             // 
-            // textBox1
+            // usernameTxtBx
             // 
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.textBox1.Location = new System.Drawing.Point(243, 98);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(291, 30);
-            this.textBox1.TabIndex = 2;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
-            this.textBox1.Validating += new System.ComponentModel.CancelEventHandler(this.textBox1_Validating);
+            this.usernameTxtBx.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.usernameTxtBx.Location = new System.Drawing.Point(162, 64);
+            this.usernameTxtBx.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.usernameTxtBx.Name = "usernameTxtBx";
+            this.usernameTxtBx.Size = new System.Drawing.Size(195, 23);
+            this.usernameTxtBx.TabIndex = 2;
             // 
-            // textBox2
+            // codeTxtBx
             // 
-            this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.textBox2.Location = new System.Drawing.Point(243, 156);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(202, 30);
-            this.textBox2.TabIndex = 4;
-            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
+            this.codeTxtBx.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.codeTxtBx.Location = new System.Drawing.Point(162, 101);
+            this.codeTxtBx.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.codeTxtBx.Name = "codeTxtBx";
+            this.codeTxtBx.Size = new System.Drawing.Size(136, 23);
+            this.codeTxtBx.TabIndex = 4;
             // 
-            // label3
+            // codeLbl
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label3.Location = new System.Drawing.Point(28, 157);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(190, 25);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "Join code (optional):";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
+            this.codeLbl.AutoSize = true;
+            this.codeLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.codeLbl.Location = new System.Drawing.Point(19, 102);
+            this.codeLbl.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.codeLbl.Name = "codeLbl";
+            this.codeLbl.Size = new System.Drawing.Size(137, 17);
+            this.codeLbl.TabIndex = 5;
+            this.codeLbl.Text = "Join code (optional):";
             // 
-            // button1
+            // joinBtn
             // 
-            this.button1.Location = new System.Drawing.Point(451, 156);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(83, 34);
-            this.button1.TabIndex = 6;
-            this.button1.Text = "Join";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.joinBtn.Location = new System.Drawing.Point(301, 101);
+            this.joinBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.joinBtn.Name = "joinBtn";
+            this.joinBtn.Size = new System.Drawing.Size(55, 22);
+            this.joinBtn.TabIndex = 6;
+            this.joinBtn.Text = "Join";
+            this.joinBtn.UseVisualStyleBackColor = true;
+            this.joinBtn.Click += new System.EventHandler(this.button1_Click);
             // 
             // errorProvider1
             // 
@@ -106,17 +107,18 @@
             // 
             // Form3
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(563, 218);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.ClientSize = new System.Drawing.Size(375, 142);
+            this.Controls.Add(this.joinBtn);
+            this.Controls.Add(this.codeLbl);
+            this.Controls.Add(this.codeTxtBx);
+            this.Controls.Add(this.usernameTxtBx);
+            this.Controls.Add(this.usernameLbl);
+            this.Controls.Add(this.titleLbl);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "Form3";
-            this.Text = "Form3";
+            this.Text = "ChessMate - Join Multiplayer Game";
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -125,12 +127,12 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label titleLbl;
+        private System.Windows.Forms.Label usernameLbl;
+        private System.Windows.Forms.TextBox usernameTxtBx;
+        private System.Windows.Forms.TextBox codeTxtBx;
+        private System.Windows.Forms.Label codeLbl;
+        private System.Windows.Forms.Button joinBtn;
         private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }

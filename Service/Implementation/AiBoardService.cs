@@ -69,7 +69,7 @@ namespace ChessMate.Service.Implementation
             return result.Where(b => !IsKingInCheck(b, !b.WhiteTurn)).ToList();
         }
 
-        public Position GetKingPositionIfInCheck(Board board, bool isKingWhite)
+        private Position GetKingPositionIfInCheck(Board board, bool isKingWhite)
         {
             King king = null;
             foreach (Piece piece in board.PieceByPosition.Values)

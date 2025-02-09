@@ -46,42 +46,8 @@ namespace ChessMate.Presentation.Interface
             _gameController.SubmitPlayerClick(e.X, e.Y);
         }
 
-		private void newToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-            _gameController.NewGame();
-		}
-
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-		}
-
-		private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-		}
-
-		private void openToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-		}
-
-		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-            Close();
-		}
-
 		private void Form2_FormClosing(object sender, FormClosingEventArgs e)
         {
-		}
-
-		private void easyToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-		}
-
-		private void mediumToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-		}
-
-		private void hardToolStripMenuItem_Click(object sender, EventArgs e)
-		{
 		}
 	}
 }

@@ -10,17 +10,18 @@ using ChessMate.Service.Interface;
 
 namespace ChessMate.Service.Implementation
 {
-    public class MultiplayerBoardService : IBoardService
+    public class MultiplayerBoardService : AiBoardService, IBoardService
     {
-        private bool whitePov;
+        private readonly bool _whitePov;
+
         public MultiplayerBoardService(bool whitePov)
         {
-            this.whitePov = whitePov;
+            _whitePov = whitePov;
         }
 
-        public Board GetSuccessorStateForClickedPosition(Position position, Board board, List<Board> successiveStates)
+        public new Board GetSuccessorStateForClickedPosition(Position position, Board board, List<Board> successiveStates)
         {
-            bool isPlayerTurn = whitePov == board.WhiteTurn;
+            bool isPlayerTurn = _whitePov == board.WhiteTurn;
 
             if (!isPlayerTurn || !Board.IsInBoard(position))
                 return board;
@@ -28,7 +29,7 @@ namespace ChessMate.Service.Implementation
             Piece clickedPiece = board.PieceByPosition[position];
 
 
-            bool clickedPieceBelongsToPlayer = clickedPiece != null && clickedPiece.White == whitePov;
+            bool clickedPieceBelongsToPlayer = clickedPiece != null && clickedPiece.White == _whitePov;
             if (!clickedPieceBelongsToPlayer)
             {
                 if (board.CurrentClickedPiece == null) return board;
@@ -51,72 +52,11 @@ namespace ChessMate.Service.Implementation
                 successiveStates.Clear();
                 board.CurrentClickedPiece = clickedPiece;
                 board.CurrentClickedPiece.PossibleMoves(board)
-                    .Where(b => !IsKingInCheck(b, whitePov)).ToList()
+                    .Where(b => !IsKingInCheck(b, _whitePov)).ToList()
                     .ForEach(b => { successiveStates.Add(b); });
             }
 
             return board;
-        }
-
-        public List<Board> GenerateSuccessiveStates(Board board)
-        {
-            List<Board> result = new List<Board>();
-
-            List<Piece> pieces = board.PieceByPosition.Values.ToList();
-            foreach (Piece piece in pieces)
-            {
-                if (piece == null) continue;
-                if (piece.White != board.WhiteTurn)
-                    continue;
-                List<Board> moves = piece.PossibleMoves(board);
-                foreach (Board move in moves)
-                {
-                    result.Add(move);
-                }
-            }
-
-            return result.Where(b => !IsKingInCheck(b, !b.WhiteTurn)).ToList();
-        }
-
-        public Position GetKingPositionIfInCheck(Board board, bool isKingWhite)
-        {
-            King king = null;
-            foreach (Piece piece in board.PieceByPosition.Values)
-            {
-                if (piece is null) continue;
-                if (piece is King kx && piece.White == isKingWhite)
-                {
-                    king = kx;
-                    break;
-                }
-            }
-
-            foreach (Piece piece in board.PieceByPosition.Values.ToArray())
-            {
-                //skip friendly pieces
-                if (piece is null || piece.White == king.White)
-                    continue;
-                //if piece can attack king, king is in check
-                if (piece.PossibleMoves(board).Any(b => b.NewPos.Equals(king.Position)))
-                    return king.Position;
-            }
-            return null;
-        }
-
-        public bool IsKingInCheck(Board board, bool isKingWhite)
-        {
-            return !(GetKingPositionIfInCheck(board, isKingWhite) is null);
-        }
-
-        public bool PossibleMovesNotExisting(Board board)
-        {
-            return GenerateSuccessiveStates(board).Count() == 0;
-        }
-
-        public ColoredPosition GetColoredKingCheckPosition(Board board)
-        {
-            Position king = GetKingPositionIfInCheck(board, board.WhiteTurn);
-            return king is null ? null : new ColoredPosition(king, PositionColor.Red);
         }
     }
 }

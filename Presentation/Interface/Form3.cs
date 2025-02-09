@@ -9,53 +9,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ChessMate.Service.Interface;
 
 namespace ChessMate.Presentation.Interface
 {
     public partial class Form3 : Form
     {
-        public MultiplayerService multiplayerService;
+        private readonly IMultiplayerService _multiplayerService;
+
         public Form3()
         {
             InitializeComponent();
-            multiplayerService = MultiplayerService.Instance;
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox1_Validating(object sender, CancelEventArgs e)
-        {
-
+            _multiplayerService = MultiplayerService.Instance;
         }
 
         private async void button1_Click(object sender, EventArgs e)
         {
-            string username = textBox1.Text;
+            string username = usernameTxtBx.Text;
             if (username == "")
             {
                 MessageBox.Show("Please enter a username.", "Error");
                 return;
             }
 
-            string joinCode = textBox2.Text;
+            string joinCode = codeTxtBx.Text;
             if (joinCode != "" && joinCode.Length != 5)
             {
                 MessageBox.Show("Please enter a valid join code");
@@ -65,21 +42,21 @@ namespace ChessMate.Presentation.Interface
             MultiplayerGame response;
             if (string.IsNullOrEmpty(joinCode))
             {
-                response = await multiplayerService.CreateGame(username);
+                response = await _multiplayerService.CreateGame(username);
                 joinCode = response.JoinCode;
             }
             else
             {
-                response = await multiplayerService.JoinGame(username, joinCode);
+                response = await _multiplayerService.JoinGame(username, joinCode);
             }
 
             Hide();
-            bool whitePov = string.IsNullOrEmpty(textBox2.Text);
+            bool whitePov = string.IsNullOrEmpty(codeTxtBx.Text);
             Form2 multiplayerGame = new Form2(whitePov, response);
             multiplayerGame.ShowDialog();
             Show();
 
-            await multiplayerService.LeaveGame(username, joinCode);
+            await _multiplayerService.LeaveGame(username, joinCode);
         }
     }
 }
