@@ -64,11 +64,9 @@ namespace ChessMate.Presentation.Controllers
                 MultiplayerGame game = await _multiplayerService.GetMultiplayerGame(_multiplayerGame.PlayerUsername);
                 if (game.WhiteTurn == _whitePov)
                 {
-                    Move opponentMove = game.LastMove;
-                    var piece = GameState.Board.PieceByPosition[opponentMove.PositionFrom];
-                    piece.Position = opponentMove.PositionTo;
-                    GameState.Board.PieceByPosition[opponentMove.PositionTo] = piece;
-                    GameState.Board.PieceByPosition[opponentMove.PositionFrom] = null;
+                    Piece clickedPiece = GameState.Board.PieceByPosition[game.LastMove.PositionFrom];
+                    GameState.Board = clickedPiece.PossibleMoves(GameState.Board)
+                        .Single(b => b.NewPos.Equals(game.LastMove.PositionTo));
                     GameState.Board.WhiteTurn = _whitePov;
 
                     if (_boardService.PossibleMovesNotExisting(GameState.Board))
