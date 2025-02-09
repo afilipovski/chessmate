@@ -51,7 +51,7 @@ namespace ChessMate.Service.Implementation
                 successiveStates.Clear();
                 board.CurrentClickedPiece = clickedPiece;
                 board.CurrentClickedPiece.PossibleMoves(board)
-                    .Where(b => !IsKingInCheck(b, true)).ToList()
+                    .Where(b => !IsKingInCheck(b, whitePov)).ToList()
                     .ForEach(b => { successiveStates.Add(b); });
             }
 

@@ -12,7 +12,7 @@ using ChessMate.Service.Interface;
 
 namespace ChessMate.Service.Implementation
 {
-    public class GameStateService : IGameStateService
+    public class GameStateService : SingletonBase<GameStateService>, IGameStateService
     {
         public void SaveToFile(GameState gameState, string filePath)
         {

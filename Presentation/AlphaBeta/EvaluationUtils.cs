@@ -14,7 +14,7 @@ namespace ChessMate.Presentation.AlphaBeta
     public class EvaluationUtils
     {
         public const int Infty = 10000;
-        private static readonly IBoardService BoardService = new AiBoardService();
+        private static readonly IBoardService BoardService = AiBoardService.Instance;
 
         //high value favors white
         public static int EvaluateBoard(Board board)

@@ -18,7 +18,7 @@ namespace ChessMate.Presentation.Interface
         public Form3()
         {
             InitializeComponent();
-            multiplayerService = new MultiplayerService();
+            multiplayerService = MultiplayerService.Instance;
         }
 
         private void label2_Click(object sender, EventArgs e)

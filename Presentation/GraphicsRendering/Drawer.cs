@@ -22,7 +22,7 @@ namespace ChessMate.Presentation.GraphicsRendering
             _whitePov = whitePov;
         }
 
-        private readonly IShapeRenderer<string> _overlayRenderer = new OpponentMoveMessageOverlayRenderer();
+        private readonly IShapeRenderer<string> _overlayRenderer = OpponentMoveMessageOverlayRenderer.Instance;
         private readonly IShapeRenderer<MultiplayerGame> _multiplayerOverlayRenderer = new MultiplayerOverlayRenderer();
         private readonly IShapeRenderer<Position> _positionRenderer;
         private readonly IShapeRenderer<Board> _boardRenderer;

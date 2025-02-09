@@ -21,7 +21,7 @@ namespace ChessMate.Domain.Positions
         {
             //c3
             X = stringpos[0] - 'a';
-            Y = stringpos[1] - '1';
+            Y = 7 - (stringpos[1] - '1');
             White = (X + Y) % 2 == 0;
 
         }
@@ -67,7 +67,10 @@ namespace ChessMate.Domain.Positions
 
         public override string ToString()
         {
-            return $"{X+'a'}{Y+'1'}";
+            char column = (char)('a' + X);
+            char row = (char)('1' + 7 - Y);
+
+            return $"{column}{row}";
         }
     }
 }

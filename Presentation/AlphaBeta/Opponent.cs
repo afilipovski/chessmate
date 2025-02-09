@@ -13,7 +13,7 @@ namespace ChessMate.Presentation.AlphaBeta
 {
     public class Opponent
     {
-        private readonly IBoardService _boardService = new AiBoardService();
+        private readonly IBoardService _boardService = AiBoardService.Instance;
         static readonly Random R = new Random();
 
         public Opponent(OpponentDifficulty difficulty)

@@ -5,22 +5,27 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
+using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ChessMate.Service.Implementation
 {
-    public class MultiplayerService : IMultiplayerService
+    public class MultiplayerService : SingletonBase<MultiplayerService>, IMultiplayerService
     {
-        public static HttpClient httpClient = new HttpClient
+        private readonly CancellationTokenSource _cts = new CancellationTokenSource();
+
+        public static readonly HttpClient httpClient = new HttpClient
         {
             BaseAddress = new Uri("https://chess.filipovski.net")
         };
 
-        private static async Task<HttpResponseMessage> MakePostRequest(string requestUri, HttpContent httpContent = null)
+        private static async Task<HttpResponseMessage> MakePostRequest(string requestUri, HttpContent httpContent, CancellationTokenSource cts=null)
         {
             var token = await GetToken();
             httpContent.Headers.Add("X-CSRF-TOKEN", token);
-            return await httpClient.PostAsync(requestUri, httpContent);
+            cts = cts ?? new CancellationTokenSource();
+            return await httpClient.PostAsync(requestUri, httpContent, cts.Token);
         }
 
         public static async Task<string> GetToken()
@@ -81,7 +86,7 @@ namespace ChessMate.Service.Implementation
             await MakePostRequest("/game/leave", queryString);
         }
 
-        public async Task<MultiplayerGame> Move(string username, string joinCode, Move move)
+        public async Task Move(string username, string joinCode, Move move)
         {
             var body = new Dictionary<string, string>
             {
@@ -89,15 +94,23 @@ namespace ChessMate.Service.Implementation
                 { "join_code", joinCode },
                 { "from", move.PositionFrom.ToString() },
                 { "to", move.PositionTo.ToString() },
-                { "promotion", move.ShouldConvertToQueen ? "q" : null }
             };
 
+            if (move.ShouldConvertToQueen)
+            {
+                body.Add("promotion", "q");
+            }
+
             var json = JsonConvert.SerializeObject(body);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await MakePostRequest("/game/move", new StringContent(json));
-            var stringResponse = await response.Content.ReadAsStringAsync();
-
-            return new MultiplayerGame(stringResponse, username);
+            var response = await MakePostRequest("/game/move", content);
+            return;
         }
-    }
+
+        public void CancelMove()
+        {
+            _cts.Cancel();
+        }
+}
 }

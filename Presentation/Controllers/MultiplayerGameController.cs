@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ChessMate.Domain;
 using ChessMate.Domain.Exceptions;
+using ChessMate.Domain.Pieces;
 using ChessMate.Domain.Positions;
 using ChessMate.Presentation.AlphaBeta;
 using ChessMate.Presentation.GraphicsRendering;
@@ -25,8 +27,8 @@ namespace ChessMate.Presentation.Controllers
         public GameState GameState { get; set; }
 
         private readonly IBoardService _boardService;
-        private readonly IGameStateService _gameStateService = new GameStateService();
-        private readonly IMultiplayerService _multiplayerService = new MultiplayerService();
+        private readonly IGameStateService _gameStateService = GameStateService.Instance;
+        private readonly IMultiplayerService _multiplayerService = MultiplayerService.Instance;
         private Drawer _drawer;
         private readonly Form2 _form;
 
@@ -43,16 +45,48 @@ namespace ChessMate.Presentation.Controllers
             this._boardService = new MultiplayerBoardService(whitePov);
             this._multiplayerGame = multiplayerGame;
 
+            GenerateGame();
+
             GetUsernames().ContinueWith(t =>
             {
                 _form.Invalidate();
             });
+            if (!whitePov)
+            {
+                ConsumeOpponentMove();
+            }
+        }
+
+        private async Task ConsumeOpponentMove()
+        {
+            while (_whitePov != GameState.Board.WhiteTurn)
+            {
+                MultiplayerGame game = await _multiplayerService.GetMultiplayerGame(_multiplayerGame.PlayerUsername);
+                if (game.WhiteTurn == _whitePov)
+                {
+                    Piece clickedPiece = GameState.Board.PieceByPosition[game.LastMove.PositionFrom];
+                    GameState.Board = clickedPiece.PossibleMoves(GameState.Board)
+                        .Single(b => b.NewPos.Equals(game.LastMove.PositionTo));
+                    GameState.Board.WhiteTurn = _whitePov;
+
+                    if (_boardService.PossibleMovesNotExisting(GameState.Board))
+                    {
+                        if (_boardService.IsKingInCheck(GameState.Board, _whitePov))
+                            FormUtils.ShowMessage("You are in checkmate.", "Defeat", QuitGame);
+                        else
+                            FormUtils.ShowMessage("You are in stalemate.", "Stalemate", QuitGame);
+                    }
+
+                    _form.Invalidate();
+                    return;
+                }
+                await Task.Delay(1000);
+            }
         }
 
         public void GenerateGame()
         {
             GameState = new GameState();
-
             _form.Invalidate();
         }
 
@@ -78,6 +112,11 @@ namespace ChessMate.Presentation.Controllers
             GenerateGame();
         }
 
+        public void QuitGame()
+        {
+            _form.Close();
+        }
+
         public void SubmitPlayerClick(int x, int y)
         {
             int xBoard = (x - Board.OffsetX) / Board.TileSide;
@@ -88,6 +127,8 @@ namespace ChessMate.Presentation.Controllers
                 !_whitePov ? 7 - yBoard : yBoard
             );
             Board newBoard = _boardService.GetSuccessorStateForClickedPosition(position, GameState.Board, GameState.SuccessiveBoards);
+            
+            TryPublishPlayerMove(newBoard);
 
             GameState.Board = newBoard;
 
@@ -96,9 +137,39 @@ namespace ChessMate.Presentation.Controllers
             _form.Refresh();
 
 
+            bool isOpponentTurn = GameState.Board.WhiteTurn != _whitePov;
+            bool noMovesPossible = _boardService.PossibleMovesNotExisting(GameState.Board);
+            if (isOpponentTurn && noMovesPossible)
+            {
+                if (_boardService.IsKingInCheck(GameState.Board, !_whitePov))
+                    FormUtils.ShowMessage("Opponent is in checkmate.", "Victory", QuitGame);
+                else
+                    FormUtils.ShowMessage("Opponent is in stalemate.", "Stalemate", QuitGame);
+            }
+
             GameState.CheckPosition = _boardService.GetColoredKingCheckPosition(GameState.Board);
 
             _form.Refresh();
+        }
+
+        private void TryPublishPlayerMove(Board newBoard)
+        {
+            bool playerMadeAMove = GameState.Board.WhiteTurn == _whitePov && newBoard.WhiteTurn != _whitePov;
+            if (!playerMadeAMove)
+                return;
+            Piece currentClickedPiece = GameState.Board.CurrentClickedPiece;
+            bool shouldPromoteToQueen = (newBoard.NewPos.Y == 0 && currentClickedPiece.White) ||
+                                        (newBoard.NewPos.Y == 7 && !currentClickedPiece.White);
+            var move = new Move
+            {
+                PositionFrom = currentClickedPiece.Position,
+                PositionTo = newBoard.NewPos,
+                ShouldConvertToQueen = shouldPromoteToQueen
+            };
+            _multiplayerService.Move(_multiplayerGame.PlayerUsername, _multiplayerGame.JoinCode, move).ContinueWith(t =>
+            {
+                ConsumeOpponentMove();
+            });
         }
     }
 }
