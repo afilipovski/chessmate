@@ -11,5 +11,6 @@ namespace ChessMate.Presentation.Controllers.Interface
     {
         void PaintForm(PaintEventArgs e);
         void SubmitPlayerClick(int x, int y);
+        void QuitGame(FormClosingEventArgs e);
     }
 }

@@ -50,6 +50,7 @@ namespace ChessMate.Presentation.Interface
 
 		private void Form2_FormClosing(object sender, FormClosingEventArgs e)
         {
+            _gameController.QuitGame(e);
 		}
 	}
 }

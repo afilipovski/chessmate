@@ -8,7 +8,7 @@ namespace ChessMate.Domain.Exceptions
 {
     public class GameNotFoundException : Exception
     {
-        public GameNotFoundException(string joinCode) : base($"Couldn't find a game with the join code '{joinCode}'!")
+        public GameNotFoundException(string message) : base(message)
         {
         }
     }

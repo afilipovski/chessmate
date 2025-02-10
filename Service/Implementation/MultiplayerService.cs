@@ -15,22 +15,19 @@ namespace ChessMate.Service.Implementation
 {
     public class MultiplayerService : SingletonBase<MultiplayerService>, IMultiplayerService
     {
-        private readonly CancellationTokenSource _cts = new CancellationTokenSource();
-
-        public static readonly HttpClient httpClient = new HttpClient
+        private static readonly HttpClient httpClient = new HttpClient
         {
             BaseAddress = new Uri("https://chess.filipovski.net")
         };
 
-        private static async Task<HttpResponseMessage> MakePostRequest(string requestUri, HttpContent httpContent, CancellationTokenSource cts=null)
+        private static async Task<HttpResponseMessage> MakePostRequest(string requestUri, HttpContent httpContent)
         {
             var token = await GetToken();
             httpContent.Headers.Add("X-CSRF-TOKEN", token);
-            cts = cts ?? new CancellationTokenSource();
-            return await httpClient.PostAsync(requestUri, httpContent, cts.Token);
+            return await httpClient.PostAsync(requestUri, httpContent);
         }
 
-        public static async Task<string> GetToken()
+        private static async Task<string> GetToken()
         {
             var response = await httpClient.GetAsync("/token");
             return await response.Content.ReadAsStringAsync();
@@ -59,6 +56,9 @@ namespace ChessMate.Service.Implementation
             var response = await httpClient.GetAsync($"/game?username={username}");
             var stringResponse = await response.Content.ReadAsStringAsync();
 
+            if (response.StatusCode == HttpStatusCode.NotFound)
+                throw new GameNotFoundException("Your opponent has forfeit the game. You win!");
+
             return new MultiplayerGame(stringResponse, username);
         }
 
@@ -82,7 +82,7 @@ namespace ChessMate.Service.Implementation
                         throw new UsernameTakenException(username);
                     throw new GameFullException();
                 case HttpStatusCode.NotFound:
-                    throw new GameNotFoundException(joinCode);
+                    throw new GameNotFoundException($"Couldn't find a game with the join code '{joinCode}'!");
             }
 
             return new MultiplayerGame(stringResponse, username);
