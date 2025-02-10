@@ -35,6 +35,9 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Presentation\Images\form_icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=9.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.9.0.1\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
@@ -164,6 +167,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Presentation\Interface\HomeForm.resx">
       <DependentUpon>HomeForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -193,6 +197,9 @@
     <Content Include="Presentation\Images\b_queen_png_shadow_1024px.png" />
     <Content Include="Presentation\Images\b_rook_png_shadow_1024px.png" />
     <Content Include="Presentation\Images\w_bishop_png_shadow_1024px.png" />
+    <Content Include="Presentation\Images\form_icon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Presentation\Images\w_king_png_shadow_1024px.png" />
     <Content Include="Presentation\Images\w_knight_png_shadow_1024px.png" />
     <Content Include="Presentation\Images\w_pawn_png_shadow_1024px.png" />

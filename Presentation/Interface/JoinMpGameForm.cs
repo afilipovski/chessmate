@@ -23,6 +23,7 @@ namespace ChessMate.Presentation.Interface
         public JoinMpGameForm()
         {
             InitializeComponent();
+            Icon = new Icon($"{Application.StartupPath}\\Presentation\\Images\\form_icon.ico");
             _controller = new JoinMultiplayerController(this);
         }
 

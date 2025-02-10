@@ -15,6 +15,7 @@ namespace ChessMate.Presentation.Interface
 		public AboutForm()
 		{
 			InitializeComponent();
-		}
-	}
+            Icon = new Icon($"{Application.StartupPath}\\Presentation\\Images\\form_icon.ico");
+        }
+    }
 }

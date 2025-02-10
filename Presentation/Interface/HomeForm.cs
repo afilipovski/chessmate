@@ -15,6 +15,7 @@ namespace ChessMate.Presentation.Interface
         public HomeForm()
         {
             InitializeComponent();
+            Icon = new Icon($"{Application.StartupPath}\\Presentation\\Images\\form_icon.ico");
         }
 
         private void aiOpponentBtn_Click(object sender, EventArgs e)

@@ -10,7 +10,7 @@ using ChessMate.Service.Interface;
 
 namespace ChessMate.Service.Implementation
 {
-    public class MultiplayerBoardService : AiBoardService, IBoardService
+    public class MultiplayerBoardService : IBoardService
     {
         private readonly bool _whitePov;
 
@@ -19,7 +19,12 @@ namespace ChessMate.Service.Implementation
             _whitePov = whitePov;
         }
 
-        public new Board GetSuccessorStateForClickedPosition(Position position, Board board, List<Board> successiveStates)
+        public List<Board> GenerateSuccessiveStates(Board board)
+        {
+            return AiBoardService.Instance.GenerateSuccessiveStates(board);
+        }
+
+        public Board GetSuccessorStateForClickedPosition(Position position, Board board, List<Board> successiveStates)
         {
             bool isPlayerTurn = _whitePov == board.WhiteTurn;
 
@@ -57,6 +62,21 @@ namespace ChessMate.Service.Implementation
             }
 
             return board;
+        }
+
+        public bool IsKingInCheck(Board board, bool isKingWhite)
+        {
+            return AiBoardService.Instance.IsKingInCheck(board, isKingWhite);
+        }
+
+        public bool PossibleMovesNotExisting(Board board)
+        {
+            return AiBoardService.Instance.PossibleMovesNotExisting(board);
+        }
+
+        public ColoredPosition GetColoredKingCheckPosition(Board board)
+        {
+            return AiBoardService.Instance.GetColoredKingCheckPosition(board);
         }
     }
 }

@@ -14,6 +14,7 @@ using System.Windows.Forms;
 using ChessMate.Presentation.Controllers;
 using ChessMate.Presentation.Controllers.Implementation;
 using ChessMate.Presentation.Controllers.Interface;
+using System.Drawing;
 
 namespace ChessMate.Presentation.Interface
 {
@@ -25,6 +26,7 @@ namespace ChessMate.Presentation.Interface
         {
             InitializeComponent();
 			DoubleBuffered = true;
+            Icon = new Icon($"{Application.StartupPath}\\Presentation\\Images\\form_icon.ico");
             _gameController = new AiGameController(this);
             _gameController.GenerateGame();
         }
