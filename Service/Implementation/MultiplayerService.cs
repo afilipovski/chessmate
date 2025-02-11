@@ -4,31 +4,30 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using ChessMate.Domain.Exceptions;
 
 namespace ChessMate.Service.Implementation
 {
     public class MultiplayerService : SingletonBase<MultiplayerService>, IMultiplayerService
     {
-        private readonly CancellationTokenSource _cts = new CancellationTokenSource();
-
-        public static readonly HttpClient httpClient = new HttpClient
+        private static readonly HttpClient httpClient = new HttpClient
         {
             BaseAddress = new Uri("https://chess.filipovski.net")
         };
 
-        private static async Task<HttpResponseMessage> MakePostRequest(string requestUri, HttpContent httpContent, CancellationTokenSource cts=null)
+        private static async Task<HttpResponseMessage> MakePostRequest(string requestUri, HttpContent httpContent)
         {
             var token = await GetToken();
             httpContent.Headers.Add("X-CSRF-TOKEN", token);
-            cts = cts ?? new CancellationTokenSource();
-            return await httpClient.PostAsync(requestUri, httpContent, cts.Token);
+            return await httpClient.PostAsync(requestUri, httpContent);
         }
 
-        public static async Task<string> GetToken()
+        private static async Task<string> GetToken()
         {
             var response = await httpClient.GetAsync("/token");
             return await response.Content.ReadAsStringAsync();
@@ -46,6 +45,9 @@ namespace ChessMate.Service.Implementation
             var response = await MakePostRequest("/game", queryString);
             var stringResponse = await response.Content.ReadAsStringAsync();
 
+            if (response.StatusCode == HttpStatusCode.BadRequest)
+                throw new UsernameTakenException(username);
+
             return new MultiplayerGame(stringResponse, username);
         }
 
@@ -53,6 +55,9 @@ namespace ChessMate.Service.Implementation
         {
             var response = await httpClient.GetAsync($"/game?username={username}");
             var stringResponse = await response.Content.ReadAsStringAsync();
+
+            if (response.StatusCode == HttpStatusCode.NotFound)
+                throw new GameNotFoundException("Your opponent has forfeit the game. You win!");
 
             return new MultiplayerGame(stringResponse, username);
         }
@@ -69,6 +74,16 @@ namespace ChessMate.Service.Implementation
 
             var response = await MakePostRequest("/game/join", queryString);
             var stringResponse = await response.Content.ReadAsStringAsync();
+
+            switch (response.StatusCode)
+            {
+                case HttpStatusCode.BadRequest:
+                    if (stringResponse.StartsWith("User"))
+                        throw new UsernameTakenException(username);
+                    throw new GameFullException();
+                case HttpStatusCode.NotFound:
+                    throw new GameNotFoundException($"Couldn't find a game with the join code '{joinCode}'!");
+            }
 
             return new MultiplayerGame(stringResponse, username);
         }
@@ -104,13 +119,7 @@ namespace ChessMate.Service.Implementation
             var json = JsonConvert.SerializeObject(body);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await MakePostRequest("/game/move", content);
-            return;
+            await MakePostRequest("/game/move", content);
         }
-
-        public void CancelMove()
-        {
-            _cts.Cancel();
-        }
-}
+    }
 }

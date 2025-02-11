@@ -15,11 +15,12 @@ namespace ChessMate.Presentation.Interface
         public HomeForm()
         {
             InitializeComponent();
+            Icon = new Icon($"{Application.StartupPath}\\Presentation\\Images\\form_icon.ico");
         }
 
         private void aiOpponentBtn_Click(object sender, EventArgs e)
         {
-            Form1 aiForm = new Form1();
+            AiGameForm aiForm = new AiGameForm();
             Hide();
             aiForm.ShowDialog();
             Show();
@@ -27,7 +28,7 @@ namespace ChessMate.Presentation.Interface
 
         private void multiplayerBtn_Click(object sender, EventArgs e)
         {
-            Form3 configureMultiplayerGameForm = new Form3();
+            JoinMpGameForm configureMultiplayerGameForm = new JoinMpGameForm();
             Hide();
             configureMultiplayerGameForm.ShowDialog();
             Show();

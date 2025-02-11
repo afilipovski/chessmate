@@ -12,7 +12,6 @@ namespace ChessMate.Service.Interface
     {
         List<Board> GenerateSuccessiveStates(Board board);
         Board GetSuccessorStateForClickedPosition(Position position, Board board, List<Board> successiveStates);
-        Position GetKingPositionIfInCheck(Board board, bool isKingWhite);
         bool IsKingInCheck(Board board, bool isKingWhite);
         bool PossibleMovesNotExisting(Board board);
         ColoredPosition GetColoredKingCheckPosition(Board board);

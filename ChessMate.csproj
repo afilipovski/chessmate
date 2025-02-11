@@ -35,6 +35,9 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Presentation\Images\form_icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=9.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.9.0.1\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
@@ -69,28 +72,35 @@
   <ItemGroup>
     <Compile Include="Domain\Exceptions\FileNotChosenException.cs" />
     <Compile Include="Domain\Exceptions\FilePathNotChosenException.cs" />
+    <Compile Include="Domain\Exceptions\GameFullException.cs" />
+    <Compile Include="Domain\Exceptions\GameNotFoundException.cs" />
+    <Compile Include="Domain\Exceptions\UsernameTakenException.cs" />
     <Compile Include="Domain\Move.cs" />
     <Compile Include="Domain\MultiplayerGame.cs" />
+    <Compile Include="Domain\OpenFileResult.cs" />
     <Compile Include="Domain\OpponentDifficulty.cs" />
     <Compile Include="Presentation\AlphaBeta\EvaluationUtils.cs" />
     <Compile Include="Presentation\AlphaBeta\Opponent.cs" />
     <Compile Include="Domain\Board.cs" />
-    <Compile Include="Presentation\Controllers\AiGameController.cs" />
-    <Compile Include="Presentation\Controllers\MultiplayerGameController.cs" />
+    <Compile Include="Presentation\Controllers\Implementation\AiGameController.cs" />
+    <Compile Include="Presentation\Controllers\Interface\IAiGameController.cs" />
+    <Compile Include="Presentation\Controllers\Interface\IJoinMultiplayerController.cs" />
+    <Compile Include="Presentation\Controllers\Interface\IMultiplayerGameController.cs" />
+    <Compile Include="Presentation\Controllers\Implementation\JoinMultiplayerController.cs" />
+    <Compile Include="Presentation\Controllers\Implementation\MultiplayerGameController.cs" />
     <Compile Include="Presentation\GraphicsRendering\Drawer.cs" />
     <Compile Include="Presentation\GraphicsRendering\IShapeRenderer.cs" />
-    <Compile Include="Presentation\GraphicsRendering\Renderers\MultiplayerOverlayRenderer.cs" />
-    <Compile Include="Presentation\Interface\Form2.cs">
+    <Compile Include="Presentation\Interface\MultiplayerGameForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Presentation\Interface\Form2.Designer.cs">
-      <DependentUpon>Form2.cs</DependentUpon>
+    <Compile Include="Presentation\Interface\MultiplayerGameForm.Designer.cs">
+      <DependentUpon>MultiplayerGameForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Presentation\Interface\Form1.cs">
+    <Compile Include="Presentation\Interface\AiGameForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Presentation\Interface\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Presentation\Interface\AiGameForm.Designer.cs">
+      <DependentUpon>AiGameForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Domain\GameState.cs" />
     <Compile Include="Domain\Positions\ColoredPosition.cs" />
@@ -104,13 +114,13 @@
     <Compile Include="Presentation\Interface\AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Presentation\Interface\Form3.cs">
+    <Compile Include="Presentation\Interface\JoinMpGameForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Presentation\Interface\Form3.Designer.cs">
-      <DependentUpon>Form3.cs</DependentUpon>
+    <Compile Include="Presentation\Interface\JoinMpGameForm.Designer.cs">
+      <DependentUpon>JoinMpGameForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Presentation\Interface\FormUtils.cs" />
+    <Compile Include="Presentation\Controllers\UserInteractionUtils.cs" />
     <Compile Include="Domain\Pieces\Bishop.cs" />
     <Compile Include="Domain\Pieces\ContinuousPathPiece.cs" />
     <Compile Include="Domain\Pieces\Knight.cs" />
@@ -141,21 +151,22 @@
     <Compile Include="Service\Interface\IGameStateService.cs" />
     <Compile Include="Service\Interface\IMultiplayerService.cs" />
     <Compile Include="SingletonBase.cs" />
-    <EmbeddedResource Include="Presentation\Interface\Form2.resx">
-      <DependentUpon>Form2.cs</DependentUpon>
+    <EmbeddedResource Include="Presentation\Interface\MultiplayerGameForm.resx">
+      <DependentUpon>MultiplayerGameForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Presentation\Interface\Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="Presentation\Interface\AiGameForm.resx">
+      <DependentUpon>AiGameForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Presentation\Interface\AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Presentation\Interface\Form3.resx">
-      <DependentUpon>Form3.cs</DependentUpon>
+    <EmbeddedResource Include="Presentation\Interface\JoinMpGameForm.resx">
+      <DependentUpon>JoinMpGameForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Presentation\Interface\HomeForm.resx">
       <DependentUpon>HomeForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -185,6 +196,9 @@
     <Content Include="Presentation\Images\b_queen_png_shadow_1024px.png" />
     <Content Include="Presentation\Images\b_rook_png_shadow_1024px.png" />
     <Content Include="Presentation\Images\w_bishop_png_shadow_1024px.png" />
+    <Content Include="Presentation\Images\form_icon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Presentation\Images\w_king_png_shadow_1024px.png" />
     <Content Include="Presentation\Images\w_knight_png_shadow_1024px.png" />
     <Content Include="Presentation\Images\w_pawn_png_shadow_1024px.png" />

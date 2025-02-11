@@ -12,17 +12,22 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 using ChessMate.Presentation.Controllers;
+using ChessMate.Presentation.Controllers.Implementation;
+using ChessMate.Presentation.Controllers.Interface;
+using System.Drawing;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace ChessMate.Presentation.Interface
 {
-    public partial class Form2 : Form
+    public partial class MultiplayerGameForm : Form
     {
-        private readonly MultiplayerGameController _gameController;
+        private readonly IMultiplayerGameController _gameController;
 
-        public Form2(bool whitePov, MultiplayerGame multiplayerGame)
+        public MultiplayerGameForm(bool whitePov, MultiplayerGame multiplayerGame)
         {
             InitializeComponent();
 			DoubleBuffered = true;
+            Icon = new Icon($"{Application.StartupPath}\\Presentation\\Images\\form_icon.ico");
             _gameController = new MultiplayerGameController(this, whitePov, multiplayerGame);
         }
 
@@ -46,42 +51,26 @@ namespace ChessMate.Presentation.Interface
             _gameController.SubmitPlayerClick(e.X, e.Y);
         }
 
-		private void newToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-            _gameController.NewGame();
-		}
-
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-		}
-
-		private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-		}
-
-		private void openToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-		}
-
-		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-            Close();
-		}
-
 		private void Form2_FormClosing(object sender, FormClosingEventArgs e)
         {
+            _gameController.QuitGame(e);
 		}
 
-		private void easyToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-		}
+        public void ResizeGroupBox(int xPadding, int yPadding)
+        {
+            gameInfoGrpBx.Width = Width - 2 * xPadding - 17;
+            gameInfoGrpBx.Left = xPadding;
+            gameInfoGrpBx.Top = (yPadding - gameInfoGrpBx.Height) / 2;
+        }
 
-		private void mediumToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-		}
+        public void SetOpponentName(string username)
+        {
+            opponentTxtBx.Text = username;
+        }
 
-		private void hardToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-		}
-	}
+        public void SetJoinCode(string joinCode)
+        {
+            codeTxtBx.Text = joinCode;
+        }
+    }
 }

@@ -12,22 +12,20 @@ namespace ChessMate.Presentation.GraphicsRendering
 {
     public class Drawer
     {
-        private bool _whitePov;
+        private readonly bool _whitePov;
 
         public Drawer(bool whitePov = true)
         {
             _positionRenderer = new PositionRenderer(whitePov);
             _boardRenderer = new BoardRenderer(whitePov);
-
             _whitePov = whitePov;
         }
 
         private readonly IShapeRenderer<string> _overlayRenderer = OpponentMoveMessageOverlayRenderer.Instance;
-        private readonly IShapeRenderer<MultiplayerGame> _multiplayerOverlayRenderer = new MultiplayerOverlayRenderer();
         private readonly IShapeRenderer<Position> _positionRenderer;
         private readonly IShapeRenderer<Board> _boardRenderer;
 
-        public void DrawChessBoardForm(GameState gameState, Graphics graphics, MultiplayerGame multiplayerGame = null)
+        public void DrawChessBoard(GameState gameState, Graphics graphics)
         {
             _boardRenderer.Draw(graphics, gameState.Board);
             foreach (Board sb in gameState.SuccessiveBoards)
@@ -41,10 +39,6 @@ namespace ChessMate.Presentation.GraphicsRendering
             if (!(gameState.Board.WhiteTurn == _whitePov))
             {
                 _overlayRenderer.Draw(graphics, "Opponent turn...");
-            }
-            if (multiplayerGame != null)
-            {
-                _multiplayerOverlayRenderer.Draw(graphics, multiplayerGame);
             }
         }
     }

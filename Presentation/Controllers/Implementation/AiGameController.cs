@@ -12,15 +12,16 @@ using ChessMate.Domain;
 using ChessMate.Domain.Exceptions;
 using ChessMate.Domain.Positions;
 using ChessMate.Presentation.AlphaBeta;
+using ChessMate.Presentation.Controllers.Interface;
 using ChessMate.Presentation.GraphicsRendering;
 using ChessMate.Presentation.Interface;
 using ChessMate.Service.Implementation;
 using ChessMate.Service.Interface;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace ChessMate.Presentation.Controllers
+namespace ChessMate.Presentation.Controllers.Implementation
 {
-    public class AiGameController
+    public class AiGameController : IAiGameController
     {
         public GameState GameState { get; set; }
         public string SavedGamePath { get; set; }
@@ -30,9 +31,9 @@ namespace ChessMate.Presentation.Controllers
         private readonly IBoardService _boardService = AiBoardService.Instance;
         private readonly IGameStateService _gameStateService = GameStateService.Instance;
         private readonly Drawer _drawer = new Drawer();
-        private readonly Form1 _form;
+        private readonly AiGameForm _form;
 
-        public AiGameController(Form1 form)
+        public AiGameController(AiGameForm form)
         {
             _form = form;
         }
@@ -51,9 +52,10 @@ namespace ChessMate.Presentation.Controllers
 
         public void PaintForm(PaintEventArgs e)
         {
+            Board.OffsetY = 50;
             Board.TileSide = (_form.ClientSize.Height - Board.OffsetY) / 8;
             Board.OffsetX = (_form.ClientSize.Width - 8 * Board.TileSide) / 2;
-            _drawer.DrawChessBoardForm(GameState, e.Graphics);
+            _drawer.DrawChessBoard(GameState, e.Graphics);
         }
 
         public void NewGame()
@@ -93,17 +95,17 @@ namespace ChessMate.Presentation.Controllers
                     if (_boardService.PossibleMovesNotExisting(GameState.Board))
                     {
                         if (_boardService.IsKingInCheck(GameState.Board, true))
-                            FormUtils.ShowMessage("You are in checkmate.", "Defeat", NewGame);
+                            UserInteractionUtils.ShowMessage("You are in checkmate.", "Defeat", NewGame);
                         else
-                            FormUtils.ShowMessage("You are in stalemate.", "Stalemate", NewGame);
+                            UserInteractionUtils.ShowMessage("You are in stalemate.", "Stalemate", NewGame);
                     }
                 }
                 else //ai didn't generate move
                 {
                     if (_boardService.IsKingInCheck(GameState.Board, false))
-                        FormUtils.ShowMessage("AI is in checkmate.", "Victory", NewGame);
+                        UserInteractionUtils.ShowMessage("AI is in checkmate.", "Victory", NewGame);
                     else
-                        FormUtils.ShowMessage("The AI is in stalemate.", "Stalemate", NewGame);
+                        UserInteractionUtils.ShowMessage("The AI is in stalemate.", "Stalemate", NewGame);
                 }
             }
 
@@ -137,7 +139,7 @@ namespace ChessMate.Presentation.Controllers
             OpenFileResult result;
             try
             {
-                result = FormUtils.ShowOpenFileDialog();
+                result = UserInteractionUtils.ShowOpenFileDialog();
             }
             catch (FileNotChosenException e)
             {
@@ -149,7 +151,7 @@ namespace ChessMate.Presentation.Controllers
             }
             catch (Exception)
             {
-                FormUtils.ShowMessage("The file is either corrupted or not a ChessMate savegame.", "Loading failed", () => {});
+                UserInteractionUtils.ShowMessage("The file is either corrupted or not a ChessMate savegame.", "Loading failed", () => {});
             }
             opponent = new Opponent(GameState.OpponentDifficulty);
             SavedGamePath = result.FilePath;
@@ -170,12 +172,17 @@ namespace ChessMate.Presentation.Controllers
                 e.Cancel = true;
         }
 
+        public OpponentDifficulty GetDifficulty()
+        {
+            return GameState.OpponentDifficulty;
+        }
+
         private bool ChooseSaveGamePath()
         {
             string filename;
             try
             {
-                filename = FormUtils.ShowSaveFileDialog();
+                filename = UserInteractionUtils.ShowSaveFileDialog();
             }
             catch (FilePathNotChosenException e)
             {
@@ -190,7 +197,7 @@ namespace ChessMate.Presentation.Controllers
         {
             if (!Dirty)
                 return false;
-            if (!FormUtils.ShowConfirmDialog("Do you want to save your game ? ", "Unsaved progress", () => {}))
+            if (!UserInteractionUtils.ShowConfirmDialog("Do you want to save your game ? ", "Unsaved progress", () => {}))
                 return false;
             SaveGame();
             if (!Dirty)
