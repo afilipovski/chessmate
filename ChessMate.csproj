@@ -90,7 +90,6 @@
     <Compile Include="Presentation\Controllers\Implementation\MultiplayerGameController.cs" />
     <Compile Include="Presentation\GraphicsRendering\Drawer.cs" />
     <Compile Include="Presentation\GraphicsRendering\IShapeRenderer.cs" />
-    <Compile Include="Presentation\GraphicsRendering\Renderers\MultiplayerOverlayRenderer.cs" />
     <Compile Include="Presentation\Interface\MultiplayerGameForm.cs">
       <SubType>Form</SubType>
     </Compile>

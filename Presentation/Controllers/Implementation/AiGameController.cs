@@ -52,9 +52,10 @@ namespace ChessMate.Presentation.Controllers.Implementation
 
         public void PaintForm(PaintEventArgs e)
         {
+            Board.OffsetY = 50;
             Board.TileSide = (_form.ClientSize.Height - Board.OffsetY) / 8;
             Board.OffsetX = (_form.ClientSize.Width - 8 * Board.TileSide) / 2;
-            _drawer.DrawChessBoardForm(GameState, e.Graphics);
+            _drawer.DrawChessBoard(GameState, e.Graphics);
         }
 
         public void NewGame()

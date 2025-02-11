@@ -31,6 +31,7 @@ namespace ChessMate.Presentation.Controllers.Implementation
         private readonly Drawer _drawer;
         private readonly MultiplayerGameForm _form;
         private bool _hasOpponentForfeit;
+        private bool _hasCurrentUserForfeit;
         private readonly bool _whitePov;
         private MultiplayerGame _multiplayerGame;
 
@@ -42,11 +43,13 @@ namespace ChessMate.Presentation.Controllers.Implementation
             this._boardService = new MultiplayerBoardService(whitePov);
             this._multiplayerGame = multiplayerGame;
             _hasOpponentForfeit = false;
+            _hasCurrentUserForfeit = false;
 
             GenerateGame();
 
             GetUsernames().ContinueWith(t =>
             {
+                _form.SetOpponentName(!_whitePov ? _multiplayerGame.Username1 : _multiplayerGame.Username2);
                 _form.Invalidate();
             });
             if (!whitePov)
@@ -57,7 +60,7 @@ namespace ChessMate.Presentation.Controllers.Implementation
 
         private async Task ConsumeOpponentMove()
         {
-            while (_whitePov != GameState.Board.WhiteTurn)
+            while (_whitePov != GameState.Board.WhiteTurn && !_hasCurrentUserForfeit)
             {
                 MultiplayerGame game;
                 
@@ -97,6 +100,7 @@ namespace ChessMate.Presentation.Controllers.Implementation
         private void GenerateGame()
         {
             GameState = new GameState();
+            _form.SetJoinCode(_multiplayerGame.JoinCode);
             _form.Invalidate();
         }
 
@@ -112,9 +116,11 @@ namespace ChessMate.Presentation.Controllers.Implementation
 
         public void PaintForm(PaintEventArgs e)
         {
+            Board.OffsetY = 120;
             Board.TileSide = (_form.ClientSize.Height - Board.OffsetY) / 8;
             Board.OffsetX = (_form.ClientSize.Width - 8 * Board.TileSide) / 2;
-            _drawer.DrawChessBoardForm(GameState, e.Graphics, _multiplayerGame);
+            _form.ResizeGroupBox(Board.OffsetX, Board.OffsetY);
+            _drawer.DrawChessBoard(GameState, e.Graphics);
         }
 
         public void QuitGame(FormClosingEventArgs e)
@@ -122,11 +128,15 @@ namespace ChessMate.Presentation.Controllers.Implementation
             if (_hasOpponentForfeit)
                 return;
             e.Cancel = true;
-            Action callback = () => e.Cancel = false;
+            Action callback = () =>
+            {
+                _hasCurrentUserForfeit = true;
+                e.Cancel = false;
+            };
             UserInteractionUtils.ShowConfirmDialog(
                 string.IsNullOrEmpty(_multiplayerGame.Username2)
-                    ? "Are you want to exit the game?"
-                    : "Are you want to exit the game? You'll automatically forfeit!", 
+                    ? "Are you sure you want to exit the game?"
+                    : "Are you sure you want to exit the game? You'll automatically forfeit!", 
                 "Exit Game", 
                 callback);
         }

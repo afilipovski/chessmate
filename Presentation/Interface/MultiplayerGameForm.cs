@@ -15,6 +15,7 @@ using ChessMate.Presentation.Controllers;
 using ChessMate.Presentation.Controllers.Implementation;
 using ChessMate.Presentation.Controllers.Interface;
 using System.Drawing;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace ChessMate.Presentation.Interface
 {
@@ -54,5 +55,22 @@ namespace ChessMate.Presentation.Interface
         {
             _gameController.QuitGame(e);
 		}
-	}
+
+        public void ResizeGroupBox(int xPadding, int yPadding)
+        {
+            gameInfoGrpBx.Width = Width - 2 * xPadding - 17;
+            gameInfoGrpBx.Left = xPadding;
+            gameInfoGrpBx.Top = (yPadding - gameInfoGrpBx.Height) / 2;
+        }
+
+        public void SetOpponentName(string username)
+        {
+            opponentTxtBx.Text = username;
+        }
+
+        public void SetJoinCode(string joinCode)
+        {
+            codeTxtBx.Text = joinCode;
+        }
+    }
 }

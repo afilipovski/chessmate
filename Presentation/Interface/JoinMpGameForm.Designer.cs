@@ -43,7 +43,7 @@
             // 
             this.titleLbl.AutoSize = true;
             this.titleLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
-            this.titleLbl.Location = new System.Drawing.Point(22, 22);
+            this.titleLbl.Location = new System.Drawing.Point(25, 22);
             this.titleLbl.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.titleLbl.Name = "titleLbl";
             this.titleLbl.Size = new System.Drawing.Size(327, 25);
@@ -110,7 +110,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.ClientSize = new System.Drawing.Size(375, 142);
+            this.ClientSize = new System.Drawing.Size(384, 142);
             this.Controls.Add(this.joinBtn);
             this.Controls.Add(this.codeLbl);
             this.Controls.Add(this.codeTxtBx);
