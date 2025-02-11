@@ -150,6 +150,10 @@ namespace ChessMate.Presentation.Controllers.Implementation
                 !_whitePov ? 7 - xBoard : xBoard,
                 !_whitePov ? 7 - yBoard : yBoard
             );
+            
+            if (string.IsNullOrEmpty(this._multiplayerGame.OpponentUsername)) {
+                return;
+            }
             Board newBoard = _boardService.GetSuccessorStateForClickedPosition(position, GameState.Board, GameState.SuccessiveBoards);
             
             TryPublishPlayerMove(newBoard);
