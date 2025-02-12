@@ -32,6 +32,10 @@ namespace ChessMate.Presentation.Interface
             await _controller.ValidateForm(usernameTxtBx.Text, codeTxtBx.Text);
         }
 
+        /// <summary>
+        /// Determines whether the user hasn't entered a join code.
+        /// </summary>
+        /// <returns>A boolean value on whether the user hasn't entered a join code.</returns>
         public bool IsJoinCodeNull() => string.IsNullOrEmpty(codeTxtBx.Text);
     }
 }

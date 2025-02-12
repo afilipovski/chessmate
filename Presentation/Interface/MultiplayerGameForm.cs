@@ -23,6 +23,11 @@ namespace ChessMate.Presentation.Interface
     {
         private readonly IMultiplayerGameController _gameController;
 
+        /// <summary>
+        /// Initializes the form.
+        /// </summary>
+        /// <param name="whitePov">The piece color of the player.</param>
+        /// <param name="multiplayerGame">The game the player is playing.</param>
         public MultiplayerGameForm(bool whitePov, MultiplayerGame multiplayerGame)
         {
             InitializeComponent();
@@ -56,6 +61,11 @@ namespace ChessMate.Presentation.Interface
             _gameController.QuitGame(e);
 		}
 
+        /// <summary>
+        /// Resizes and repositions the game data group box.
+        /// </summary>
+        /// <param name="xPadding">A horizontal padding.</param>
+        /// <param name="yPadding">A vertical padding.</param>
         public void ResizeGroupBox(int xPadding, int yPadding)
         {
             gameInfoGrpBx.Width = Width - 2 * xPadding - 17;
@@ -63,11 +73,19 @@ namespace ChessMate.Presentation.Interface
             gameInfoGrpBx.Top = (yPadding - gameInfoGrpBx.Height) / 2;
         }
 
+        /// <summary>
+        /// Sets the text in the opponent textbox.
+        /// </summary>
+        /// <param name="username">A user's username.</param>
         public void SetOpponentName(string username)
         {
             opponentTxtBx.Text = username;
         }
 
+        /// <summary>
+        /// Sets the text in the code textbox.
+        /// </summary>
+        /// <param name="joinCode">A multiplayer game's join code.</param>
         public void SetJoinCode(string joinCode)
         {
             codeTxtBx.Text = joinCode;

@@ -14,6 +14,10 @@ namespace ChessMate.Presentation.GraphicsRendering
     {
         private readonly bool _whitePov;
 
+        /// <summary>
+        /// Initializes the drawer.
+        /// </summary>
+        /// <param name="whitePov">The color of the player's pieces.</param>
         public Drawer(bool whitePov = true)
         {
             _positionRenderer = new PositionRenderer(whitePov);
@@ -25,6 +29,11 @@ namespace ChessMate.Presentation.GraphicsRendering
         private readonly IShapeRenderer<Position> _positionRenderer;
         private readonly IShapeRenderer<Board> _boardRenderer;
 
+        /// <summary>
+        /// Draws the chess board.
+        /// </summary>
+        /// <param name="gameState">A board state.</param>
+        /// <param name="graphics">A graphics object.</param>
         public void DrawChessBoard(GameState gameState, Graphics graphics)
         {
             _boardRenderer.Draw(graphics, gameState.Board);

@@ -22,6 +22,9 @@ namespace ChessMate.Presentation.Interface
     {
         private readonly IAiGameController _gameController;
 
+        /// <summary>
+        /// Initializes the form.
+        /// </summary>
         public AiGameForm()
         {
             InitializeComponent();
@@ -86,16 +89,19 @@ namespace ChessMate.Presentation.Interface
             _gameController.SetDifficulty(OpponentDifficulty.Easy);
 		}
 
-		private void mediumToolStripMenuItem_Click(object sender, EventArgs e)
+        private void mediumToolStripMenuItem_Click(object sender, EventArgs e)
 		{
             _gameController.SetDifficulty(OpponentDifficulty.Medium);
 		}
 
-		private void hardToolStripMenuItem_Click(object sender, EventArgs e)
+        private void hardToolStripMenuItem_Click(object sender, EventArgs e)
 		{
             _gameController.SetDifficulty(OpponentDifficulty.Hard);
 		}
 
+        /// <summary>
+        /// Updates the selected difficulty in the tool strip menu.
+        /// </summary>
         public void Checkmarks()
         {
             easyToolStripMenuItem.Checked = mediumToolStripMenuItem.Checked = hardToolStripMenuItem.Checked = false;

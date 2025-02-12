@@ -12,6 +12,9 @@ namespace ChessMate.Presentation.Interface
 {
     public partial class HomeForm : Form
     {
+        /// <summary>
+        /// Initializes the component.
+        /// </summary>
         public HomeForm()
         {
             InitializeComponent();

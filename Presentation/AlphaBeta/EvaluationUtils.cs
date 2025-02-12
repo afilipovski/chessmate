@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace ChessMate.Presentation.AlphaBeta
 {
+    /// <summary>
+    /// AI evaluation utils
+    /// </summary>
     public class EvaluationUtils
     {
         public const int Infty = 10000;

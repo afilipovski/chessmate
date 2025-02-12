@@ -10,6 +10,12 @@ namespace ChessMate.Domain.Positions
         public readonly int X;
         public readonly int Y;
         public readonly bool White;
+
+        /// <summary>
+        /// Initializes position.
+        /// </summary>
+        /// <param name="x">X coordinate.</param>
+        /// <param name="y">Y coordinate.</param>
         public Position(int x, int y)
         {
             X = x;
@@ -17,16 +23,22 @@ namespace ChessMate.Domain.Positions
             White = (X + Y) % 2 == 0;
         }
 
+        /// <summary>
+        /// Initializes position from string coordinates.
+        /// </summary>
+        /// <param name="stringpos">Coordinates</param>
         public Position(string stringpos)
         {
             //c3
             X = stringpos[0] - 'a';
             Y = 7 - (stringpos[1] - '1');
             White = (X + Y) % 2 == 0;
-
         }
 
-        // Copy constructor
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="p">A position.</param>
         public Position(Position p)
         {
             X = p.X;
@@ -45,6 +57,10 @@ namespace ChessMate.Domain.Positions
                    Y == other.Y;
         }
 
+        /// <summary>
+        /// Converts the position to a hash code for a dictionary.
+        /// </summary>
+        /// <returns>A hashcode.</returns>
         public override int GetHashCode()
         {
             int hashCode = 1861411795;
@@ -63,6 +79,10 @@ namespace ChessMate.Domain.Positions
             return !(left == right);
         }
 
+        /// <summary>
+        /// Name for shape rendering.
+        /// </summary>
+        /// <returns>A shape name.</returns>
         public virtual String Name() => "position";
 
         public override string ToString()

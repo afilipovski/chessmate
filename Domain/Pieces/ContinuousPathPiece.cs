@@ -15,8 +15,21 @@ namespace ChessMate.Domain.Pieces
         {
         }
 
+        /// <summary>
+        /// Update a piece position.
+        /// </summary>
+        /// <param name="p">A piece.</param>
+        /// <returns>A piece.</returns>
         protected delegate Position Operation(Position p);
 
+        /// <summary>
+        /// Get all valid positions for a continuous path.
+        /// </summary>
+        /// <param name="p">A position.</param>
+        /// <param name="b">A board state.</param>
+        /// <param name="boards">A list of resulting board states.</param>
+        /// <param name="condition">A predicate that determines if a position is valid.</param>
+        /// <param name="operation">A callback that updates a position.</param>
         protected void FindValidPositions(Position p, Board b, List<Board> boards, Predicate<Position> condition, Operation operation)
         {
             Position position = p;
