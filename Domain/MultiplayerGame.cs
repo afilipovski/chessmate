@@ -20,11 +20,19 @@ namespace ChessMate.Domain
         public string OpponentUsername => Username1 == PlayerUsername ? Username2 : Username1;
 
 
-
+        /// <summary>
+        /// Initialize empty multiplayer game.
+        /// </summary>
         public MultiplayerGame()
         {
         }
 
+        /// <summary>
+        /// Parse multiplayer game from rest api response.
+        /// </summary>
+        /// <param name="apiResponse">A response string.</param>
+        /// <param name="playerUsername">A player's username.</param>
+        /// <exception cref="Exception">If a parsing exception happens.</exception>
         public MultiplayerGame(string apiResponse, string playerUsername)
         {
             var dictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(apiResponse);

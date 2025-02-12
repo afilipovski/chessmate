@@ -14,6 +14,10 @@ namespace ChessMate.Service.Implementation
     {
         private readonly bool _whitePov;
 
+        /// <summary>
+        /// Initializes service.
+        /// </summary>
+        /// <param name="whitePov">A player's piece color.</param>
         public MultiplayerBoardService(bool whitePov)
         {
             _whitePov = whitePov;

@@ -22,6 +22,10 @@ namespace ChessMate.Domain
 
         public int TurnNumber { get; set; } = 0;
 
+        /// <summary>
+        /// Create a deep copy of a board state.
+        /// </summary>
+        /// <param name="board">A board state.</param>
         public Board(Board board)
         {
             PieceByPosition = new Dictionary<Position, Piece>();
@@ -36,6 +40,14 @@ namespace ChessMate.Domain
             TurnNumber = board.TurnNumber + 1;
         }
 
+
+        /// <summary>
+        /// Creates a deep copy of a board state and moves a piece to a new position in the new state.
+        /// </summary>
+        /// <param name="b">A board state.</param>
+        /// <param name="posOld">The position of piece before moving.</param>
+        /// <param name="posNew">The position of piece after moving.</param>
+        /// <param name="p">A piece.</param>
         public Board(Board b, Position posOld, Position posNew, Piece p) : this(b)
         {
             p = p.Clone();
@@ -45,17 +57,31 @@ namespace ChessMate.Domain
             PieceByPosition[posNew].Position = posNew;
         }
 
+        /// <summary>
+        /// Creates a deep copy of a board state and moves a piece to a new position in the new state. Used for special moves.
+        /// </summary>
+        /// <param name="b">A board state.</param>
+        /// <param name="posOld">The position of piece before the special move.</param>
+        /// <param name="posNew">The colored position of the piece after the special move.</param>
+        /// <param name="p">A piece.</param>
 		public Board(Board b, Position posOld, ColoredPosition posNew, Piece p) : this(b, posOld, posNew as Position, p)
 		{
             NewPos = posNew;
 		}
 
+        /// <summary>
+        /// Is position valid.
+        /// </summary>
+        /// <param name="p">A position.</param>
+        /// <returns>A boolean on whether the position is valid.</returns>
 		public static bool IsInBoard(Position p)
         {
             return p.X >= 0 && p.Y >= 0 && p.X <= 7 && p.Y <= 7;
         }
 
-        //Generates starting board setup.
+        /// <summary>
+        /// Generates starting board setup.
+        /// </summary>
         public Board()
         {
             PieceByPosition = new Dictionary<Position, Piece>();
@@ -110,6 +136,11 @@ namespace ChessMate.Domain
 
         }
 
+        /// <summary>
+        /// Is a position occupied by a piece in the state. 
+        /// </summary>
+        /// <param name="position">A position.</param>
+        /// <returns>A boolean on whether the position is occupied.</returns>
         public bool IsOccupied(Position position)
         {
             return PieceByPosition[position] != null;

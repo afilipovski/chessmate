@@ -35,6 +35,12 @@ namespace ChessMate.Presentation.Controllers.Implementation
         private readonly bool _whitePov;
         private MultiplayerGame _multiplayerGame;
 
+        /// <summary>
+        /// Initializes form.
+        /// </summary>
+        /// <param name="form">Multiplayer form.</param>
+        /// <param name="whitePov">The color of the player's pieces.</param>
+        /// <param name="multiplayerGame">The game the player is playing.</param>
         public MultiplayerGameController(MultiplayerGameForm form, bool whitePov, MultiplayerGame multiplayerGame)
         {
             _form = form;

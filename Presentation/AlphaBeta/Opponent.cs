@@ -11,11 +11,18 @@ using System.Windows.Forms;
 
 namespace ChessMate.Presentation.AlphaBeta
 {
+    /// <summary>
+    /// AI Opponent
+    /// </summary>
     public class Opponent
     {
         private readonly IBoardService _boardService = AiBoardService.Instance;
         static readonly Random R = new Random();
 
+        /// <summary>
+        /// Initializes the AI opponent.
+        /// </summary>
+        /// <param name="difficulty">An AI difficulty.</param>
         public Opponent(OpponentDifficulty difficulty)
         {
             Difficulty = difficulty;
@@ -34,6 +41,12 @@ namespace ChessMate.Presentation.AlphaBeta
                 this.Value = value;
             }
         }
+
+        /// <summary>
+        /// Chooses a sufficient successor state as a move.
+        /// </summary>
+        /// <param name="board">A board state.</param>
+        /// <returns>A board state.</returns>
         public Board Move(Board board)
         {
             List<Node> nodes = new List<Node>();

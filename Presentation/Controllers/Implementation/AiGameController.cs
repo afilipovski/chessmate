@@ -33,6 +33,10 @@ namespace ChessMate.Presentation.Controllers.Implementation
         private readonly Drawer _drawer = new Drawer();
         private readonly AiGameForm _form;
 
+        /// <summary>
+        /// Initializes controller.
+        /// </summary>
+        /// <param name="form">AI chess form.</param>
         public AiGameController(AiGameForm form)
         {
             _form = form;

@@ -17,6 +17,10 @@ namespace ChessMate.Presentation.Controllers.Implementation
         private readonly IMultiplayerService _multiplayerService = MultiplayerService.Instance;
         private readonly JoinMpGameForm _form;
 
+        /// <summary>
+        /// Initializes controller.
+        /// </summary>
+        /// <param name="form">Form for joining multiplayer.</param>
         public JoinMultiplayerController(JoinMpGameForm form)
         {
             _form = form;
