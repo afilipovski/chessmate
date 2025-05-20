@@ -48,5 +48,7 @@ namespace ChessMate.Service.Interface
         /// <param name="joinCode">A multiplayer game's join code.</param>
         /// <returns>An asynchronous task.</returns>
         Task LeaveGame(string username, string joinCode);
+
+        Task Register(string username, string password, string confirmPassword);
     }
 }

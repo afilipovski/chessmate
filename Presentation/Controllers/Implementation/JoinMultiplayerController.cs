@@ -26,9 +26,9 @@ namespace ChessMate.Presentation.Controllers.Implementation
             _form = form;
         }
 
-        public async Task ValidateForm(string username, string joinCode)
+        public async Task ValidateForm(string joinCode)
         {
-            if (username == "")
+            if (MultiplayerService.Username == "")
             {
                 UserInteractionUtils.ShowMessage("Please enter a username!", "Error", () => {});
                 return;
@@ -45,12 +45,12 @@ namespace ChessMate.Presentation.Controllers.Implementation
             {
                 if (string.IsNullOrEmpty(joinCode))
                 {
-                    response = await _multiplayerService.CreateGame(username);
+                    response = await _multiplayerService.CreateGame(MultiplayerService.Username);
                     joinCode = response.JoinCode;
                 }
                 else
                 {
-                    response = await _multiplayerService.JoinGame(username, joinCode);
+                    response = await _multiplayerService.JoinGame(MultiplayerService.Username, joinCode);
                 }
             }
             catch (Exception exception)
@@ -65,7 +65,7 @@ namespace ChessMate.Presentation.Controllers.Implementation
             multiplayerGame.ShowDialog();
             _form.Show();
 
-            await _multiplayerService.LeaveGame(username, joinCode);
+            await _multiplayerService.LeaveGame(MultiplayerService.Username, joinCode);
         }
     }
 }

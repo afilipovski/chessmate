@@ -31,11 +31,12 @@
             this.components = new System.ComponentModel.Container();
             this.titleLbl = new System.Windows.Forms.Label();
             this.usernameLbl = new System.Windows.Forms.Label();
-            this.usernameTxtBx = new System.Windows.Forms.TextBox();
             this.codeTxtBx = new System.Windows.Forms.TextBox();
             this.codeLbl = new System.Windows.Forms.Label();
             this.joinBtn = new System.Windows.Forms.Button();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.label1 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -61,20 +62,11 @@
             this.usernameLbl.TabIndex = 1;
             this.usernameLbl.Text = "Username:";
             // 
-            // usernameTxtBx
-            // 
-            this.usernameTxtBx.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.usernameTxtBx.Location = new System.Drawing.Point(162, 64);
-            this.usernameTxtBx.Margin = new System.Windows.Forms.Padding(2);
-            this.usernameTxtBx.Name = "usernameTxtBx";
-            this.usernameTxtBx.Size = new System.Drawing.Size(195, 23);
-            this.usernameTxtBx.TabIndex = 2;
-            // 
             // codeTxtBx
             // 
             this.codeTxtBx.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.codeTxtBx.Location = new System.Drawing.Point(162, 101);
-            this.codeTxtBx.Margin = new System.Windows.Forms.Padding(2);
+            this.codeTxtBx.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.codeTxtBx.Name = "codeTxtBx";
             this.codeTxtBx.Size = new System.Drawing.Size(136, 23);
             this.codeTxtBx.TabIndex = 4;
@@ -93,7 +85,7 @@
             // joinBtn
             // 
             this.joinBtn.Location = new System.Drawing.Point(301, 101);
-            this.joinBtn.Margin = new System.Windows.Forms.Padding(2);
+            this.joinBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.joinBtn.Name = "joinBtn";
             this.joinBtn.Size = new System.Drawing.Size(55, 22);
             this.joinBtn.TabIndex = 6;
@@ -105,20 +97,42 @@
             // 
             this.errorProvider1.ContainerControl = this;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(159, 67);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(35, 13);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "label1";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(301, 62);
+            this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(55, 22);
+            this.button1.TabIndex = 8;
+            this.button1.Text = "Log out";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            // 
             // JoinMpGameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.ClientSize = new System.Drawing.Size(384, 142);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.joinBtn);
             this.Controls.Add(this.codeLbl);
             this.Controls.Add(this.codeTxtBx);
-            this.Controls.Add(this.usernameTxtBx);
             this.Controls.Add(this.usernameLbl);
             this.Controls.Add(this.titleLbl);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(2);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.MaximizeBox = false;
             this.Name = "JoinMpGameForm";
             this.Text = "ChessMate - Join Multiplayer Game";
@@ -132,10 +146,11 @@
 
         private System.Windows.Forms.Label titleLbl;
         private System.Windows.Forms.Label usernameLbl;
-        private System.Windows.Forms.TextBox usernameTxtBx;
         private System.Windows.Forms.TextBox codeTxtBx;
         private System.Windows.Forms.Label codeLbl;
         private System.Windows.Forms.Button joinBtn;
         private System.Windows.Forms.ErrorProvider errorProvider1;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label1;
     }
 }

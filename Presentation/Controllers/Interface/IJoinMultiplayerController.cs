@@ -14,6 +14,6 @@ namespace ChessMate.Presentation.Controllers.Interface
         /// <param name="username">A user's username.</param>
         /// <param name="joinCode">A multiplayer game's join code.</param>
         /// <returns>An asynchronous task.</returns>
-        Task ValidateForm(string username, string joinCode);
+        Task ValidateForm(string joinCode);
     }
 }

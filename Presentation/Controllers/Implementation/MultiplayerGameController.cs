@@ -64,6 +64,11 @@ namespace ChessMate.Presentation.Controllers.Implementation
             }
         }
 
+        public async Task Register(string username, string password, string confirmPassword)
+        {
+            await _multiplayerService.Register(username, password, confirmPassword);
+        }
+
         private async Task ConsumeOpponentMove()
         {
             while (_whitePov != GameState.Board.WhiteTurn && !_hasCurrentUserForfeit)
