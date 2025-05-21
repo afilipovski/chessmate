@@ -78,8 +78,7 @@ namespace ChessMate.Presentation.Controllers.Implementation
                 client.MessageReceived.Subscribe(message =>
                 {
                     var text = message.Text;
-                    Console.WriteLine($"Received: {text}");
-                    ConsumeOpponentMove();
+                    ConsumeOpponentMove(text);
                 });
 
                 await client.Start(); // await Start
@@ -92,43 +91,33 @@ namespace ChessMate.Presentation.Controllers.Implementation
             await _multiplayerService.Register(username, password, confirmPassword);
         }
 
-        private async Task ConsumeOpponentMove()
+        private async Task ConsumeOpponentMove(string content)
         {
-            while (_whitePov != GameState.Board.WhiteTurn && !_hasCurrentUserForfeit)
+            if (string.Compare(content, "forfeit") == 0)
             {
-                MultiplayerGame game;
-                
-                try
-                {
-                    game = await _multiplayerService.GetMultiplayerGame(_multiplayerGame.PlayerUsername);
-                }
-                catch (GameNotFoundException ex)
-                {
-                    _hasOpponentForfeit = true;
-                    UserInteractionUtils.ShowMessage(ex.Message, "Forfeit", _form.Close);
-                    return;
-                }
-
-                if (game.WhiteTurn == _whitePov)
-                {
-                    Piece clickedPiece = GameState.Board.PieceByPosition[game.LastMove.PositionFrom];
-                    GameState.Board = clickedPiece.PossibleMoves(GameState.Board)
-                        .Single(b => b.NewPos.Equals(game.LastMove.PositionTo));
-                    GameState.Board.WhiteTurn = _whitePov;
-
-                    if (_boardService.PossibleMovesNotExisting(GameState.Board))
-                    {
-                        if (_boardService.IsKingInCheck(GameState.Board, _whitePov))
-                            UserInteractionUtils.ShowMessage("You are in checkmate.", "Defeat", _form.Close);
-                        else
-                            UserInteractionUtils.ShowMessage("You are in stalemate.", "Stalemate", _form.Close);
-                    }
-
-                    _form.Invalidate();
-                    return;
-                }
-                await Task.Delay(1000);
+                _hasOpponentForfeit = true;
+                UserInteractionUtils.ShowMessage("Your opponent has forfeit the game. You win!", "Forfeit", _form.Close);
+                return;
             }
+
+            string positionFrom = content.Substring(0, 2);
+            string positionTo = content.Substring(2, 2);
+
+            Piece clickedPiece = GameState.Board.PieceByPosition[new Position(positionFrom)];
+            GameState.Board = clickedPiece.PossibleMoves(GameState.Board)
+                .Single(b => b.NewPos.Equals(new Position(positionTo)));
+            GameState.Board.WhiteTurn = _whitePov;
+
+            if (_boardService.PossibleMovesNotExisting(GameState.Board))
+            {
+                if (_boardService.IsKingInCheck(GameState.Board, _whitePov))
+                    UserInteractionUtils.ShowMessage("You are in checkmate.", "Defeat", _form.Close);
+                else
+                    UserInteractionUtils.ShowMessage("You are in stalemate.", "Stalemate", _form.Close);
+            }
+
+            _form.Invalidate();
+            return;
         }
 
         private void GenerateGame()
