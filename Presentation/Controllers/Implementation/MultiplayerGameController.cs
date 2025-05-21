@@ -54,15 +54,11 @@ namespace ChessMate.Presentation.Controllers.Implementation
 
             GenerateGame();
 
-            GetUsernames().ContinueWith(t =>
+            if (!string.IsNullOrEmpty(_multiplayerGame.Username2))
             {
-                _form.SetOpponentName(!_whitePov ? _multiplayerGame.Username1 : _multiplayerGame.Username2);
+                _form.SetOpponentName(_multiplayerGame.Username1);
                 _form.Invalidate();
-            });
-            //if (!whitePov)
-            //{
-            //    ConsumeOpponentMove();
-            //}
+            }
             ListenToEvents();
         }
 
@@ -99,6 +95,15 @@ namespace ChessMate.Presentation.Controllers.Implementation
                 UserInteractionUtils.ShowMessage("Your opponent has forfeit the game. You win!", "Forfeit", _form.Close);
                 return;
             }
+            else if (content.Length != 4)
+            {
+                content = content.Substring(8);
+                _form.SetOpponentName(content);
+                MultiplayerGame multiplayerGame = await _multiplayerService.GetMultiplayerGame(_multiplayerGame.PlayerUsername);
+                this._multiplayerGame = multiplayerGame;
+                _form.Invalidate();
+                return;
+            }
 
             string positionFrom = content.Substring(0, 2);
             string positionTo = content.Substring(2, 2);
@@ -125,16 +130,6 @@ namespace ChessMate.Presentation.Controllers.Implementation
             GameState = new GameState();
             _form.SetJoinCode(_multiplayerGame.JoinCode);
             _form.Invalidate();
-        }
-
-        private async Task GetUsernames()
-        {
-            while (this._multiplayerGame == null || string.IsNullOrEmpty(_multiplayerGame.Username2))
-            {
-                MultiplayerGame multiplayerGame = await _multiplayerService.GetMultiplayerGame(_multiplayerGame.PlayerUsername);
-                await Task.Delay(1000);
-                this._multiplayerGame = multiplayerGame;
-            }
         }
 
         public void PaintForm(PaintEventArgs e)
