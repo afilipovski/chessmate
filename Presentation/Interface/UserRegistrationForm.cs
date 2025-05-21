@@ -41,6 +41,8 @@ namespace ChessMate.Presentation.Interface
 
         private async void button2_Click(object sender, EventArgs e)
         {
+            MultiplayerService.Username = registerUsername.Text;
+            MultiplayerService.Password = registerPassword.Text;
             try
             {
                 await _service.Register(registerUsername.Text, registerPassword.Text, registerConfirm.Text);
