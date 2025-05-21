@@ -19,6 +19,7 @@ using ChessMate.Presentation.GraphicsRendering;
 using ChessMate.Presentation.Interface;
 using ChessMate.Service.Implementation;
 using ChessMate.Service.Interface;
+using Websocket.Client;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace ChessMate.Presentation.Controllers.Implementation
@@ -58,9 +59,31 @@ namespace ChessMate.Presentation.Controllers.Implementation
                 _form.SetOpponentName(!_whitePov ? _multiplayerGame.Username1 : _multiplayerGame.Username2);
                 _form.Invalidate();
             });
-            if (!whitePov)
+            //if (!whitePov)
+            //{
+            //    ConsumeOpponentMove();
+            //}
+            ListenToEvents();
+        }
+
+        public async Task ListenToEvents()
+        {
+            char channelType = (this._whitePov ? 'W' : 'B');
+            var realtimeServerUri = new Uri($"ws://localhost:3000/?channel={_multiplayerGame.JoinCode}{channelType}");
+
+            using (var client = new WebsocketClient(realtimeServerUri))
             {
-                ConsumeOpponentMove();
+                var exitSource = new TaskCompletionSource<object>();
+
+                client.MessageReceived.Subscribe(message =>
+                {
+                    var text = message.Text;
+                    Console.WriteLine($"Received: {text}");
+                    ConsumeOpponentMove();
+                });
+
+                await client.Start(); // await Start
+                await exitSource.Task; // Keep running until the connection is closed
             }
         }
 
@@ -205,10 +228,12 @@ namespace ChessMate.Presentation.Controllers.Implementation
                 PositionTo = newBoard.NewPos,
                 ShouldConvertToQueen = shouldPromoteToQueen
             };
-            _multiplayerService.Move(_multiplayerGame.PlayerUsername, _multiplayerGame.JoinCode, move).ContinueWith(t =>
-            {
-                ConsumeOpponentMove();
-            });
+            _multiplayerService.Move(_multiplayerGame.PlayerUsername, _multiplayerGame.JoinCode, move)
+            //    .ContinueWith(t =>
+            //{
+            //    ConsumeOpponentMove();
+            //})
+                ;
         }
     }
 }
