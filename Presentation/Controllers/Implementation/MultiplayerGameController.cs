@@ -65,7 +65,7 @@ namespace ChessMate.Presentation.Controllers.Implementation
         public async Task ListenToEvents()
         {
             char channelType = (this._whitePov ? 'W' : 'B');
-            var realtimeServerUri = new Uri($"ws://localhost:3000/?channel={_multiplayerGame.JoinCode}{channelType}");
+            var realtimeServerUri = new Uri($"wss://chess-realtime.filipovski.net/?channel={_multiplayerGame.JoinCode}{channelType}");
 
             using (var client = new WebsocketClient(realtimeServerUri))
             {
@@ -97,7 +97,7 @@ namespace ChessMate.Presentation.Controllers.Implementation
             }
             else if (content.Length != 4)
             {
-                content = content.Substring(8);
+                content = content.Substring(9);
                 _form.SetOpponentName(content);
                 MultiplayerGame multiplayerGame = await _multiplayerService.GetMultiplayerGame(_multiplayerGame.PlayerUsername);
                 this._multiplayerGame = multiplayerGame;

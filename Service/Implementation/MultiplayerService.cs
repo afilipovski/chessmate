@@ -23,7 +23,7 @@ namespace ChessMate.Service.Implementation
 
         private static readonly HttpClient httpClient = new HttpClient
         {
-            BaseAddress = new Uri("http://localhost:8000")
+            BaseAddress = new Uri("https://chess.filipovski.net")
             
         };
 
